@@ -1,0 +1,3 @@
+drop index test.users tweetcount_index 
+drop index test.tweets username_index 
+show indexes

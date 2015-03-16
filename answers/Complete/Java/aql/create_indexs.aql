@@ -1,0 +1,4 @@
+create index tweetcount_index on test.users (tweetcount) Numeric
+create index username_index on test.tweets (username) string
+show indexes
+

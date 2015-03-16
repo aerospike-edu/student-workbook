@@ -1,0 +1,2 @@
+select username, tweetcount, gender from test.users where tweetcount between 2 and 5
+select tweets from test.tweets where username = 'user1'
