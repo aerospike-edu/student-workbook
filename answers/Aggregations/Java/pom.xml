@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>AerospikeTrainingAggregations</groupId>
-  <artifactId>AerospikeTrainingAggregations</artifactId>
+  <groupId>aerospike.com</groupId>
+  <artifactId>answers-java-Aggregations</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>com.aerospike</groupId>
 			<artifactId>aerospike-client</artifactId>
-			<version>[3.0.34,)</version>
+			<version>3.0.35</version>
 		</dependency>
 		<!-- Apache command line parser. -->
 		<dependency>
