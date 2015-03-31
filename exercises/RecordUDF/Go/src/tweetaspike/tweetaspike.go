@@ -272,7 +272,7 @@ func UpdatePasswordUsingUDF(client *Client) {
 
 			// TODO: Execute UDF
 			// Exercise 2
-			fmt.Printff("\nTODO: Execute UDF\n")
+			fmt.Printf("\nTODO: Execute UDF\n")
 
 			// TODO: Output updated password to the console
 			// Exercise 2
@@ -306,7 +306,7 @@ func UpdatePasswordUsingCAS(client *Client) {
 
 			writePolicy := NewWritePolicy(0, 0) // generation = 0, expiration = 0
 			// record generation
-			writePolicy.Generation = userRecord.Generation
+			writePolicy.Generation = int32(userRecord.Generation)
 			writePolicy.GenerationPolicy = EXPECT_GEN_EQUAL
 			// password Bin
 			passwordBin := NewBin("password", password)

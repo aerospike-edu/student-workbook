@@ -7,7 +7,7 @@ import (
 	. "github.com/aerospike/aerospike-client-go"
 	"math/rand"
 	"os"
-	"strings"
+//	"strings"
 	"time"
 )
 
@@ -35,6 +35,7 @@ func main() {
 	fmt.Println("INFO: Connecting to Aerospike cluster...")
 
 	// Establish connection to Aerospike server
+	var client* Client
 	// TODO: Establish a connection to Aerospike cluster
 	// Exercise 1
 
@@ -227,7 +228,7 @@ func GetUser(client *Client) {
 	fmt.Scanf("%s", &username)
 
 	if len(username) > 0 {
-		var userRecord Record
+		var userRecord* Record
 		// Check if username exists
 
 		// TODO: Read user record
@@ -235,7 +236,7 @@ func GetUser(client *Client) {
 		if userRecord != nil {
 			// TODO: Output user record to the console. Remember to convert comma-separated interests into a list before outputting it.
 			// Exercise 2
-			fmt.printf("\nTODO: Output user record to the console. Remember to convert comma-separated interests into a list before outputting it")
+			fmt.Printf("\nTODO: Output user record to the console. Remember to convert comma-separated interests into a list before outputting it")
 		} else {
 			fmt.Printf("ERROR: User record not found!\n")
 		}
@@ -302,6 +303,7 @@ func UpdatePasswordUsingCAS(client *Client) {
 			var password string
 			fmt.Print("Enter new password for %s:", username)
 			fmt.Scanf("%s", &password)
+			
 
 			// TODO: Update User record with new password only if generation is the same
 			// Exercise 5
@@ -322,7 +324,7 @@ func BatchGetUserTweets(client *Client) {
 	fmt.Scanf("%s", &username)
 
 	if len(username) > 0 {
-		var userRecord Record
+		var userRecord* Record
 		// TODO: Read user record
 		// Exercise 3
 		fmt.Printf("\nTODO: Read user record")

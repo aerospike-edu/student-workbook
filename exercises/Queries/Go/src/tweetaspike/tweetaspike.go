@@ -307,7 +307,7 @@ func UpdatePasswordUsingCAS(client *Client) {
 
 			writePolicy := NewWritePolicy(0, 0) // generation = 0, expiration = 0
 			// record generation
-			writePolicy.Generation = userRecord.Generation
+			writePolicy.Generation = int32(userRecord.Generation)
 			writePolicy.GenerationPolicy = EXPECT_GEN_EQUAL
 			// password Bin
 			passwordBin := NewBin("password", password)
