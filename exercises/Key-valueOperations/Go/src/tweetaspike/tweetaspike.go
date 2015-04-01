@@ -296,7 +296,8 @@ func UpdatePasswordUsingCAS(client *Client) {
 	if len(username) > 0 {
 		// Check if username exists
 		userKey, _ := NewKey("test", "users", username)
-		userRecord, err := client.Get(nil, userKey)
+		_, err := client.Get(nil, userKey)
+		//userRecord, err := client.Get(nil, userKey)
 		panicOnError(err)
 		if err == nil {
 			// Get new password
