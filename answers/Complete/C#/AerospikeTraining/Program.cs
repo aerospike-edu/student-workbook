@@ -43,7 +43,7 @@ namespace AerospikeTraining
                 // Connecting to Aerospike cluster
 
                 // Specify IP of one of the nodes in the cluster
-                string asServerIP = "172.16.159.241";
+                string asServerIP = "127.0.0.1";
                 // Specity Port that the node is listening on
                 int asServerPort = 3000;
                 // Establish connection
@@ -72,7 +72,7 @@ namespace AerospikeTraining
                     Console.WriteLine("7> Stream UDF -- Aggregation Based on Tweet Count By Region");
                     Console.WriteLine("0> Exit");
                     Console.Write("\nSelect 0-7 and hit enter:");
-                    byte feature = byte.Parse(Console.ReadLine());
+					int feature = int.Parse(Console.ReadLine());
 
                     if (feature != 0)
                     {
