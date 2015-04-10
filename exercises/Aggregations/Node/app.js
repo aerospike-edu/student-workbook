@@ -28,7 +28,7 @@ var tweet_service = require('./scripts/tweet_service');
 
 // Connect to the Aerospike Cluster
 var client = aerospike.client({
-    hosts: [ { addr: '172.16.159.170', port: 3000 } ]
+    hosts: [ { addr: 'YOUR_IP_ADDRESS', port: 3000 } ]
 }).connect(function(response) {
     // Check for errors
     if ( response.code == aerospike.status.AEROSPIKE_OK ) {
