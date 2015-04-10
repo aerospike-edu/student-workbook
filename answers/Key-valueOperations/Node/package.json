@@ -2,7 +2,7 @@
   "name": "aerospike-dev-training-app",
   "version": "0.0.1",
   "dependencies": {
-    "aerospike": "^1.0.31",
+    "aerospike": "^1.0.36",
     "inquirer": "^0.8.0"
   }
 }
