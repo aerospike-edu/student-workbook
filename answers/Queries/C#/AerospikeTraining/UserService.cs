@@ -100,7 +100,7 @@ namespace AerospikeTraining
             Console.WriteLine("\nEnter username:");
             username = Console.ReadLine();
 
-            if (username != null && username.Length > 0)
+			if (!username.IsNullOrEmpty)
             {
                 // Read user record
                 userKey = new Key("test", "users", username);
