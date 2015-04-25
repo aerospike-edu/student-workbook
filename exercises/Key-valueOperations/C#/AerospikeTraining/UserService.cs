@@ -79,7 +79,7 @@ namespace AerospikeTraining
             Console.WriteLine("Enter username: ");
             username = Console.ReadLine();
 
-			if (!username.IsNullOrEmpty)
+			if (username != null && username.Length > 0)
             {
                 // Get password
                 Console.WriteLine("Enter password for " + username + ":");

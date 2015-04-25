@@ -71,7 +71,7 @@ namespace AerospikeTraining
                 Console.WriteLine("\nEnter username:");
                 username = Console.ReadLine();
 
-                if (username != null && username.Length > 0)
+				if (username != null && username.Length > 0)
                 {
                     // Check if username exists
                     Key userKey = new Key("test", "users", username);

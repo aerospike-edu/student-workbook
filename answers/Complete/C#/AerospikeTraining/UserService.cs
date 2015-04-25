@@ -79,7 +79,7 @@ namespace AerospikeTraining
             Console.WriteLine("Enter username: ");
             username = Console.ReadLine();
 
-			if (!username.IsNullOrEmpty)
+			if (username != null && username.Length > 0)
             {
                 // Get password
                 Console.WriteLine("Enter password for " + username + ":");
@@ -126,31 +126,25 @@ namespace AerospikeTraining
             Console.WriteLine("\nEnter username:");
             username = Console.ReadLine();
 
-            if (username != null && username.Length > 0)
-            {
-                // Check if username exists
-                userKey = new Key("test", "users", username);
-                userRecord = client.Get(null, userKey);
-                if (userRecord != null)
-                {
-                    Console.WriteLine("\nINFO: User record read successfully! Here are the details:\n");
-                    Console.WriteLine("username:     " + userRecord.GetValue("username"));
-                    Console.WriteLine("password:     " + userRecord.GetValue("password"));
-                    Console.WriteLine("gender:       " + userRecord.GetValue("gender"));
-                    Console.WriteLine("region:       " + userRecord.GetValue("region"));
-                    Console.WriteLine("tweetcount:   " + userRecord.GetValue("tweetcount"));
-                    List<object> interests = (List<object>) userRecord.GetValue("interests");
-                    Console.WriteLine("interests:    " + interests.Aggregate((x, y) => x + "," + y));
-                }
-                else
-                {
-                    Console.WriteLine("ERROR: User record not found!");
-                }
-            }
-            else
-            {
-                Console.WriteLine("ERROR: User record not found!");
-            }
+			if (!string.IsNullOrEmpty (username)) {
+				// Check if username exists
+				userKey = new Key ("test", "users", username);
+				userRecord = client.Get (null, userKey);
+				if (userRecord != null) {
+					Console.WriteLine ("\nINFO: User record read successfully! Here are the details:\n");
+					Console.WriteLine ("username:     " + userRecord.GetValue ("username"));
+					Console.WriteLine ("password:     " + userRecord.GetValue ("password"));
+					Console.WriteLine ("gender:       " + userRecord.GetValue ("gender"));
+					Console.WriteLine ("region:       " + userRecord.GetValue ("region"));
+					Console.WriteLine ("tweetcount:   " + userRecord.GetValue ("tweetcount"));
+					List<object> interests = (List<object>)userRecord.GetValue ("interests");
+					Console.WriteLine ("interests:    " + interests.Aggregate ((x, y) => x + "," + y));
+				} else {
+					Console.WriteLine ("ERROR: User record not found!");
+				}
+			} else {
+				Console.WriteLine ("ERROR: User record not found!");
+			}
         } //getUser
 
         public void updatePasswordUsingUDF()
@@ -163,38 +157,32 @@ namespace AerospikeTraining
             Console.WriteLine("\nEnter username:");
             username = Console.ReadLine();
 
-            if (username != null && username.Length > 0)
-            {
-                // Check if username exists
-                userKey = new Key("test", "users", username);
-                userRecord = client.Get(null, userKey);
-                if (userRecord != null)
-                {
-                    // Get new password
-                    string password;
-                    Console.WriteLine("Enter new password for " + username + ":");
-                    password = Console.ReadLine();
+			if (!string.IsNullOrEmpty (username)) {
+				// Check if username exists
+				userKey = new Key ("test", "users", username);
+				userRecord = client.Get (null, userKey);
+				if (userRecord != null) {
+					// Get new password
+					string password;
+					Console.WriteLine ("Enter new password for " + username + ":");
+					password = Console.ReadLine ();
 
-                    // NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. The recommended way of registering UDFs in production env is via AQL
-                    string luaDirectory = @"..\..\udf";
-                    LuaConfig.PackagePath = luaDirectory + @"\?.lua";
-                    string filename = "updateUserPwd.lua";
-                    string path = Path.Combine(luaDirectory, filename);
-                    RegisterTask rt = client.Register(null, path, filename, Language.LUA);
-                    rt.Wait();
+					// NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. The recommended way of registering UDFs in production env is via AQL
+					string luaDirectory = @"..\..\udf";
+					LuaConfig.PackagePath = luaDirectory + @"\?.lua";
+					string filename = "updateUserPwd.lua";
+					string path = Path.Combine (luaDirectory, filename);
+					RegisterTask rt = client.Register (null, path, filename, Language.LUA);
+					rt.Wait ();
 
-                    string updatedPassword = client.Execute(null, userKey, "updateUserPwd", "updatePassword", Value.Get(password)).ToString();
-                    Console.WriteLine("\nINFO: The password has been set to: " + updatedPassword);
-                }
-                else
-                {
-                    Console.WriteLine("ERROR: User record not found!");
-                }
-            }
-            else
-            {
-                Console.WriteLine("ERROR: User record not found!");
-            }
+					string updatedPassword = client.Execute (null, userKey, "updateUserPwd", "updatePassword", Value.Get (password)).ToString ();
+					Console.WriteLine ("\nINFO: The password has been set to: " + updatedPassword);
+				} else {
+					Console.WriteLine ("ERROR: User record not found!");
+				}
+			} else {
+				Console.WriteLine ("ERROR: User record not found!");
+			}
         } //updatePasswordUsingUDF
 
         public void updatePasswordUsingCAS()
@@ -208,37 +196,31 @@ namespace AerospikeTraining
             Console.WriteLine("\nEnter username:");
             username = Console.ReadLine();
 
-            if (username != null && username.Length > 0)
-            {
-                // Check if username exists
-                userKey = new Key("test", "users", username);
-                userRecord = client.Get(null, userKey);
-                if (userRecord != null)
-                {
-                    // Get new password
-                    string password;
-                    Console.WriteLine("Enter new password for " + username + ":");
-                    password = Console.ReadLine();
+			if (!string.IsNullOrEmpty (username)) {
+				// Check if username exists
+				userKey = new Key ("test", "users", username);
+				userRecord = client.Get (null, userKey);
+				if (userRecord != null) {
+					// Get new password
+					string password;
+					Console.WriteLine ("Enter new password for " + username + ":");
+					password = Console.ReadLine ();
 
-                    WritePolicy writePolicy = new WritePolicy();
-                    // record generation
-                    writePolicy.generation = userRecord.generation;
-                    writePolicy.generationPolicy = GenerationPolicy.EXPECT_GEN_EQUAL;
-                    // password Bin
-                    passwordBin = new Bin("password", password);
-                    client.Put(writePolicy, userKey, passwordBin);
+					WritePolicy writePolicy = new WritePolicy ();
+					// record generation
+					writePolicy.generation = userRecord.generation;
+					writePolicy.generationPolicy = GenerationPolicy.EXPECT_GEN_EQUAL;
+					// password Bin
+					passwordBin = new Bin ("password", password);
+					client.Put (writePolicy, userKey, passwordBin);
 
-                    Console.WriteLine("\nINFO: The password has been set to: " + password);
-                }
-                else
-                {
-                    Console.WriteLine("ERROR: User record not found!");
-                }
-            }
-            else
-            {
-                Console.WriteLine("ERROR: User record not found!");
-            }
+					Console.WriteLine ("\nINFO: The password has been set to: " + password);
+				} else {
+					Console.WriteLine ("ERROR: User record not found!");
+				}
+			} else {
+				Console.WriteLine ("ERROR: User record not found!");
+			}
         } //updatePasswordUsingCAS
 
         public void batchGetUserTweets()

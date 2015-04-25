@@ -53,7 +53,7 @@ namespace AerospikeTraining
             Console.WriteLine("Enter username: ");
             username = Console.ReadLine();
 
-			if (!username.IsNullOrEmpty)
+			if (username != null && username.Length > 0)
             {
                 // Get password
                 Console.WriteLine("Enter password for " + username + ":");
@@ -82,7 +82,7 @@ namespace AerospikeTraining
                 Bin bin4 = new Bin("region", region);
                 Bin bin5 = new Bin("lasttweeted", 0);
                 Bin bin6 = new Bin("tweetcount", 0);
-                Bin bin7 = Bin.AsList("interests", interests.Split(',').ToList<object>());
+                Bin bin7 = new Bin("interests", interests.Split(',').ToList<object>());
 
                 client.Put(wPolicy, key, bin1, bin2, bin3, bin4, bin5, bin6, bin7);
 
@@ -264,7 +264,7 @@ namespace AerospikeTraining
                     randomInterest = randomInterests[rnd3.Next(0, 9)];
                     userInterests.Add(randomInterest);
                 }
-                Bin bin7 = Bin.AsList("interests", userInterests);
+                Bin bin7 = new Bin("interests", userInterests);
 
                 client.Put(wPolicy, key, bin1, bin2, bin3, bin4, bin5, bin6, bin7);
                 Console.WriteLine("Wrote user record for " + username);

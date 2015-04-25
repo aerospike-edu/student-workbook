@@ -70,43 +70,39 @@ namespace AerospikeTraining
             Console.WriteLine("\nEnter username:");
             username = Console.ReadLine();
 
-            if (username != null && username.Length > 0)
-            {
-                // Check if username exists
-                userKey = new Key("test", "users", username);
-                userRecord = client.Get(null, userKey);
-                if (userRecord != null)
-                {
-                    int nextTweetCount = int.Parse(userRecord.GetValue("tweetcount").ToString()) + 1;
+			if (!string.IsNullOrEmpty (username)) {
+				// Check if username exists
+				userKey = new Key ("test", "users", username);
+				userRecord = client.Get (null, userKey);
+				if (userRecord != null) {
+					int nextTweetCount = int.Parse (userRecord.GetValue ("tweetcount").ToString ()) + 1;
 
-                    // Get tweet
-                    string tweet;
-                    Console.WriteLine("Enter tweet for " + username + ":");
-                    tweet = Console.ReadLine();
+					// Get tweet
+					string tweet;
+					Console.WriteLine ("Enter tweet for " + username + ":");
+					tweet = Console.ReadLine ();
 
-                    // Write record
-                    WritePolicy wPolicy = new WritePolicy();
-                    wPolicy.recordExistsAction = RecordExistsAction.UPDATE;
+					// Write record
+					WritePolicy wPolicy = new WritePolicy ();
+					wPolicy.recordExistsAction = RecordExistsAction.UPDATE;
 
-                    // Create timestamp to store along with the tweet so we can query, index and report on it
-                    long ts = getTimeStamp();
+					// Create timestamp to store along with the tweet so we can query, index and report on it
+					long ts = getTimeStamp ();
 
-                    tweetKey = new Key("test", "tweets", username + ":" + nextTweetCount);
-                    Bin bin1 = new Bin("tweet", tweet);
-                    Bin bin2 = new Bin("ts", ts);
-                    Bin bin3 = new Bin("username", username);
+					tweetKey = new Key ("test", "tweets", username + ":" + nextTweetCount);
+					Bin bin1 = new Bin ("tweet", tweet);
+					Bin bin2 = new Bin ("ts", ts);
+					Bin bin3 = new Bin ("username", username);
 
-                    client.Put(wPolicy, tweetKey, bin1, bin2, bin3);
-                    Console.WriteLine("\nINFO: Tweet record created!");
+					client.Put (wPolicy, tweetKey, bin1, bin2, bin3);
+					Console.WriteLine ("\nINFO: Tweet record created!");
 
-                    // Update tweet count and last tweet'd timestamp in the user record
-                    updateUser(client, userKey, wPolicy, ts, nextTweetCount);
-                }
-                else
-                {
-                    Console.WriteLine("ERROR: User record not found!");
-                }
-            }
+					// Update tweet count and last tweet'd timestamp in the user record
+					updateUser (client, userKey, wPolicy, ts, nextTweetCount);
+				} else {
+					Console.WriteLine ("ERROR: User record not found!");
+				}
+			}
         } //createTweet
 
         private void updateUser(AerospikeClient client, Key userKey, WritePolicy policy, long ts, int tweetCount)
@@ -145,29 +141,25 @@ namespace AerospikeTraining
                 Console.WriteLine("\nEnter username:");
                 username = Console.ReadLine();
 
-                if (username != null && username.Length > 0)
-                {
-                    string[] bins = { "tweet" };
-                    Statement stmt = new Statement();
-                    stmt.SetNamespace("test");
-                    stmt.SetSetName("tweets");
-                    stmt.SetIndexName("username_index");
-                    stmt.SetBinNames(bins);
-                    stmt.SetFilters(Filter.Equal("username", username));
+				if (!string.IsNullOrEmpty (username)) {
+					string[] bins = { "tweet" };
+					Statement stmt = new Statement ();
+					stmt.SetNamespace ("test");
+					stmt.SetSetName ("tweets");
+					stmt.SetIndexName ("username_index");
+					stmt.SetBinNames (bins);
+					stmt.SetFilters (Filter.Equal ("username", username));
 
-                    Console.WriteLine("\nHere's " + username + "'s tweet(s):\n");
+					Console.WriteLine ("\nHere's " + username + "'s tweet(s):\n");
 
-                    rs = client.Query(null, stmt);
-                    while (rs.Next())
-                    {
-                        Record r = rs.Record;
-                        Console.WriteLine(r.GetValue("tweet"));
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("ERROR: User record not found!");
-                }
+					rs = client.Query (null, stmt);
+					while (rs.Next ()) {
+						Record r = rs.Record;
+						Console.WriteLine (r.GetValue ("tweet"));
+					}
+				} else {
+					Console.WriteLine ("ERROR: User record not found!");
+				}
             }
             finally
             {
