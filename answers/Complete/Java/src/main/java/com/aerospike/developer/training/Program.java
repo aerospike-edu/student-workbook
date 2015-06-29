@@ -47,7 +47,7 @@ public class Program {
 		// Establish a connection to Aerospike cluster
 		ClientPolicy cPolicy = new ClientPolicy();
 		cPolicy.timeout = 500;
-		this.client = new AerospikeClient(cPolicy, "127.0.0.1", 3000);
+		this.client = new AerospikeClient(cPolicy, "52.1.60.52", 3000);
 		this.writePolicy = new WritePolicy();
 		this.writePolicy.timeout = 100;
 		this.policy = new Policy();
