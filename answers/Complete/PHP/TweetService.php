@@ -188,7 +188,7 @@ class TweetService extends BaseService {
     public function queryUsersByTweetCount() {
         echo colorize("\nQuery for users by their tweet count", 'blue', true)."\n";
         echo colorize("Ensuring there is an index on the tweetcount bin of test.users ≻", 'black', true);
-        $ok = $this->ensureIndex('test','users','tweetcount','users_tweetcount_idx',Aerospike::INDEX_TYPE_INTEGER);
+        $ok = $this->ensureIndex('test','users','tweetcount','users__idx',Aerospike::INDEX_TYPE_INTEGER);
         if ($ok) echo success();
         else echo fail();
 
