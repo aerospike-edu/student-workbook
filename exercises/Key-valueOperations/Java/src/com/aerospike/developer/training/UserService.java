@@ -266,7 +266,7 @@ public class UserService {
 			for(int i = 0; i < totalInterests; i++) {
 				userInterests.add(randomInterests[rnd3.nextInt(randomInterests.length)]);
 			}
-			Bin bin7 = Bin.asList("interests", userInterests);
+			Bin bin7 = new Bin("interests", userInterests);
 			
 			client.put(wPolicy, key, bin1, bin2, bin3, bin4, bin5, bin6, bin7);
 			console.printf("Wrote user record for " + username + "\n");

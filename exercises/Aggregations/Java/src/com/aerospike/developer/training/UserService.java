@@ -31,7 +31,7 @@ import com.aerospike.client.Language;
 import com.aerospike.client.Record;
 import com.aerospike.client.Value;
 import com.aerospike.client.lua.LuaConfig;
-import com.aerospike.client.policy.Policy;
+import com.aerospike.client.policy.BatchPolicy;
 import com.aerospike.client.policy.RecordExistsAction;
 import com.aerospike.client.policy.WritePolicy;
 import com.aerospike.client.query.Filter;
@@ -89,7 +89,7 @@ public class UserService {
 			Bin bin4 = new Bin("region", region);
 			Bin bin5 = new Bin("lasttweeted", 0);
 			Bin bin6 = new Bin("tweetcount", 0);
-			Bin bin7 = Bin.asList("interests", Arrays.asList(interests.split(",")));
+			Bin bin7 = new Bin("interests", Arrays.asList(interests.split(",")));
 
 			client.put(wPolicy, key, bin1, bin2, bin3, bin4, bin5, bin6, bin7);
 
@@ -202,7 +202,7 @@ public class UserService {
 				
 				// Initiate batch read operation
 				if (keys.length > 0){
-					Record[] records = client.get(new Policy(), keys);
+					Record[] records = client.get(new BatchPolicy(), keys);
 					for (int j = 0; j < records.length; j++) {
 						console.printf(records[j].getValue("tweet").toString() + "\n");
 					}
@@ -224,51 +224,36 @@ public class UserService {
 			console.printf("Enter Max Tweet Count:");
 			max = Integer.parseInt(console.readLine());
 
-      // TODO: Register UDF
-      // Exercise 2
       // NOTE: UDF registration has been included here for convenience 
       // NOTE: The recommended way of registering UDFs in production env is via AQL
-      console.printf("\nTODO: Register UDF");
+			File udfFile = new File("udf/aggregationByRegion.lua");
+			LuaConfig.SourceDirectory = "udf";
+			RegisterTask task = client.register(null, udfFile.getPath(), udfFile.getName(), Language.LUA);
+			task.waitTillComplete(100);
+			
+      String[] bins = {"region", "tweetcount"};
 
-      // TODO: Create string array of bins to retrieve. In this example, we want to display total users that have tweets between min-max range by region. 
-      // Exercise 2
-      console.printf("\nTODO: Create string array of bins to retrieve. In this example, we want to display total users that have tweets between min-max range by region.");
-
-      // TODO: Create Statement instance
-      // Exercise 2
-      console.printf("\nTODO: Create Statement instance");
-
-      // TODO: Set namespace on the instance of Statement
-      // Exercise 2
-      console.printf("\nTODO: Set namespace on the instance of Statement");
-
-      // TODO: Set name of the set on the instance of Statement
-      // Exercise 2
-      console.printf("\nTODO: Set name of the set on the instance of Statement");
-
-      // TODO: Set name of the index on the instance of Statement
-      // Exercise 2
-      console.printf("\nTODO: Set index name on the instance of Statement");
-
-      // TODO: Set list of bins you want retrieved on the instance of Statement
-      // Exercise 2
-      console.printf("\nTODO: Set list of bins you want retrieved on the instance of Statement");
-
-      // TODO: Set min--max range Filter on tweetcount on the instance of Statement
-      // Exercise 2
-      console.printf("\nTODO: Set min--max range Filter on tweetcount on the instance of Statement");
-
-      // TODO: Execute aggregate query passing in <null> policy and instance of Statement, .lua filename of the UDF and lua function name.
-      // Exercise 2
-      console.printf("\nTODO: Execute aggregate query passing in <null> policy and instance of Statement, .lua filename of the UDF and lua function name.");
-
-      // TODO: Examine returned ResultSet and output result to the console in format "Total Users in <region>: <#>"
-      // Exercise 2
-      console.printf("\nTODO: Examine returned ResultSet and output result to the console in format \"Total Users in <region>: <#>\"");
+      Statement statement = new Statement();
+      statement.setNamespace("test");
+      statement.setSetName("users");
+      statement.setIndexName("tweetcount");
+      statement.setBinNames(bins);
+      statement.setFilters(Filter.range("tweetcount", min, max));
+      rs = client.queryAggregate(null, statement, "aggregationByRegion", "sum", Value.get(true), Value.get("user90000"));
+      while (rs.next()) {
+    	  @SuppressWarnings("unchecked")
+    	  Map<String, Long> result = (Map<String, Long>) rs.getObject();
+    	  System.out.println("Total users: N:" + result.get("n"));
+    	  System.out.println("Total users: S:" + result.get("s"));
+    	  System.out.println("Total users: E:" + result.get("e"));
+    	  System.out.println("Total users: W:" + result.get("w"));
+    	  System.out.println("Total reduces:" + result.get("reduces"));
+    	  System.out.println("doFilter: " + result.get("doFilter"));
+    	  System.out.println("origDoFilter: " + result.get("origDoFilter"));
+    	  System.out.println("control: " + result.get("control"));
+      }
 		} finally {
-      // TODO: Close result set 
-      // Exercise 2
-      console.printf("\nTODO: Close result set");
+			if (rs != null) rs.close();
 		}
 	} //aggregateUsersByTweetCountByRegion
 
@@ -309,7 +294,7 @@ public class UserService {
 			for(int i = 0; i < totalInterests; i++) {
 				userInterests.add(randomInterests[rnd3.nextInt(randomInterests.length)]);
 			}
-			Bin bin7 = Bin.asList("interests", userInterests);
+			Bin bin7 = new Bin("interests", userInterests);
 			
 			client.put(wPolicy, key, bin1, bin2, bin3, bin4, bin5, bin6, bin7);
 			console.printf("Wrote user record for " + username + "\n");

@@ -17,24 +17,16 @@
 
 package com.aerospike.developer.training;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.List;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.PosixParser;
-import org.apache.log4j.Logger;
-
 import com.aerospike.client.AerospikeClient;
 import com.aerospike.client.AerospikeException;
 import com.aerospike.client.Bin;
 import com.aerospike.client.Host;
+import com.aerospike.client.Info;
 import com.aerospike.client.Key;
 import com.aerospike.client.Operation;
 import com.aerospike.client.Record;
+import com.aerospike.client.cluster.Connection;
+import com.aerospike.client.cluster.Node;
 import com.aerospike.client.policy.ClientPolicy;
 import com.aerospike.client.policy.GenerationPolicy;
 import com.aerospike.client.policy.Policy;
@@ -54,7 +46,18 @@ public class Program {
 		// Establish a connection to Aerospike cluster
 		ClientPolicy cp = new ClientPolicy();
 		cp.timeout = 500;
+		//this.client = new AerospikeClient(cp, "172.28.128.3", 3000);
 		this.client = new AerospikeClient(cp, "127.0.0.1", 3000);
+		
+		Node[] nodes = this.client.getNodes();
+		for (Node thisNode : nodes) {
+			System.out.println("Node: " + thisNode.getName());
+			System.out.println("\tActive:" + thisNode.isActive());
+			Connection conn = thisNode.getConnection(100);
+			String logs = Info.request(conn, "logs");
+			System.out.println(logs);
+		}
+		//this.client = new AerospikeClient(cp, "127.0.0.1", 3000);
 		this.writePolicy = new WritePolicy();
 		this.policy = new Policy();
 	}
@@ -269,7 +272,6 @@ public class Program {
 	public void connectWithClientPolicy() throws AerospikeException {
 		// Java connection with Client policy
 		ClientPolicy clientPolicy = new ClientPolicy();
-		clientPolicy.maxThreads = 200; //200 threads
 		clientPolicy.maxSocketIdle = 3; // 3 seconds
 		AerospikeClient client = new AerospikeClient(clientPolicy, "a.host", 3000);
 

@@ -17,28 +17,23 @@
 
 package com.aerospike.developer.training;
 
-import java.io.File;
 import java.util.Random;
 
 import com.aerospike.client.AerospikeClient;
 import com.aerospike.client.AerospikeException;
 import com.aerospike.client.Bin;
 import com.aerospike.client.Key;
-import com.aerospike.client.Language;
 import com.aerospike.client.Operation;
 import com.aerospike.client.Record;
 import com.aerospike.client.ScanCallback;
-import com.aerospike.client.Value;
-import com.aerospike.client.lua.LuaConfig;
 import com.aerospike.client.policy.Priority;
 import com.aerospike.client.policy.RecordExistsAction;
 import com.aerospike.client.policy.ScanPolicy;
 import com.aerospike.client.policy.WritePolicy;
 import com.aerospike.client.query.Filter;
+import com.aerospike.client.query.IndexType;
 import com.aerospike.client.query.RecordSet;
 import com.aerospike.client.query.Statement;
-import com.aerospike.client.task.RegisterTask;
-import com.aerospike.client.query.IndexType;
 import com.aerospike.client.task.IndexTask;
 
 public class TweetService {

@@ -32,8 +32,8 @@ import com.aerospike.client.Language;
 import com.aerospike.client.Record;
 import com.aerospike.client.Value;
 import com.aerospike.client.lua.LuaConfig;
+import com.aerospike.client.policy.BatchPolicy;
 import com.aerospike.client.policy.GenerationPolicy;
-import com.aerospike.client.policy.Policy;
 import com.aerospike.client.policy.RecordExistsAction;
 import com.aerospike.client.policy.WritePolicy;
 import com.aerospike.client.query.Filter;
@@ -117,7 +117,7 @@ public class UserService {
 			Bin bin4 = new Bin("region", region);
 			Bin bin5 = new Bin("lasttweeted", 0);
 			Bin bin6 = new Bin("tweetcount", 0);
-			Bin bin7 = Bin.asList("interests", Arrays.asList(interests.split(",")));
+			Bin bin7 = new Bin("interests", Arrays.asList(interests.split(",")));
 
 			client.put(wPolicy, key, bin1, bin2, bin3, bin4, bin5, bin6, bin7);
 
@@ -274,7 +274,7 @@ public class UserService {
 
 				// Initiate batch read operation
 				if (keys.length > 0){
-					Record[] records = client.get(new Policy(), keys);
+					Record[] records = client.get(new BatchPolicy(), keys);
 					for (int j = 0; j < records.length; j++) {
 						console.printf(records[j].getValue("tweet").toString() + "\n");
 					}
@@ -371,7 +371,7 @@ public class UserService {
 			for(int i = 0; i < totalInterests; i++) {
 				userInterests.add(randomInterests[rnd3.nextInt(randomInterests.length)]);
 			}
-			Bin bin7 = Bin.asList("interests", userInterests);
+			Bin bin7 = new Bin("interests", userInterests);
 
 			client.put(wPolicy, key, bin1, bin2, bin3, bin4, bin5, bin6, bin7);
 			console.printf("Wrote user record for " + username + "\n");

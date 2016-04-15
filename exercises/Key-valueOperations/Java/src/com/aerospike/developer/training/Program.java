@@ -282,7 +282,6 @@ public class Program {
 	public void connectWithClientPolicy() throws AerospikeException {
 		// Java connection with Client policy
 		ClientPolicy clientPolicy = new ClientPolicy();
-		clientPolicy.maxThreads = 200; //200 threads
 		clientPolicy.maxSocketIdle = 3; // 3 seconds
 		AerospikeClient client = new AerospikeClient(clientPolicy, "a.host", 3000);
 
