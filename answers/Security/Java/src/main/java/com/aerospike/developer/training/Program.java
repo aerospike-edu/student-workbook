@@ -100,7 +100,7 @@ public class Program {
 				mConsole.printf("9> Revoke Privilege from Role\n");
 				mConsole.printf("10> Drop Role\n");
 				mConsole.printf("0> Exit\n");
-				mConsole.printf("\nSelect 0-7 and hit enter:\n");
+				mConsole.printf("\nSelect 0-10 and hit enter:\n");
 				int feature = Integer.parseInt(mConsole.readLine());
 				
 				if (feature != 0) {
@@ -133,15 +133,15 @@ public class Program {
 						mConsole.printf("\n********** Your Selection: Read Role **********\n");
 						rs.getRole();
 						break;
-					case 12:
+					case 8:
 						mConsole.printf("\n********** Grant Privilege to Role **********\n");
 						rs.grantPrivilege();
 						break;
-					case 23:
+					case 9:
 						mConsole.printf("\n********** Revoke Privilege from Role **********\n");
 						rs.revokePrivilege();
 						break;
-					case 33:
+					case 10:
 						mConsole.printf("\n********** Drop Role **********\n");
 						rs.dropRole();
 						break;

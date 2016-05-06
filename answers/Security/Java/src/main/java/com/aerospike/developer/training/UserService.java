@@ -166,7 +166,7 @@ public class UserService extends Service {
 			List<String> roles = new ArrayList<String>(1);
 			roles.add(role);
 			mClient.revokeRoles(adminPolicy, username, roles);
-			console.printf("\nINFO: The role has been added to: " + username);
+			console.printf("\nINFO: The role has been removed from: " + username);
 		} else {
 			console.printf("ERROR: User record not found!");
 		}

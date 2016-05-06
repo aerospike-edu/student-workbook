@@ -69,7 +69,7 @@ public class RoleService extends Service {
 			privileges.add(privilege);
 			mClient.createRole(adminPolicy, role, privileges);
 			
-			console.printf("\nINFO: User record created!");
+			console.printf("\nINFO: Role created!");
 		}
 	}
 
@@ -129,7 +129,6 @@ public class RoleService extends Service {
 				case 5 : privilege.code = PrivilegeCode.USER_ADMIN; break;
 			}
 			
-			// Create user
 			AdminPolicy adminPolicy = new AdminPolicy();
 			List<Privilege> privileges = new ArrayList<Privilege>(1);
 			privileges.add(privilege);
