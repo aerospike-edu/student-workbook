@@ -1,0 +1,13 @@
+show roles
+create role superuser privileges read-write-udf,user-admin
+show roles
+
+create role setA-user privileges read-write-udf.test.setA
+show role setA-user
+drop role setA-user
+show roles
+
+grant privilege sys-admin to superuser
+show role superuser
+revoke privilege sys-admin from superuser
+show role superuser

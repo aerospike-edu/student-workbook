@@ -21,7 +21,6 @@ import org.apache.log4j.Logger;
 
 import com.aerospike.client.AerospikeClient;
 import com.aerospike.client.AerospikeException;
-import com.aerospike.client.policy.ClientPolicy;
 
 /**
  * @author Dash Desai
@@ -37,15 +36,9 @@ public class Program {
 
 	public Program() throws AerospikeException {
 		
-		//Establish a connection to Aerospike cluster
-		ClientPolicy clientPolicy = new ClientPolicy();
-		clientPolicy.timeout = 500;
-		
-		//Set credentials
-		clientPolicy.user = "superman";
-		clientPolicy.password = "krypton";
-		
-		mClient = new AerospikeClient(clientPolicy, "127.0.0.1", 3000);
+		// TODO: Establish a connection to Aerospike cluster
+		// Exercise 1
+		System.out.println("\nTODO: Establish a connection to Aerospike cluster");
 	}
 
 	public static void main(String[] args) throws AerospikeException {

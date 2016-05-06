@@ -1,0 +1,18 @@
+show users
+create user fred password fredspwd roles superuser
+show user fred
+
+grant role setA-user to fred
+show user fred
+
+revoke role setA-user from fred
+show user fred
+
+set password newpasswd for fred
+
+drop user fred
+show users
+
+create role superuser privileges read-write-udf,sys-admin,user-admin
+create user superman password krypton role superuser
+show users
