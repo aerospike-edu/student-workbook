@@ -36,7 +36,6 @@ public class Program {
 	
 
 	public Program() throws AerospikeException {
-		
 		//Establish a connection to Aerospike cluster
 		ClientPolicy clientPolicy = new ClientPolicy();
 		clientPolicy.timeout = 500;
@@ -70,7 +69,6 @@ public class Program {
 
 			if (mClient == null || !mClient.isConnected()) {
 				mConsole.printf("\nERROR: Connection to Aerospike cluster failed! Please check the server settings and try again!");
-				mConsole.readLine();
 			} else {
 				mConsole.printf("\nINFO: Connection to Aerospike cluster succeeded!\n");
 				
@@ -79,23 +77,26 @@ public class Program {
 				// Create instance of RoleService
 				RoleService rs = new RoleService(mClient);
 
-				// Present options
-				mConsole.printf("\nWhat would you like to do:\n");
-				mConsole.printf("1> Create User\n");
-				mConsole.printf("2> Read User\n");
-				mConsole.printf("3> Grant Role to User\n");
-				mConsole.printf("4> Revoke Role from User\n");
-				mConsole.printf("5> Drop User\n");
-				mConsole.printf("6> Create Role\n");
-				mConsole.printf("7> Read Role\n");
-				mConsole.printf("8> Grant Privilege to Role\n");
-				mConsole.printf("9> Revoke Privilege from Role\n");
-				mConsole.printf("10> Drop Role\n");
-				mConsole.printf("0> Exit\n");
-				mConsole.printf("\nSelect 0-10 and hit enter:\n");
-				int feature = Integer.parseInt(mConsole.readLine());
-				
-				if (feature != 0) {
+
+				int feature;
+				do {
+					
+					// Present options
+					mConsole.printf("\nWhat would you like to do:\n");
+					mConsole.printf("1> Create User\n");
+					mConsole.printf("2> Read User\n");
+					mConsole.printf("3> Grant Role to User\n");
+					mConsole.printf("4> Revoke Role from User\n");
+					mConsole.printf("5> Drop User\n");
+					mConsole.printf("6> Create Role\n");
+					mConsole.printf("7> Read Role\n");
+					mConsole.printf("8> Grant Privilege to Role\n");
+					mConsole.printf("9> Revoke Privilege from Role\n");
+					mConsole.printf("10> Drop Role\n");
+					mConsole.printf("0> Exit\n");
+					mConsole.printf("\nSelect 0-10 and hit enter:\n");
+					feature = Integer.parseInt(mConsole.readLine());
+					
 					switch (feature) {
 					case 1:
 						mConsole.printf("\n********** Your Selection: Create User**********\n");
@@ -140,7 +141,9 @@ public class Program {
 					default:
 						break;
 					}
-				}
+					
+				} while (feature != 0);
+
 			}
 		} catch (AerospikeException e) {
 			mConsole.printf("AerospikeException - Message: " + e.getMessage() + "\n");
@@ -153,8 +156,6 @@ public class Program {
 				// Close Aerospike server connection
 				mClient.close();
 			}
-			mConsole.printf("\n\nINFO: Press any key to exit...\n");
-			mConsole.readLine();
 		}
 	}
 }
