@@ -61,8 +61,8 @@ public class UserService extends Service {
 			List<String> roles = new ArrayList<String>(1);
 			roles.add(role);
 			
-		    // TODO: Create WritePolicy instance
-		    // Exercise 2
+		    // TODO: Create user
+		    // Exercise 1
 
 			console.printf("\nINFO: User record created!");
 		}
@@ -77,7 +77,7 @@ public class UserService extends Service {
 
 		if (username != null && username.length() > 0) {
 			
-			// TODO: Read user record
+			// TODO: Read user
 		    // Exercise 2
 			User user = null;
 			

@@ -134,7 +134,7 @@ public class UserService extends Service {
 		username = console.readLine();
 
 		if (username != null && username.length() > 0) {
-			// Get new password
+
 			String role;
 			console.printf("Enter new role for " + username + ":");
 			role = console.readLine();

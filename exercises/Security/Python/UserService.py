@@ -48,7 +48,8 @@ class UserService(object):
             #  Get role
             role = raw_input("Enter a role for  " + username + ":")
 
-            self.client.admin_create_user(username, password, [role])
+		    # TODO: Create user
+		    # Exercise 1
 
             print("\nINFO: User created!")
 
@@ -60,7 +61,9 @@ class UserService(object):
 
         if len(username) > 0:
             #  Check if username exists
-            print(self.client.admin_query_user(username))
+            print("\nTODO: Read user!")
+        # TODO: Read user
+        # Exercise 2
 
         else:
             print("ERROR: User not found!\n")
@@ -72,7 +75,8 @@ class UserService(object):
         username = raw_input("Enter username: ")
 
         if len(username) > 0:
-            self.client.admin_drop_user(username)
+            # TODO: Drop user
+            # Exercise 4
             print("\nINFO: Dropped user!")
         else:
             print("ERROR: User not found!\n")
@@ -89,7 +93,8 @@ class UserService(object):
             #  Get role
             role = raw_input("Enter a role for  " + username + ":")
 
-            self.client.admin_grant_roles(username, [role])
+            # TODO: Add Role
+            # Exercise 5
 
             print("\nINFO: Role granted!")
 
@@ -105,6 +110,7 @@ class UserService(object):
             #  Get role
             role = raw_input("Enter a role:")
 
-            self.client.admin_revoke_roles(username, [role])
+            # TODO: Revoke Role
+            # Exercise 6
 
             print("\nINFO: Role revoked!")

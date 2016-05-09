@@ -43,7 +43,7 @@ class RoleService(object):
         #  Get role
         role = raw_input("Enter role: ")
         if len(role) > 0:
-            #  Get privilege_code
+            #  Get privilegeCode
             privilege_code = input("Enter a privilege code\n(0 = read, 1 = read-write, 2 = read-write-udf, 3 = data-admin, 4 = sys-admin, 5 = user-admin):")
             if privilege_code == 0:
                 code = aerospike.PRIV_READ
@@ -59,7 +59,9 @@ class RoleService(object):
                 code = aerospike.PRIV_USER_ADMIN
 
             privileges = [{'code': code }]
-            self.client.admin_create_role(role, privileges)
+
+            # TODO: Create Role
+            # Exercise 7
 
             print("\nINFO: Role created!")
 
@@ -70,8 +72,10 @@ class RoleService(object):
         role = raw_input("Enter role: ")
 
         if len(role) > 0:
-            #  Check if role exists
-            print(self.client.admin_query_role(role))
+
+            print("\nTODO: Read the role")
+            # TODO: Read Role
+            # Exercise 8
 
         else:
             print("ERROR: Role not found!\n")
@@ -83,7 +87,8 @@ class RoleService(object):
         role = raw_input("Enter role: ")
 
         if len(role) > 0:
-            self.client.admin_drop_role(role)
+            # TODO: Drop Role
+            # Exercise 9
             print("\nINFO: Dropped role!")
         else:
             print("ERROR: Role not found!\n")
@@ -97,7 +102,7 @@ class RoleService(object):
 
         role = raw_input("Enter role: ")
         if len(role) > 0:
-            #  Get privilege_code
+            #  Get privilegeCode
             privilege_code = input("Enter a privilege code\n(0 = read, 1 = read-write, 2 = read-write-udf, 3 = data-admin, 4 = sys-admin, 5 = user-admin):")
             if privilege_code == 0:
                 code = aerospike.PRIV_READ
@@ -113,7 +118,8 @@ class RoleService(object):
                 code = aerospike.PRIV_USER_ADMIN
 
         privileges = [{'code': code}]
-        self.client.admin_grant_privileges(role, privileges)
+        # TODO: Grant Privilege
+        # Exercise 10
 
         print("\nINFO: Privilege granted!")
 
@@ -127,7 +133,7 @@ class RoleService(object):
         role = raw_input("Enter role: ")
         if len(role) > 0:
             #  Get privilege_code
-            privilege_code = input(
+            privilegeCode = input(
                 "Enter a privilege code\n(0 = read, 1 = read-write, 2 = read-write-udf, 3 = data-admin, 4 = sys-admin, 5 = user-admin):")
             if privilege_code == 0:
                 code = aerospike.PRIV_READ
@@ -143,6 +149,7 @@ class RoleService(object):
                 code = aerospike.PRIV_USER_ADMIN
 
         privileges = [{'code': code}]
-        self.client.admin_revoke_privileges(role, privileges)
+        # TODO: Revoke Privilege
+        # Exercise 11
 
         print("\nINFO: Privilege revoked!")

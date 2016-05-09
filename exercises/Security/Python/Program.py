@@ -140,6 +140,7 @@ class Program(object):
                   else:
                     print ("Enter a Valid number from above menue !!")
 
+
 AS_POLICY_W_GEN        = "generation"
 AS_POLICY_GEN_UNDEF    = 0 # Use default value
 AS_POLICY_GEN_IGNORE   = 1 # Write a record, regardless of generation.
@@ -151,3 +152,4 @@ AS_POLICY_GEN_DUP      = 4 # Write a record creating a duplicate, ONLY if
 if __name__ == '__main__':
     import sys
     Program.main(sys.argv)
+
