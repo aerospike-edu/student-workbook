@@ -43,7 +43,7 @@ namespace AerospikeTraining
                 // Connecting to Aerospike cluster
 
                 // Specify IP of one of the nodes in the cluster
-                string asServerIP = "192.168.1.151";
+                string asServerIP = "127.0.0.1";
                 // Specity Port that the node is listening on
                 int asServerPort = 3000;
                 // Establish connection
