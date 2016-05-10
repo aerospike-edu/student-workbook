@@ -63,7 +63,7 @@ public class RoleService extends Service {
 				case 5 : privilege.code = PrivilegeCode.USER_ADMIN; break;
 			}
 			
-			// Create user
+			// Create role
 			AdminPolicy adminPolicy = new AdminPolicy();
 			List<Privilege> privileges = new ArrayList<Privilege>(1);
 			privileges.add(privilege);
