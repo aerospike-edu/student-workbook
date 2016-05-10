@@ -41,9 +41,9 @@ class Program(object):
 
     def __init__(self, username, password, host, port, namespace, set):
         #  Establish a connection to Aerospike cluster
-        print(username)
-        print(password)
-        self.client = aerospike.client({ 'hosts': [ (host, port) ]  }).connect(username, password)
+        # TODO: Establish a connection to Aerospike cluster
+        # Exercise 1
+        self.client = aerospike.client()
         self.seedHost = host
         self.port = port
         self.namespace = namespace
