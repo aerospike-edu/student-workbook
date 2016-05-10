@@ -45,10 +45,10 @@ func main() {
 	
 	fmt.Println("INFO: Connecting to Aerospike cluster...")
 	// Establish connection to Aerospike server
-	clientPolicy := NewClientPolicy()
-	clientPolicy.User = "superman"
-	clientPolicy.Password = "krypton"
-	client, err := NewClientWithPolicy(clientPolicy, "127.0.0.1", 3000)
+	// TODO: Connect to Server
+	// Exercise 1
+	
+
 	panicOnError(err)
 	defer client.Close()
 
@@ -118,7 +118,9 @@ func CreateUser(client *Client) {
 
  		roles := []string{role}
 
-		err := client.CreateUser(nil, username, password, roles);
+		// TODO: Create User
+		// Exercise 2
+	
 		panicOnError(err)
 		fmt.Printf("\nINFO: User created!\n")
 	}
@@ -132,7 +134,10 @@ func GetUser(client *Client) {
 	fmt.Scanf("%s", &username)
 
 	if len(username) > 0 {
-		userRoles, err := client.QueryUser(nil, username)
+
+	// TODO: Read User
+	// Exercise 3
+
 		panicOnError(err)
 		if userRoles != nil {
 			fmt.Printf("\nINFO: User read successfully! Here are the details:\n")
@@ -153,7 +158,8 @@ func DropUser(client *Client) {
 	fmt.Scanf("%s", &username)
 
 	if len(username) > 0 {
-		client.DropUser(nil, username)
+		// TODO: Drop User
+		// Exercise 4
 		fmt.Printf("\nINFO: User dropped\n")
 	} else {
 		fmt.Printf("ERROR: User not found!\n")
@@ -176,7 +182,8 @@ func GrantRole(client *Client) {
 		fmt.Scanf("%s", &role)
 
  		roles := []string{role}
-		err := client.GrantRoles(nil, username, roles);
+		// TODO: Grant Role
+		// Exercise 5
 		panicOnError(err)
 		fmt.Printf("\nINFO: Role granted\n")
 	}
@@ -199,7 +206,8 @@ func RevokeRole(client *Client) {
 		fmt.Scanf("%s", &role)
 
  		roles := []string{role}
-		err := client.RevokeRoles(nil, username, roles);
+		// TODO: Revoke Role
+		// Exercise 6
 		panicOnError(err)
 		fmt.Printf("\nINFO: Role revoked\n")
 	}
