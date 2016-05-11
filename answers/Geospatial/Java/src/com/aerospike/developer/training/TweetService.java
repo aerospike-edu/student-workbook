@@ -79,24 +79,24 @@ public class TweetService {
 				console.printf("Enter tweet for " + username + ":");
 				tweet = console.readLine();
 				
-                // Get location
-                String lng;
-                console.printf("Enter Longitude : ");
-                lng = console.readLine();
-
-                String lat;
-                console.printf("Enter Latitude : ");
-                lat = console.readLine();
-
-                JsonObject geoValue = new JsonObject();
-                geoValue.addProperty("type", "Point");
-
-                JsonArray coords = new JsonArray();
-                coords.add(new Double(lng));
-                coords.add(new Double(lat));
-                geoValue.add("coordinates", coords);
-                Gson gson = new GsonBuilder().create();
-                String locstr = gson.toJson(geoValue);
+		                // Get location
+		                String lng;
+		                console.printf("Enter Longitude : ");
+		                lng = console.readLine();
+		
+		                String lat;
+		                console.printf("Enter Latitude : ");
+		                lat = console.readLine();
+		
+		                JsonObject geoValue = new JsonObject();
+		                geoValue.addProperty("type", "Point");
+		
+		                JsonArray coords = new JsonArray();
+		                coords.add(new Double(lng));
+		                coords.add(new Double(lat));
+		                geoValue.add("coordinates", coords);
+		                Gson gson = new GsonBuilder().create();
+		                String locstr = gson.toJson(geoValue);
 
 				// Write record
 				WritePolicy wPolicy = new WritePolicy();
@@ -111,7 +111,7 @@ public class TweetService {
 				Bin bin1 = new Bin("tweet", tweet);
 				Bin bin2 = new Bin("ts", ts);
 				Bin bin3 = new Bin("username", username);
-                Bin bin4 = Bin.asGeoJSON("location", locstr);
+                		Bin bin4 = Bin.asGeoJSON("location", locstr);
 
 				client.put(wPolicy, tweetKey, bin1, bin2, bin3, bin4);
 				console.printf("\nINFO: Tweet record created!\n");
@@ -126,107 +126,107 @@ public class TweetService {
 	} //createTweet
 		
 	public void createOffers() throws AerospikeException, InterruptedException {
-
-        Key offerKey = new Key("test", "offers", 1);
-
-        JsonObject geoValue = new JsonObject();
-        geoValue.addProperty("type", "Polygon");
-
-        JsonArray polyElem = new JsonArray();
-        JsonArray coords = new JsonArray();
-        coords.add(new Double(-73.615351));
-        coords.add(new Double(40.739860));
-        polyElem.add(coords);
-
-        coords = new JsonArray();
-        coords.add(new Double(-73.612669));
-        coords.add(new Double(40.740429));
-        polyElem.add(coords);
-
-        coords = new JsonArray();
-        coords.add(new Double(-73.611274));
-        coords.add(new Double(40.736576));
-        polyElem.add(coords);
-
-        coords = new JsonArray();
-        coords.add(new Double(-73.613291));
-        coords.add(new Double(40.736153));
-        polyElem.add(coords);
-
-        coords = new JsonArray();
-        coords.add(new Double(-73.615351));
-        coords.add(new Double(40.739860));
-        polyElem.add(coords);
-
-        JsonArray gpsPolygon = new JsonArray();
-        gpsPolygon.add(polyElem);
-
-        geoValue.add("coordinates", gpsPolygon);
-        Gson gson = new GsonBuilder().create();
-        String locstr = gson.toJson(geoValue);
-
-        // Write record
-        WritePolicy wPolicy = new WritePolicy();
-        Bin bin1 = new Bin("mall", "roosevelt");
-        Bin bin2 = new Bin("discount", 10);
-        Bin bin3 = new Bin("shop", "adidas");
-        Bin bin4 = Bin.asGeoJSON("location", locstr);
-
-        client.put(wPolicy, offerKey, bin1, bin2, bin3, bin4);
-
-        Key offerKey2 = new Key("test", "offers", 2);
-
-        bin2 = new Bin("discount", 25);
-        bin3 = new Bin("shop", "nike");
-        bin4 = Bin.asGeoJSON("location", locstr);
-
-        client.put(wPolicy, offerKey2, bin1, bin2, bin3, bin4);
-
-        geoValue = new JsonObject();
-        geoValue.addProperty("type", "Polygon");
-
-        polyElem = new JsonArray();
-        coords = new JsonArray();
-        coords.add(new Double(-73.615651));
-        coords.add(new Double(40.740770));
-        polyElem.add(coords);
-
-        coords = new JsonArray();
-        coords.add(new Double(-73.615415));
-        coords.add(new Double(40.740055));
-        polyElem.add(coords);
-
-        coords = new JsonArray();
-        coords.add(new Double(-73.612776));
-        coords.add(new Double(40.740527));
-        polyElem.add(coords);
-
-        coords = new JsonArray();
-        coords.add(new Double(-73.613291));
-        coords.add(new Double(40.741681));
-        polyElem.add(coords);
-
-        coords = new JsonArray();
-        coords.add(new Double(-73.615651));
-        coords.add(new Double(40.740770));
-        polyElem.add(coords);
-
-        gpsPolygon = new JsonArray();
-        gpsPolygon.add(polyElem);
-
-        geoValue.add("coordinates", gpsPolygon);
-        locstr = gson.toJson(geoValue);
-
-        // Write record
-        bin1 = new Bin("mall", "hypthetical");
-        bin2 = new Bin("discount", 40);
-        bin3 = new Bin("shop", "reebok");
-        bin4 = Bin.asGeoJSON("location", locstr);
-        Key offerKey3 = new Key("test", "offers", 3);
-
-        client.put(wPolicy, offerKey3, bin1, bin2, bin3, bin4);
-
-    } //createMall	
+	
+	        Key offerKey = new Key("test", "offers", 1);
+	
+	        JsonObject geoValue = new JsonObject();
+	        geoValue.addProperty("type", "Polygon");
+	
+	        JsonArray polyElem = new JsonArray();
+	        JsonArray coords = new JsonArray();
+	        coords.add(new Double(-73.615351));
+	        coords.add(new Double(40.739860));
+	        polyElem.add(coords);
+	
+	        coords = new JsonArray();
+	        coords.add(new Double(-73.612669));
+	        coords.add(new Double(40.740429));
+	        polyElem.add(coords);
+	
+	        coords = new JsonArray();
+	        coords.add(new Double(-73.611274));
+	        coords.add(new Double(40.736576));
+	        polyElem.add(coords);
+	
+	        coords = new JsonArray();
+	        coords.add(new Double(-73.613291));
+	        coords.add(new Double(40.736153));
+	        polyElem.add(coords);
+	
+	        coords = new JsonArray();
+	        coords.add(new Double(-73.615351));
+	        coords.add(new Double(40.739860));
+	        polyElem.add(coords);
+	
+	        JsonArray gpsPolygon = new JsonArray();
+	        gpsPolygon.add(polyElem);
+	
+	        geoValue.add("coordinates", gpsPolygon);
+	        Gson gson = new GsonBuilder().create();
+	        String locstr = gson.toJson(geoValue);
+	
+	        // Write record
+	        WritePolicy wPolicy = new WritePolicy();
+	        Bin bin1 = new Bin("mall", "roosevelt");
+	        Bin bin2 = new Bin("discount", 10);
+	        Bin bin3 = new Bin("shop", "adidas");
+	        Bin bin4 = Bin.asGeoJSON("location", locstr);
+	
+	        client.put(wPolicy, offerKey, bin1, bin2, bin3, bin4);
+	
+	        Key offerKey2 = new Key("test", "offers", 2);
+	
+	        bin2 = new Bin("discount", 25);
+	        bin3 = new Bin("shop", "nike");
+	        bin4 = Bin.asGeoJSON("location", locstr);
+	
+	        client.put(wPolicy, offerKey2, bin1, bin2, bin3, bin4);
+	
+	        geoValue = new JsonObject();
+	        geoValue.addProperty("type", "Polygon");
+	
+	        polyElem = new JsonArray();
+	        coords = new JsonArray();
+	        coords.add(new Double(-73.615651));
+	        coords.add(new Double(40.740770));
+	        polyElem.add(coords);
+	
+	        coords = new JsonArray();
+	        coords.add(new Double(-73.615415));
+	        coords.add(new Double(40.740055));
+	        polyElem.add(coords);
+	
+	        coords = new JsonArray();
+	        coords.add(new Double(-73.612776));
+	        coords.add(new Double(40.740527));
+	        polyElem.add(coords);
+	
+	        coords = new JsonArray();
+	        coords.add(new Double(-73.613291));
+	        coords.add(new Double(40.741681));
+	        polyElem.add(coords);
+	
+	        coords = new JsonArray();
+	        coords.add(new Double(-73.615651));
+	        coords.add(new Double(40.740770));
+	        polyElem.add(coords);
+	
+	        gpsPolygon = new JsonArray();
+	        gpsPolygon.add(polyElem);
+	
+	        geoValue.add("coordinates", gpsPolygon);
+	        locstr = gson.toJson(geoValue);
+	
+	        // Write record
+	        bin1 = new Bin("mall", "hypthetical");
+	        bin2 = new Bin("discount", 40);
+	        bin3 = new Bin("shop", "reebok");
+	        bin4 = Bin.asGeoJSON("location", locstr);
+	        Key offerKey3 = new Key("test", "offers", 3);
+	
+	        client.put(wPolicy, offerKey3, bin1, bin2, bin3, bin4);
+	
+	} //createMall	
 	
 	public void queryUsers() throws AerospikeException {
 
@@ -235,8 +235,8 @@ public class TweetService {
 		RecordSet rs = null;
 		try {
 
-	    // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax. 
-	    // NOTE: The recommended way of creating indexes in production env is via AQL.
+	    	// NOTE: Index creation has been included in here for convenience and to demonstrate the syntax. 
+	    	// NOTE: The recommended way of creating indexes in production env is via AQL.
 			IndexTask task = client.createIndex(null, "test", "tweets",
 					"geo_index", "location", IndexType.GEO2DSPHERE);
 			task.waitTillComplete(100);
@@ -279,21 +279,21 @@ public class TweetService {
 			}
 		}
 
-    }
+    	}
 
-    public void queryOffers() throws AerospikeException {
+    	public void queryOffers() throws AerospikeException {
 
 		console.printf("\n********** Query Offers within a Region **********\n");
 		
 		RecordSet rs = null;
 		try {
-
-	    // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax. 
-	    // NOTE: The recommended way of creating indexes in production env is via AQL.
+	
+	    	// NOTE: Index creation has been included in here for convenience and to demonstrate the syntax. 
+	    	// NOTE: The recommended way of creating indexes in production env is via AQL.
 			IndexTask task = client.createIndex(null, "test", "offers",
 					"geo_offers_index", "location", IndexType.GEO2DSPHERE);
 			task.waitTillComplete(100);
-
+	
 			// Get Polygon
 			Statement stmt = new Statement();
 			stmt.setNamespace("test");
@@ -312,14 +312,14 @@ public class TweetService {
 			
 			JsonObject geoValue = new JsonObject();
 			geoValue.addProperty("type", "Point");
-
+	
 			JsonArray coords = new JsonArray();
 			coords.add(new Double(lng));
 			coords.add(new Double(lat));
 			geoValue.add("coordinates", coords);
 			Gson gson = new GsonBuilder().create();
 			String point = gson.toJson(geoValue);			
-
+	
 			//stmt.setFilters(Filter.geoWithinRegion("location", rgnsb.toString()));
 			stmt.setFilters(Filter.geoContains("location", point));
 				
@@ -338,7 +338,7 @@ public class TweetService {
 			}
 		}
 
-    }
+    	}
 	
 	
 	public void scanAllTweetsForAllUsers() {
