@@ -99,8 +99,8 @@ public class Program {
 				console.printf("5> Record UDF -- Update User Password\n");
 				console.printf("6> Query Tweets By Username And Users By Tweet Count Range\n");
 				console.printf("7> Stream UDF -- Aggregation Based on Tweet Count By Region\n");
-                console.printf("8> Query Tweets By Location\n");
-                console.printf("9> Query Offers in Region\n");
+                		console.printf("8> Query Tweets By Location\n");
+                		console.printf("9> Query Offers in Region\n");
 				console.printf("0> Exit\n");
 				console.printf("\nSelect 0-9 and hit enter:\n");
 				int feature = Integer.parseInt(console.readLine());
@@ -111,7 +111,7 @@ public class Program {
 						console.printf("\n********** Your Selection: Create User And A Tweet **********\n");
 						us.createUser();
 						ts.createTweet();
-                        ts.createOffers();
+                        			ts.createOffers();
 						break;
 					case 2:
 						console.printf("\n********** Your Selection: Read A User Record **********\n");
@@ -138,14 +138,14 @@ public class Program {
 						console.printf("\n********** Your Selection: Stream UDF -- Aggregation Based on Tweet Count By Region **********\n");
 						us.aggregateUsersByTweetCountByRegion();
 						break;
-	                case 8:
-	                    console.printf("\n********** Your Selection: Query Tweets By Location **********\n");
-	                    ts.queryUsers();
-	                    break;
-	                case 9:
-	                    console.printf("\n********** Your Selection: Query Offers in Region **********\n");
-	                    ts.queryOffers();
-	                    break;
+			                case 8:
+			                    	console.printf("\n********** Your Selection: Query Tweets By Location **********\n");
+			                    	ts.queryUsers();
+			                    	break;
+			                case 9:
+			                    	console.printf("\n********** Your Selection: Query Offers in Region **********\n");
+			                    	ts.queryOffers();
+			                    	break;
 					case 12:
 						console.printf("\n********** Create Users **********\n");
 						us.createUsers();
