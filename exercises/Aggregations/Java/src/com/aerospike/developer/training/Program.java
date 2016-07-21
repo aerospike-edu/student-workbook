@@ -46,7 +46,6 @@ public class Program {
 		// Establish a connection to Aerospike cluster
 		ClientPolicy cp = new ClientPolicy();
 		cp.timeout = 500;
-		//this.client = new AerospikeClient(cp, "172.28.128.3", 3000);
 		this.client = new AerospikeClient(cp, "127.0.0.1", 3000);
 		
 		Node[] nodes = this.client.getNodes();
