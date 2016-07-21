@@ -23,7 +23,8 @@ module Training
       end
       unless username == ''
         key = self.get_user_key(username)
-        bins = client.get(key, ['tweetcount']).bins
+        recs = client.get(key, ['tweetcount']).bins
+        bins = recs.bins unless recs.nil?
         tweet_count = bins.nil? ? 1 : bins['tweetcount'] + 1
       end
       ts = (Time.now.to_f * 1000).round
@@ -52,15 +53,6 @@ module Training
         self.nope
         print "Failed to update the user record ≻".colorize(:color => :black, :mode => :bold)
       end
-    end
-
-    def update_tweet_count(client, username)
-      key = self.get_user_key(username)
-      ops = [
-        Operation.add(Bin.new('tweetcount', 1)),
-        Operation.put(Bin.new('lasttweeted', (Time.now.to_f * 1000).round))
-      ]
-      client.operate(key, ops)
     end
 
     def batch_get_tweets(client, username = nil)
@@ -115,12 +107,43 @@ module Training
 
     def query_tweets(client)
       puts "Query for the user's tweets".colorize(:color => :blue, :mode => :bold)
-      puts "This is part of the Query exercises".colorize(:color => :red, :mode => :bold)
+      print "Ensuring the index exists ≻".colorize(:color => :black, :mode => :bold)
+      begin
+        # todo: optionally build a secondary index over the username bin of test.tweets
+        self.yep
+      rescue Exception => e
+        self.nope
+        puts "Failed to ensure the tweets_username_idx index".colorize(:color => :red, :mode => :bold)
+        pp e
+        return
+      end
+      print "Enter username (or hit Return to skip): ".colorize(:blue)
+      username = gets.chomp
+      return if username == ''
+      # todo: create a query Statement
+      # todo: build the predicate for WHERE username=...
+      # todo: execute the query and show the tweets
     end
 
     def query_by_tweetcount(client)
-      puts "Query for user by their tweet count".colorize(:color => :blue, :mode => :bold)
-      puts "This is part of the Query exercises".colorize(:color => :red, :mode => :bold)
+      puts "Query for users by their tweet count".colorize(:color => :blue, :mode => :bold)
+      print "Ensuring the index exists ≻".colorize(:color => :black, :mode => :bold)
+      begin
+        # todo: optionally build a secondary index over the tweetcount bin of test.users
+        self.yep
+      rescue Exception => e
+        self.nope
+        puts "Failed to ensure the tweets_username_idx index".colorize(:color => :red, :mode => :bold)
+        pp e
+        return
+      end
+      print "Enter min tweet count (or hit Return to skip): ".colorize(:blue)
+      min = gets.chomp.to_i
+      print "Enter max tweet count (or hit Return to skip): ".colorize(:blue)
+      max = gets.chomp.to_i
+      # todo: create a query Statement
+      # todo: build the predicate for WHERE tweetcount BETWEEN .. AND ..
+      # todo: execute the query and show the users and number of their tweets
     end
 
     def aggregate_by_region(client)

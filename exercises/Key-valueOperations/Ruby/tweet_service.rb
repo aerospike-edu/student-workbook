@@ -55,6 +55,10 @@ module Training
       end
     end
 
+    def update_tweet_count(client, username)
+      # todo: use Client.operate to execute a multi-op
+    end
+
     def batch_get_tweets(client, username = nil)
       puts "\nGet the user's tweet".colorize(:color => :blue, :mode => :bold)
       unless username
