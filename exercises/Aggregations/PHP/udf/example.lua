@@ -25,4 +25,3 @@ function example_function(rec, userid, profile)
   end
   return ret                             -- Return the Return value and/or status
 end
-

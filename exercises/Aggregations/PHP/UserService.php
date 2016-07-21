@@ -151,7 +151,7 @@ class UserService extends BaseService {
      * @throws \Aerospike\Training\Exception
      */
     public function aggregateUsersByRegion() {
-        echo colorize("\nAggregate user's by region whose tweet count is in a given range", 'blue', true)."\n";
+        echo colorize("\nAggregate users by region, filter on tweet count in a given range", 'blue', true)."\n";
 
         echo colorize("Ensuring the UDF module is registered ≻", 'black', true);
         $ok = $this->ensureUdfModule('udf/aggregationByRegion.lua', 'aggregationByRegion.lua');
