@@ -16,14 +16,15 @@ module Training
     # }
 
     def create_tweet(client, username = nil)
-      puts "\nCreate a tweet".colorize(:color => :blue, :mode => :bold)
+      puts "\nCreate a new tweet".colorize(:color => :blue, :mode => :bold)
       unless username
         print "Enter username (or hit Return to skip): ".colorize(:blue)
         username = gets.chomp
       end
       unless username == ''
         key = self.get_user_key(username)
-        bins = client.get(key, ['tweetcount']).bins
+        rec = client.get(key, ['tweetcount'])
+        bins = rec.bins unless rec.nil?
         tweet_count = bins.nil? ? 1 : bins['tweetcount'] + 1
       end
       ts = (Time.now.to_f * 1000).round
@@ -114,17 +115,17 @@ module Training
     end
 
     def query_tweets(client)
-      puts "Query for the user's tweets".colorize(:color => :blue, :mode => :bold)
+      puts "\nQuery for the user's tweets".colorize(:color => :blue, :mode => :bold)
       puts "This is part of the Query exercises".colorize(:color => :red, :mode => :bold)
     end
 
     def query_by_tweetcount(client)
-      puts "Query for user by their tweet count".colorize(:color => :blue, :mode => :bold)
+      puts "\nQuery for user by their tweet count".colorize(:color => :blue, :mode => :bold)
       puts "This is part of the Query exercises".colorize(:color => :red, :mode => :bold)
     end
 
     def aggregate_by_region(client)
-      puts "Aggregate user's by region whose tweet count is in a given range".colorize(:color => :blue, :mode => :bold)
+      puts "\nAggregate user's by region whose tweet count is in a given range".colorize(:color => :blue, :mode => :bold)
       puts "This is part of the Aggregations exercises".colorize(:color => :red, :mode => :bold)
     end
 

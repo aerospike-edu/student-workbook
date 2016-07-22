@@ -27,7 +27,7 @@ module Training
     # }
 
     def create_user(client)
-      puts "\nCreate a user".colorize(:color => :blue, :mode => :bold)
+      puts "\nCreate a new user".colorize(:color => :blue, :mode => :bold)
       print 'Enter username (or hit Return to skip): '.colorize(:blue)
       username = gets.chomp
       bins = { 'username' => username }
@@ -53,7 +53,7 @@ module Training
     end
 
     def check_and_set_password(client)
-      puts "Update a user's password using CAS".colorize(:color => :blue, :mode => :bold)
+      puts "\nUpdate a user's password using CAS".colorize(:color => :blue, :mode => :bold)
       print 'Enter username (or hit Return to skip): '.colorize(:blue)
       username = gets.chomp
       return if username == ''
