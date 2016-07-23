@@ -28,7 +28,7 @@ def main
     when 4
       scan_tweets(Training.client)
     when 5
-      update_password(Training.client)
+      check_and_set_password(Training.client)
     when 6
       query_tweets(Training.client)
       query_by_tweetcount(Training.client)

@@ -35,7 +35,7 @@ module Training
       print "Creating tweet record ≻".colorize(:color => :black, :mode => :bold)
       key = self.get_tweet_key(username, tweet_count)
       begin
-        # todo: create the user record
+        # todo: create the tweet record
         self.yep
       rescue Exception => e
         self.nope
