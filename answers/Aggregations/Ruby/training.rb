@@ -53,6 +53,10 @@ module Training
     @client = host ? Client.new(Host.new(host, port)) : Client.new
   end
 
+  def finish
+    @client.close
+  end
+
   def host
     @@options[:host]
   end
@@ -98,7 +102,7 @@ module Training
     puts "2> Read A User Record".colorize(:blue)
     puts "3> Batch Read Tweets For A User".colorize(:blue)
     puts "4> Scan All Tweets For All Users".colorize(:blue)
-    puts "5> Check and Set -- Update User Password".colorize(:blue)
+    puts "5> Record UDF -- Update User Password".colorize(:blue)
     puts "6> Query Tweets By Username And Users By Tweet Count Range".colorize(:blue)
     puts "7> Stream UDF -- Aggregation Based on Tweet Count By Region".colorize(:blue)
     puts "0> Exit".colorize(:blue)

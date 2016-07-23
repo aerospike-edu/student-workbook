@@ -50,8 +50,11 @@ module Training
     @write_policy = WritePolicy.new
     @policy = Policy.new
     @logger = Logger.new(STDOUT, Logger::INFO)
-    # todo: configure and instantiate the Aerospike client
-    #@client = # assign the client to the module instance variable
+    @client = host ? Client.new(Host.new(host, port)) : Client.new
+  end
+
+  def finish
+    @client.close
   end
 
   def host

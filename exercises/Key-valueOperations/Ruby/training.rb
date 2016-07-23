@@ -54,6 +54,10 @@ module Training
     #@client = # assign the client to the module instance variable
   end
 
+  def finish
+    # todo: close the client's connection to the cluster
+  end
+
   def host
     @@options[:host]
   end

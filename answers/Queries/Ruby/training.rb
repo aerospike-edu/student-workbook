@@ -53,6 +53,10 @@ module Training
     @client = host ? Client.new(Host.new(host, port)) : Client.new
   end
 
+  def finish
+    @client.close
+  end
+
   def host
     @@options[:host]
   end

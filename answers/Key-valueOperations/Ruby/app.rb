@@ -1,6 +1,5 @@
 $:.push File.expand_path('.')
-require 'shared'
-require 'pp'
+require 'training'
 
 include Aerospike
 include Training
@@ -36,7 +35,7 @@ def main
     when 7
       aggregate_by_region(Training.client)
   end
-  Training.client.close
+  Training.finish
 end
 
 main
