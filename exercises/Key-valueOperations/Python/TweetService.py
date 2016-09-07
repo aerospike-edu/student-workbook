@@ -108,8 +108,8 @@ class TweetService(object):
         # Exercise 2
         print("\nTODO: Update tweet count and last tweeted timestamp in the user record")
 
-    def updateUserUsingOperate(self, client, userKey, policy, ts):
-        """ operate not supported in Python Client """
+    def updateUserUsingOperate(self, client, userKey, policy, ts, tweetCount):
+        """ operate now supported in Python Client """
         print("\nINFO: The tweet count now is: ")
 
 
