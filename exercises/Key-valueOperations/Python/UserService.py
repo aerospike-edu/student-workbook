@@ -84,9 +84,9 @@ class UserService(object):
             # Exercise 2
             print("\nTODO: Create Key and Bin instances for the user record. Remember to convert comma-separated interests into a list before storing it.");
 
-      // TODO: Write user record
-      // Exercise 2
-      console.printf("\nTODO: Write user record");
+        # TODO: Write user record
+        # Exercise 2
+        print("\nTODO: Write user record");
 
     def getUser(self):
         userRecord = None

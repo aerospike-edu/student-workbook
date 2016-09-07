@@ -92,8 +92,8 @@ class TweetService(object):
                 print("\nTODO: Write tweet record");
                 # TODO: Update tweet count and last tweeted timestamp in the user
                 # Exercise 2
-                 print("\nINFO: Tweet record created!\n",record,tweetKey)
-                 #  Update tweet count and last tweet'd timestamp in the user record
+                print("\nINFO: Tweet record created!\n",record,tweetKey)
+                #  Update tweet count and last tweet'd timestamp in the user record
             else:
                 print("ERROR: User record not found!\n")
 
