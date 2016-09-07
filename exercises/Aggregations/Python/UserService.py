@@ -27,6 +27,14 @@ import time
 import json
 from aerospike import predicates as p
 
+import random
+AS_POLICY_W_EXISTS = "exists"
+AS_POLICY_EXISTS_UNDEF = 0  #Not in the docs
+AS_POLICY_EXISTS_IGNORE = aerospike.POLICY_EXISTS_IGNORE
+AS_POLICY_EXISTS_CREATE = aerospike.POLICY_EXISTS_CREATE
+AS_POLICY_EXISTS_UPDATE = aerospike.POLICY_EXISTS_UPDATE
+
+
 class UserService(object):
     #client 
 
@@ -129,7 +137,7 @@ class UserService(object):
                 #  Get new password
                 password = raw_input("Enter new password for " + username + ":")
                 #  NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. The recommended way of registering UDFs in production env is via AQL
-                self.client.udf_put(policy, lua_file_name, udf_type)
+                self.client.udf_put(lua_file_name, udf_type, policy)
                 time.sleep(5)
                 argsForUDF = map(self.__prepForUDF,password)
                 updatedPassword = self.client.apply(userKey, "updateUserPwd", "updatePassword", argsForUDF)

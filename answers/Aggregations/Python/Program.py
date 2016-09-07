@@ -41,7 +41,10 @@ class Program(object):
 
     def __init__(self, host, port, namespace, set):
         #  Establish a connection to Aerospike cluster
-        self.client = aerospike.client({ 'hosts': [ (host, port) ]  }).connect()
+        config = {'hosts': [(host,port)],
+                  'lua': {'system_path':'/usr/local/aerospike/lua/',
+                  'user_path':'/usr/local/aerospike/usr-lua/'}}
+        self.client = aerospike.client(config).connect()
         self.seedHost = host
         self.port = port
         self.namespace = namespace

@@ -27,6 +27,13 @@ import time
 import json
 from aerospike import predicates as p
 
+import random
+AS_POLICY_W_EXISTS = "exists"
+AS_POLICY_EXISTS_UNDEF = 0  #Not in the docs
+AS_POLICY_EXISTS_IGNORE = aerospike.POLICY_EXISTS_IGNORE
+AS_POLICY_EXISTS_CREATE = aerospike.POLICY_EXISTS_CREATE
+AS_POLICY_EXISTS_UPDATE = aerospike.POLICY_EXISTS_UPDATE
+
 class UserService(object):
     #client 
 
@@ -129,7 +136,7 @@ class UserService(object):
                 #  Get new password
                 password = raw_input("Enter new password for " + username + ":")
                 #  NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. The recommended way of registering UDFs in production env is via AQL
-                self.client.udf_put(policy, lua_file_name, udf_type)
+                self.client.udf_put(lua_file_name, udf_type, policy)
                 time.sleep(5)
                 argsForUDF = map(self.__prepForUDF,password)
                 updatedPassword = self.client.apply(userKey, "updateUserPwd", "updatePassword", argsForUDF)
@@ -209,16 +216,16 @@ class UserService(object):
             min = int(raw_input("Enter Min Tweet Count: "))
             max = int(raw_input("Enter Max Tweet Count: "))
             print("\nAggregating users with " , min , "-" , max , " tweets by region:\n")
-            self.client.udf_put(policy, lua_file_name, udf_type)
+            self.client.udf_put(lua_file_name, udf_type, policy)
             time.sleep(5)
             argsForUDF = map(self.__prepForUDF,"region")
             tweetQuery = self.client.query("test", "users")
             # callback for each record read
             def tweetQueryAggCallback(record):
               print("\nTotal Users in North: ", record['n'],"\n")
-              print("\nTotal Users in North: ", record['s'],"\n")
-              print("\nTotal Users in North: ", record['e'],"\n")
-              print("\nTotal Users in North: ", record['w'],"\n")
+              print("\nTotal Users in South: ", record['s'],"\n")
+              print("\nTotal Users in East: ", record['e'],"\n")
+              print("\nTotal Users in West: ", record['w'],"\n")
             # invoke the operations, and for each record invoke the callback
             tweetQuery.where(p.between('tweetcount',min,max))
             #tweetQuery.apply("aggregationByRegion", "sum",*argsForUDF)

@@ -26,6 +26,14 @@ import sys
 import time
 from aerospike import predicates as p
 
+import random
+AS_POLICY_W_EXISTS = "exists"
+AS_POLICY_EXISTS_UNDEF = 0  #Not in the docs
+AS_POLICY_EXISTS_IGNORE = aerospike.POLICY_EXISTS_IGNORE
+AS_POLICY_EXISTS_CREATE = aerospike.POLICY_EXISTS_CREATE
+AS_POLICY_EXISTS_UPDATE = aerospike.POLICY_EXISTS_UPDATE
+
+
 class TweetService(object):
 
     def __init__(self, client):
