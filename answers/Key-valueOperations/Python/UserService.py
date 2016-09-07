@@ -130,10 +130,18 @@ class UserService(object):
                 record = {}
                 #  Get new password
                 record["password"] = raw_input("Enter new password for " + username + ":")
+
                 #  record generation
-                #writePolicy.generation = userRecord.generation
-                #writePolicy.generationPolicy = GenerationPolicy.EXPECT_GEN_EQUAL
-                self.client.put(userKey,record,meta,policy)
+                usergen = metadata['gen']
+                #print("usergen ="+str(usergen))
+                policy = {'gen':aerospike.POLICY_GEN_EQ}
+                meta = {'gen':usergen}
+                try:
+                  self.client.put(userKey,record,meta,policy)
+                except RecordGenerationError:
+                  print("put() failed due to generation policy mismatch")
+                except AerospikeError as e:
+                  print("Error: {0} [{1}]".format(e.msg, e.code))
                 print("\nINFO: The password has been set to: " , record["password"])
             else:
                 print("ERROR: User record not found!")
@@ -153,19 +161,29 @@ class UserService(object):
             userKey = ("test", "users", username)
             (key, metadata,userRecord) = self.client.get(userKey,policy)
             if userRecord:
-                keys = {}
-                i = 0
-                while i < userRecord["tweetcount"]:
-                    keys[i] = ("test", "tweets", (username + ":" + str((i + 1))))
-                    i += 1
-                print("\nHere's " + username + "'s tweet(s):\n")
-                #  Initiate batch read operation
-                if len(keys) > 0:
-                    for k in keys.values():
-                      (key,meta,record) = self.client.get(k,policy)
-                      print(record["tweet"] ,"\n")
+                # Get how many tweets the user has
+                print("\nGet how many tweets the user has")
+                tweetCount = userRecord['tweetcount']
+                # Create an array of tweet keys -- keys[tweetCount]
+                keys = []
+                pkey = []
+                for i in range(1, tweetCount+1):
+                    pkey.append(userRecord['username']+':'+str(i))
+                    keys.append( ('test', 'tweets', pkey[i-1]))
+                print("\nCreate an array of Key instances -- keys[tweetCount]")
+                # Initiate batch read operation
+                print("\nInitiate batch read operation");
+                records = self.client.get_many(keys)
+                #Note: get_many() API returns a list of tuples (key, meta, bins)
+                # Output tweets to the console
+                print("\nOutput tweets to the console");
+                for i in range(1, tweetCount+1):
+                    print(records[i-1][2]['tweet'])
+
+            else:
+                print("ERROR: User record not found!\n")
         else:
-            print("ERROR: User record not found!\n")
+            print("ERROR: Invalid User name.\n")
 
     def aggregateUsersByTweetCountByRegion(self):
         """ generated source for method aggregateUsersByTweetCountByRegion """
