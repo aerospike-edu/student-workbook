@@ -128,6 +128,7 @@ class Program(object):
                   else:
                     print ("Enter a Valid number from above menue !!")
 
+              self.client.close()
     # 
     # 	 * example method calls
     # 	 
