@@ -22,6 +22,8 @@
 #  
 from __future__ import print_function
 import aerospike
+#TODO: Import aerospike exceptions
+#Exercise 1
 import sys
 from optparse import OptionParser
 from UserService import UserService

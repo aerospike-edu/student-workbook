@@ -26,14 +26,12 @@ import sys
 import time
 import json
 from aerospike import predicates as p
-
 import random
-AS_POLICY_W_EXISTS = "exists"
-AS_POLICY_EXISTS_UNDEF = 0  #Not in the docs
-AS_POLICY_EXISTS_IGNORE = aerospike.POLICY_EXISTS_IGNORE
-AS_POLICY_EXISTS_CREATE = aerospike.POLICY_EXISTS_CREATE
-AS_POLICY_EXISTS_UPDATE = aerospike.POLICY_EXISTS_UPDATE
-
+AS_POLICY_W_EXISTS     = "exists"
+AS_POLICY_EXISTS_UNDEF = None # Use default value
+AS_POLICY_EXISTS_IGNORE= aerospike.POLICY_EXISTS_IGNORE # Write the record, regardless of existence.
+AS_POLICY_EXISTS_CREATE= aerospike.POLICY_EXISTS_CREATE # Create a record, ONLY if it doesn't exist.
+AS_POLICY_EXISTS_UPDATE= aerospike.POLICY_EXISTS_UPDATE # Update a record, ONLY if it exists
 
 class UserService(object):
     #client 
@@ -136,11 +134,19 @@ class UserService(object):
                 record = {}
                 #  Get new password
                 password = raw_input("Enter new password for " + username + ":")
-                #  NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. The recommended way of registering UDFs in production env is via AQL
+
+                #  Note: Registration via udf_put() will register udfs both on server
+                #  side and local client side in local user_path specified in connection
+                #  configuration. AQL registers udfs with server only. If using AQL,
+                #  for stream udfs, copy them manually in local client node lua user_path.
+
+                #  NOTE: UDF registration has been included here for convenience 
+                #  and to demonstrate the syntax. 
+                #  Create a separate script to register udfs only when modified.
+
                 self.client.udf_put(lua_file_name, udf_type, policy)
                 time.sleep(5)
-                argsForUDF = map(self.__prepForUDF,password)
-                updatedPassword = self.client.apply(userKey, "updateUserPwd", "updatePassword", argsForUDF)
+                updatedPassword = self.client.apply(userKey, "updateUserPwd", "updatePassword", [password])
                 print("\nINFO: The password has been set to: " , updatedPassword)
             else:
                 print("ERROR: User record not found!")
@@ -217,8 +223,16 @@ class UserService(object):
             print("\nAggregating users with " , min , "-" , max , " tweets by region:\n")
             # TODO: Register UDF
             # Exercise 2
-            # NOTE: UDF registration has been included here for convenience
-            # NOTE: The recommended way of registering UDFs in production env is via AQL
+
+            #  Note: Registration via udf_put() will register udfs both on server
+            #  side and local client side in local user_path specified in connection
+            #  configuration. AQL registers udfs with server only. If using AQL,
+            #  for stream udfs, copy them manually in local client node lua user_path.
+
+            #  NOTE: UDF registration has been included here for convenience 
+            #  and to demonstrate the syntax. 
+            #  Create a separate script to register udfs only when modified.
+
             print("\nTODO: Register UDF")
             # Set min--max range Filter on tweetcount
             # Exercise 2
@@ -226,9 +240,9 @@ class UserService(object):
             # Execute aggregate query passing in , .lua filename of the UDF and lua function name
             # Exercise 2
             print("\nTODO: Execute aggregate query passing in , .lua filename of the UDF and lua function name.")
-            # Examine returned ResultSet and output result to the console in format \"Total Users in <region>: <#>\"
+            # Output result to the console in format \"Total Users in <region>: <#>\"
             # Exercise 2
-            print("\nTODO: Examine returned ResultSet and output result to the console in format \"Total Users in <region>: <#>\"")
+            print("\nTODO: Output result to the console in format \"Total Users in <region>: <#>\"")
         except Exception as e :
             print("error: {0}".format(e), file=sys.stderr)
 

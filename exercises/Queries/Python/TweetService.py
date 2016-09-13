@@ -25,14 +25,12 @@ import aerospike
 import sys
 import time
 from aerospike import predicates as p
-
 import random
-AS_POLICY_W_EXISTS = "exists"
-AS_POLICY_EXISTS_UNDEF = 0  #Not in the docs
-AS_POLICY_EXISTS_IGNORE = aerospike.POLICY_EXISTS_IGNORE
-AS_POLICY_EXISTS_CREATE = aerospike.POLICY_EXISTS_CREATE
-AS_POLICY_EXISTS_UPDATE = aerospike.POLICY_EXISTS_UPDATE
-
+AS_POLICY_W_EXISTS     = "exists"
+AS_POLICY_EXISTS_UNDEF = None # Use default value
+AS_POLICY_EXISTS_IGNORE= aerospike.POLICY_EXISTS_IGNORE # Write the record, regardless of existence.
+AS_POLICY_EXISTS_CREATE= aerospike.POLICY_EXISTS_CREATE # Create a record, ONLY if it doesn't exist.
+AS_POLICY_EXISTS_UPDATE= aerospike.POLICY_EXISTS_UPDATE # Update a record, ONLY if it exists
 
 class TweetService(object):
 
@@ -128,7 +126,7 @@ class TweetService(object):
         if len(username) > 0:
           try:
             # Create a Secondary Index on tweets
-            #Exercise 3
+            # Exercise 3
             print("\nTODO: Create a String Secondary Index ")
             # Set equality Filter on username on the instance of Statement
             # Exercise 3

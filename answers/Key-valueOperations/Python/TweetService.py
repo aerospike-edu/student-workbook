@@ -26,12 +26,11 @@ import sys
 import time
 from aerospike import predicates as p
 import random
-
 AS_POLICY_W_EXISTS     = "exists"
-AS_POLICY_EXISTS_UNDEF = 0 # Use default value
-AS_POLICY_EXISTS_IGNORE= 1 # Write the record, regardless of existence.
-AS_POLICY_EXISTS_CREATE= 2 # Create a record, ONLY if it doesn't exist.
-AS_POLICY_EXISTS_UPDATE= 3 # Update a record, ONLY if it exist (NOT YET IMPL).
+AS_POLICY_EXISTS_UNDEF = None # Use default value
+AS_POLICY_EXISTS_IGNORE= aerospike.POLICY_EXISTS_IGNORE # Write the record, regardless of existence.
+AS_POLICY_EXISTS_CREATE= aerospike.POLICY_EXISTS_CREATE # Create a record, ONLY if it doesn't exist.
+AS_POLICY_EXISTS_UPDATE= aerospike.POLICY_EXISTS_UPDATE # Update a record, ONLY if it exists
 
 class TweetService(object):
 
@@ -65,6 +64,7 @@ class TweetService(object):
         username = raw_input("Enter username: ") 
         if len(username) > 0:
             #  Check if username exists
+            # Exercise 2
             print("\nCheck if username exists")
             meta = None
             policy = None
@@ -83,6 +83,7 @@ class TweetService(object):
                 #  query, index and report on it
                 ts= self.getTimeStamp()
                 # Create WritePolicy instance
+                # Exercise 2
                 print("\nCreate WritePolicy instance");
 
                 #Set the 'exists' policy ie what to do if the record exists
@@ -90,15 +91,18 @@ class TweetService(object):
                 policy = {'exists': aerospike.POLICY_EXISTS_CREATE}
 
                 # Create Key and Bin instances for the tweet record.
+                # Exercise 2
                 #HINT: tweet key should be in username:nextTweetCount format
                 print("\nCreate Key and Bin instances for the tweet record");
                 tweetKey = ('test', 'tweets', username + ':'+ str(nextTweetCount))
                 record['ts']=ts
                 record['username']=username
                 # Write tweet record
+                # Exercise 2
                 print("\nWrite tweet record");
                 self.client.put(tweetKey, record, policy)
                 # Update tweet count and last tweeted timestamp in the user
+                # Exercise 2
                 # We are updating an existing record - UPDATE is default write policy
                 userKey = ('test','users',username)
                 userRecord['lasttweeted']=ts
@@ -111,6 +115,8 @@ class TweetService(object):
 
 
     def scanAllTweetsForAllUsers(self):
+        # Initiate scan operation that invokes callback for outputting tweets on the console
+        # Exercise 4  
         try:
             #  Python Scan
             tweetScan = self.client.scan("test", "tweets")
@@ -125,15 +131,20 @@ class TweetService(object):
 
     def updateUser(self, client, userKey, policy, ts, tweetCount):
         # Update tweet count and last tweeted timestamp in the user record
+        # Exercise 2  
         print("\nUpdate tweet count and last tweeted timestamp in the user record")
         #userKey = ('test','users',username)
         #userRecord['lasttweeted']=ts
         #userRecord['tweetcount']=tweetCount
         #client.put(userKey, userRecord)
+        # Exercise 6 
         self.updateUserUsingOperate(client, userKey, policy, ts, tweetCount)
 
     def updateUserUsingOperate(self, client, userKey, policy, ts, tweetCount):
         """ operate now supported in Python Client """
+        # User Operate() to set and get tweetcount
+        # Exercise 6 
+
         ops= [{
           "op" : aerospike.OPERATOR_WRITE,
           "bin": "lasttweeted",

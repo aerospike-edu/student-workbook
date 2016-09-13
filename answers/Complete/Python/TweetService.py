@@ -25,6 +25,12 @@ import aerospike
 import sys
 import time
 from aerospike import predicates as p
+import random
+AS_POLICY_W_EXISTS     = "exists"
+AS_POLICY_EXISTS_UNDEF = None # Use default value
+AS_POLICY_EXISTS_IGNORE= aerospike.POLICY_EXISTS_IGNORE # Write the record, regardless of existence.
+AS_POLICY_EXISTS_CREATE= aerospike.POLICY_EXISTS_CREATE # Create a record, ONLY if it doesn't exist.
+AS_POLICY_EXISTS_UPDATE= aerospike.POLICY_EXISTS_UPDATE # Update a record, ONLY if it exists
 
 class TweetService(object):
 
@@ -120,7 +126,7 @@ class TweetService(object):
         username = raw_input("Enter username: ")
         if len(username) > 0:
           try:
-            self.client.index_string_create(None, "test", "tweets", "username", "username_index")
+            self.client.index_string_create("test", "tweets", "username", "username_index", None)
             time.sleep(5)
             print("\nINFO: String Secondary Index Created ")
             tweetQuery = self.client.query("test", "tweets")
@@ -139,7 +145,7 @@ class TweetService(object):
         print("\n********** Query Users By Tweet Count Range **********\n")
         #  Get username
         try:
-            self.client.index_integer_create(None, "test", "users", "tweetcount", "tweetcount_index")
+            self.client.index_integer_create("test", "users", "tweetcount", "tweetcount_index", None)
             time.sleep(5)
             print("\nINFO: Integer Secondary Index Created ")
             min = int(raw_input("Enter Min Tweet Count: "))

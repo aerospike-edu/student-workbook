@@ -22,6 +22,8 @@
 #  
 from __future__ import print_function
 import aerospike
+#Excercise 1
+from aerospike.exception import *
 import sys
 from optparse import OptionParser
 from UserService import UserService
@@ -41,7 +43,15 @@ class Program(object):
 
     def __init__(self, host, port, namespace, set):
         #  Establish a connection to Aerospike cluster
-        self.client = aerospike.client({ 'hosts': [ (host, port) ] }).connect()
+        #Excercise 1
+        #self.client = aerospike.client({ 'hosts': [ (host, port) ] }).connect()
+        try:
+            self.client = aerospike.client({ 'hosts': [ (host, port) ] }).connect()
+        except ClientError as e:
+            print("\nERROR: Connection to Aerospike cluster failed!")
+            print("\nPlease check the server settings and try again!")
+            print("Error: {0} [{1}]".format(e.msg, e.code))
+            sys.exit(1)
         self.seedHost = host
         self.port = port
         self.namespace = namespace
@@ -70,7 +80,8 @@ class Program(object):
     def work(self):
         print("***** Welcome to Aerospike Developer Training *****\n")
         print("INFO: Connecting to Aerospike cluster...")
-            #  Establish connection to Aerospike server
+        #  Establish connection to Aerospike server
+        #Excercise 1
         if not self.client:
             print("\nERROR: Connection to Aerospike cluster failed! Please check the server settings and try again!")
         else:
@@ -126,8 +137,8 @@ class Program(object):
                       print("\n********** Create Tweets **********\n")
                       ts.createTweets()
                   else:
-                    print ("Enter a Valid number from above menue !!")
-
+                      print ("Enter a Valid number from above menue !!")
+              #Exercise 1
               self.client.close()
     # 
     # 	 * example method calls

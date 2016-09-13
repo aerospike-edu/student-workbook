@@ -25,14 +25,12 @@ import aerospike
 import sys
 import time
 from aerospike import predicates as p
-
 import random
-AS_POLICY_W_EXISTS = "exists"
-AS_POLICY_EXISTS_UNDEF = 0  #Not in the docs
-AS_POLICY_EXISTS_IGNORE = aerospike.POLICY_EXISTS_IGNORE
-AS_POLICY_EXISTS_CREATE = aerospike.POLICY_EXISTS_CREATE
-AS_POLICY_EXISTS_UPDATE = aerospike.POLICY_EXISTS_UPDATE
-
+AS_POLICY_W_EXISTS     = "exists"
+AS_POLICY_EXISTS_UNDEF = None # Use default value
+AS_POLICY_EXISTS_IGNORE= aerospike.POLICY_EXISTS_IGNORE # Write the record, regardless of existence.
+AS_POLICY_EXISTS_CREATE= aerospike.POLICY_EXISTS_CREATE # Create a record, ONLY if it doesn't exist.
+AS_POLICY_EXISTS_UPDATE= aerospike.POLICY_EXISTS_UPDATE # Update a record, ONLY if it exists
 
 class TweetService(object):
 
@@ -127,15 +125,26 @@ class TweetService(object):
         username = raw_input("Enter username: ")
         if len(username) > 0:
           try:
-            self.client.index_string_create(None, "test", "tweets", "username", "username_index")
+            # Create a Secondary Index on tweets
+            # Exercise 3
+            self.client.index_string_create("test", "tweets", "username", "username_index", None)
             time.sleep(5)
             print("\nINFO: String Secondary Index Created ")
+
+            # Set equality Filter on username on the instance of Statement
+            # Exercise 3
             tweetQuery = self.client.query("test", "tweets")
             # callback for each record read
+            tweetQuery.where(p.equals('username',username))
+
+            # Use the Call back and print Tweets for given Username
+            # Exercise 3
             def tweetQueryCallback((key, meta, record)):
               print(record["tweet"])
+
+            # Execute query
+            # Exercise 3
             # invoke the operations, and for each record invoke the callback
-            tweetQuery.where(p.equals('username',username))
             tweetQuery.foreach(tweetQueryCallback)
           except Exception as e :
             print("error: {0}".format(e), file=sys.stderr)
@@ -144,19 +153,30 @@ class TweetService(object):
     def queryUsersByTweetCount(self):
         print("\n********** Query Users By Tweet Count Range **********\n")
         try:
-            self.client.index_integer_create(None, "test", "users", "tweetcount", "tweetcount_index")
+            # Create a Secondary Index on on tweetcount
+            # Exercise 4
+            self.client.index_integer_create("test", "users", "tweetcount", "tweetcount_index", None)
             time.sleep(5)
             print("\nINFO: Integer Secondary Index Created ")
+
+            # Set min--max range Filter on tweetcount
+            # Exercise 4
             min = int(raw_input("Enter Min Tweet Count: "))
             max = int(raw_input("Enter Max Tweet Count: "))
             print("\nList of users with " , min , "-" , max , " tweets:\n")
             tweetQuery = self.client.query("test", "users")
             #tweetQuery.select('username')
+            tweetQuery.where(p.between('tweetcount',min,max))
+
+            # Use the Call back and print Tweets for given Username
+            # Exercise 4
             # callback for each record read
             def tweetQueryCountCallback((key, meta, record)):
               print(record["username"] , " has " , record["tweetcount"] , " tweets\n")
+
+            # Execute query
+            # Exercise 4
             # invoke the operations, and for each record invoke the callback
-            tweetQuery.where(p.between('tweetcount',min,max))
             tweetQuery.foreach(tweetQueryCountCallback)
         except Exception as e :
             print("error: {0}".format(e), file=sys.stderr)

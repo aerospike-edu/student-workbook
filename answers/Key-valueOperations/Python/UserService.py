@@ -22,14 +22,14 @@
 #  
 from __future__ import print_function
 import aerospike
+from aerospike.exception import *
 import sys
 import random
-
 AS_POLICY_W_EXISTS     = "exists"
-AS_POLICY_EXISTS_UNDEF = 0 # Use default value
-AS_POLICY_EXISTS_IGNORE= 1 # Write the record, regardless of existence.
-AS_POLICY_EXISTS_CREATE= 2 # Create a record, ONLY if it doesn't exist.
-AS_POLICY_EXISTS_UPDATE= 3 # Update a record, ONLY if it exist (NOT YET IMPL).
+AS_POLICY_EXISTS_UNDEF = None # Use default value
+AS_POLICY_EXISTS_IGNORE= aerospike.POLICY_EXISTS_IGNORE # Write the record, regardless of existence.
+AS_POLICY_EXISTS_CREATE= aerospike.POLICY_EXISTS_CREATE # Create a record, ONLY if it doesn't exist.
+AS_POLICY_EXISTS_UPDATE= aerospike.POLICY_EXISTS_UPDATE # Update a record, ONLY if it exists
 
 class UserService(object):
     #client 
@@ -81,6 +81,7 @@ class UserService(object):
             #  Get interests
             record['interests'] = raw_input("Enter comma-separated interests for " + username + ":").split(',')
             #  Write record
+            # Exercise 2
             #wPolicy.recordExistsAction = RecordExistsAction.UPDATE
             meta = None
             policy = None
@@ -95,12 +96,14 @@ class UserService(object):
         username = raw_input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
+            # Exercise 2
             meta = None
             policy = None
             userKey = ("test", "users", username)
             (key, metadata,userRecord) = self.client.get(userKey,policy)
             if userRecord:
                 print("\nINFO: User record read successfully! Here are the details:\n")
+                # Exercise 2
                 print("username:   " , userRecord["username"] , "\n")
                 print("password:   " , userRecord["password"] , "\n")
                 print("gender:     " , userRecord["gender"] , "\n")
@@ -130,7 +133,7 @@ class UserService(object):
                 record = {}
                 #  Get new password
                 record["password"] = raw_input("Enter new password for " + username + ":")
-
+                # Exercise 5
                 #  record generation
                 usergen = metadata['gen']
                 #print("usergen ="+str(usergen))
@@ -156,14 +159,17 @@ class UserService(object):
         username = raw_input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
+            # Exercise 3
             meta = None
             policy = None
             userKey = ("test", "users", username)
             (key, metadata,userRecord) = self.client.get(userKey,policy)
             if userRecord:
                 # Get how many tweets the user has
+                # Exercise 3
                 print("\nGet how many tweets the user has")
                 tweetCount = userRecord['tweetcount']
+                # Exercise 3
                 # Create an array of tweet keys -- keys[tweetCount]
                 keys = []
                 pkey = []
@@ -172,10 +178,12 @@ class UserService(object):
                     keys.append( ('test', 'tweets', pkey[i-1]))
                 print("\nCreate an array of Key instances -- keys[tweetCount]")
                 # Initiate batch read operation
+                # Exercise 3
                 print("\nInitiate batch read operation");
                 records = self.client.get_many(keys)
                 #Note: get_many() API returns a list of tuples (key, meta, bins)
                 # Output tweets to the console
+                # Exercise 3
                 print("\nOutput tweets to the console");
                 for i in range(1, tweetCount+1):
                     print(records[i-1][2]['tweet'])

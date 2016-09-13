@@ -40,7 +40,8 @@ class Program(object):
     policy = {}
 
     def __init__(self, host, port, namespace, set):
-        #  Establish a connection to Aerospike cluster
+        # Establish a connection to Aerospike cluster
+        # Exercise 2 
         config = {'hosts': [(host,port)],
                   'lua': {'system_path':'/usr/local/aerospike/lua/',
                   'user_path':'/usr/local/aerospike/usr-lua/'}}

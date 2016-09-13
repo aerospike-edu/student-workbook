@@ -40,7 +40,8 @@ class Program(object):
     policy = {}
 
     def __init__(self, host, port, namespace, set):
-        #  Establish a connection to Aerospike cluster
+        # Establish a connection to Aerospike cluster
+        # Exercise 2 
         self.client = aerospike.client({ 'hosts': [ (host, port) ]  }).connect()
         self.seedHost = host
         self.port = port

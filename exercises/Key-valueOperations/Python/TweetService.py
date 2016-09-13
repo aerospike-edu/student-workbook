@@ -26,12 +26,11 @@ import sys
 import time
 from aerospike import predicates as p
 import random
-
 AS_POLICY_W_EXISTS     = "exists"
-AS_POLICY_EXISTS_UNDEF = 0 # Use default value
-AS_POLICY_EXISTS_IGNORE= 1 # Write the record, regardless of existence.
-AS_POLICY_EXISTS_CREATE= 2 # Create a record, ONLY if it doesn't exist.
-AS_POLICY_EXISTS_UPDATE= 3 # Update a record, ONLY if it exist (NOT YET IMPL).
+AS_POLICY_EXISTS_UNDEF = None # Use default value
+AS_POLICY_EXISTS_IGNORE= aerospike.POLICY_EXISTS_IGNORE # Write the record, regardless of existence.
+AS_POLICY_EXISTS_CREATE= aerospike.POLICY_EXISTS_CREATE # Create a record, ONLY if it doesn't exist.
+AS_POLICY_EXISTS_UPDATE= aerospike.POLICY_EXISTS_UPDATE # Update a record, ONLY if it exists
 
 class TweetService(object):
 
@@ -108,8 +107,13 @@ class TweetService(object):
         # Exercise 2
         print("\nTODO: Update tweet count and last tweeted timestamp in the user record")
 
+        # Exercise 6
+        # Update user using updateUserUsingOperate()
+
     def updateUserUsingOperate(self, client, userKey, policy, ts, tweetCount):
         """ operate now supported in Python Client """
+        # User Operate() to set and get tweetcount
+        # Exercise 6
         print("\nINFO: The tweet count now is: ")
 
 
