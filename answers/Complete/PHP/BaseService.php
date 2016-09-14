@@ -105,17 +105,18 @@ abstract class BaseService {
      * @param string $set
      * @param string $bin
      * @param string $index_name
-     * @param int $index_type Aerospike::INDEX_TYPE_STRING or Aerospike::INDEX_TYPE_STRING
+     * @param int $index_type Aerospike::INDEX_TYPE_DEFAULT
+     * @param int $data_type Aerospike::INDEX_STRING
      * @return boolean indicating whether the operation succeeded
      */
-    protected function ensureIndex($ns, $set, $bin, $index_name, $index_type) {
+    protected function ensureIndex($ns, $set, $bin, $index_name, $index_type, $data_type) {
         if ($this->annotate) display_code(__FILE__, __LINE__, 9);
-        $status = $this->client->info("sindex/$ns/$index_name", $response, $this->config);
+        $status = $this->client->info("sindex/$ns/$index_name", $response);
         if ($status !== Aerospike::OK) {
-            $status = $this->client->createIndex($ns, $set, $bin, $index_type, $index_name);
+            $status = $this->client->addIndex($ns, $set, $bin, $index_name, $index_type, $data_type);
             return ($status === Aerospike::OK);
         } else if (strrpos($response, 'NO INDEX') !== false) {
-            $status = $this->client->createIndex($ns, $set, $bin, $index_type, $index_name);
+            $status = $this->client->addIndex($ns, $set, $bin, $index_name, $index_type, $data_type);
             return ($status === Aerospike::OK);
         }
         return true;

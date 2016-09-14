@@ -160,7 +160,7 @@ class TweetService extends BaseService {
     public function queryTweetsByUsername() {
         echo colorize("\nQuery for the user's tweets", 'blue', true)."\n";
         echo colorize("Ensuring there is an index on the username bin of test.tweets ≻", 'black', true);
-        $ok = $this->ensureIndex('test','tweets','username','tweets_username_idx',Aerospike::INDEX_TYPE_STRING);
+        $ok = $this->ensureIndex('test','tweets','username','tweets_username_idx',Aerospike::INDEX_TYPE_DEFAULT, Aerospike::INDEX_STRING);
         if ($ok) echo success();
         else echo fail();
 
@@ -188,7 +188,7 @@ class TweetService extends BaseService {
     public function queryUsersByTweetCount() {
         echo colorize("\nQuery for users by their tweet count", 'blue', true)."\n";
         echo colorize("Ensuring there is an index on the tweetcount bin of test.users ≻", 'black', true);
-        $ok = $this->ensureIndex('test','users','tweetcount','users__idx',Aerospike::INDEX_TYPE_INTEGER);
+        $ok = $this->ensureIndex('test','users','tweetcount','users__idx',Aerospike::INDEX_TYPE_DEFAULT, Aerospike::INDEX_NUMERIC);
         if ($ok) echo success();
         else echo fail();
 
