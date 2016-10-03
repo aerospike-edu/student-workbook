@@ -3,3 +3,4 @@
 **/.classpath
 **/.settings/**
 **/Java/target/**
+*.pyc
