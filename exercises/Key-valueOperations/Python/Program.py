@@ -77,7 +77,7 @@ class Program(object):
         #  Establish connection to Aerospike server
         # TODO: Check to see if the cluster connection succeeded
         # Exercise 1
-        if not True:
+        if not True:   #Hint: Change from True to testing non-null self.client
             print("\nERROR: Connection to Aerospike cluster failed! Please check the server settings and try again!")
         else:
               print("\nINFO: Connection to Aerospike cluster succeeded!\n")

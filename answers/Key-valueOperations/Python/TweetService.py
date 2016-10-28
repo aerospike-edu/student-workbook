@@ -137,7 +137,7 @@ class TweetService(object):
         userRecord = {}
         userRecord['lasttweeted']=ts
         userRecord['tweetcount']=tweetCount
-        client.put(userKey, userRecord)
+        client.put(userKey, userRecord, policy)
         # Exercise 6 
         #self.updateUserUsingOperate(client, userKey, policy, ts, tweetCount)
 
