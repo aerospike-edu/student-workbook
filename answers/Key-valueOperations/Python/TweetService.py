@@ -105,9 +105,10 @@ class TweetService(object):
                 # Exercise 2
                 # We are updating an existing record - UPDATE is default write policy
                 userKey = ('test','users',username)
-                userRecord['lasttweeted']=ts
-                userRecord['tweetcount']=nextTweetCount
+                #userRecord['lasttweeted']=ts
+                #userRecord['tweetcount']=nextTweetCount
                 policy = {'timeout': 300}
+                #client.put(userKey, userRecord, policy)
                 self.updateUser(self.client, userKey, policy, ts, nextTweetCount)
 
             else:
@@ -133,12 +134,12 @@ class TweetService(object):
         # Update tweet count and last tweeted timestamp in the user record
         # Exercise 2  
         print("\nUpdate tweet count and last tweeted timestamp in the user record")
-        #userKey = ('test','users',username)
-        #userRecord['lasttweeted']=ts
-        #userRecord['tweetcount']=tweetCount
-        #client.put(userKey, userRecord)
+        userRecord = {}
+        userRecord['lasttweeted']=ts
+        userRecord['tweetcount']=tweetCount
+        client.put(userKey, userRecord)
         # Exercise 6 
-        self.updateUserUsingOperate(client, userKey, policy, ts, tweetCount)
+        #self.updateUserUsingOperate(client, userKey, policy, ts, tweetCount)
 
     def updateUserUsingOperate(self, client, userKey, policy, ts, tweetCount):
         """ operate now supported in Python Client """
