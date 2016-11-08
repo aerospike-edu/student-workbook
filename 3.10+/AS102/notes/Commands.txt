@@ -1,0 +1,105 @@
+Commands Used:
+
+### 01_Installation ### 
+
+Install server and tools
+cd packages/aerospike
+tar xvf aerospike-enterprise-server.tgz
+cd aerospike-server-enterprise-3.5.15-el6 
+sudo ./asinstall
+
+Start the server
+sudo service aerospike start
+sudo tail -f /var/log/aerospike/aerospike.log 
+grep cake /var/log/aerospike/aerospike.log
+
+Install and start AMC
+cd ..
+sudo rpm -ivh aerospike-enterprise-amc.rpm 
+sudo service amc start 
+
+
+### 03_AQL ### 
+
+INSERT INTO test.testset (PK, company, age) VALUES('myname', 'mycompany', '35')
+
+SELECT * from test.testset where PK='myname'
+
+DELETE FROM test.testset WHERE PK='myname'
+
+show namespaces
+show sets
+show bins
+
+### 04_Planning-Testing ### 
+
+cd /home/aerotraining/packages/aerospike
+tar xvf aerospike-client-java.tgz
+cd aerospike-client-java-3.1.4/benchmarks
+mvn package
+
+./run_benchmarks -h 127.0.0.1 -p 3000 -n test -s testset -k 100000 -latency "7,1" -S 1 -o S:100 -w I -z 8
+
+./run_benchmarks -h 127.0.0.1 -p 3000 -n test -s testset -k 100000 -latency "7,1" -o S:100 -w RU,50 -z 8
+
+./run_benchmarks -h 127.0.0.1 -p 3000 -n test -s testset -k 100000 -latency "7,1" -o S:100 -w RU,95 -z 8
+
+
+### 06_Exercise-Useful-Tools ### 
+
+Configuration:
+
+namespace ns1 {
+        replication-factor 2
+        memory-size 100M
+        default-ttl 30m # 30minutes
+
+        storage-engine device {
+               file /opt/aerospike/data/ns1.dat
+               filesize 1500M  
+			   # write-block-size 1M
+        }
+}
+
+
+asinfo -v 'set-config:context=namespace;id=ns1;default-ttl=1h'
+./run_benchmarks -n ns1 -s testset -k 100000 -S 1 -o S:2048 -w I -z 8
+
+asinfo -v 'set-config:context=namespace;id=ns1;default-ttl=2h'
+./run_benchmarks -n ns1 -s testset -k 100000 -S 100001 -o S:2048 -w I -z 8
+
+asinfo -v 'set-config:context=namespace;id=ns1;default-ttl=3h'
+./run_benchmarks -n ns1 -s testset -k 100000 -S 200001 -o S:2048 -w I -z 8
+
+
+asinfo -v 'hist-dump:ns=ns1;hist=ttl'
+
+asinfo -v 'hist-dump:ns=ns1;hist=objsz'
+
+asinfo -v 'set-config:context=namespace;id=ns1;default-ttl=4h'
+./run_benchmarks -n ns1 -s testset -k 100000 -S 300001 -o S:2048 -w I -z 8
+
+asinfo -v 'hist-dump:ns=ns1;hist=ttl'
+
+asinfo -v 'hist-dump:ns=ns1;hist=evict'
+
+asinfo -v 'hist-dump:ns=ns1;hist=evict'
+
+grep thr_nsup /var/log/aerospike/aerospike.log
+
+asinfo -v 'set-config:context=service;nsup-period=30'
+
+asinfo -v 'set-config:context=namespace;id=ns1;evict-tenths-pct=20'
+
+grep defrag /var/log/aerospike/aerospike.log
+
+./run_benchmarks -n ns1 -s testset -k 400000 -S 1 -o S:2048 -w RU,50 -z 8
+
+asinfo -v 'set-config:context=namespace;id=ns1;defrag-lwm-pct=5'
+
+./run_benchmarks -n ns1 -s testset -k 400000 -S 1 -o S:2048 -w RU,50 -z 8
+
+asinfo -v 'set-config:context=namespace;id=ns1;defrag-lwm-pct=50'
+
+grep cache/var/log/aerospike/aerospike.log
+
