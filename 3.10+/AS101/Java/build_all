@@ -1,0 +1,6 @@
+#Maven Build All
+mvn -f ./KeyValueOperations/ clean package
+mvn -f ./RecordUDF/ clean package
+mvn -f ./Queries/ clean package
+mvn -f ./Aggregations/ clean package
+mvn -f ./solution/ clean package
