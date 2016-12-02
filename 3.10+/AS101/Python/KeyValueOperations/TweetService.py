@@ -228,6 +228,7 @@ class TweetService(object):
     def createTweets(self):
         randomTweets = ["For just $1 you get a half price download of half of the song and listen to it just once.", "People tell me my body looks like a melted candle", "Come on movie! Make it start!", "Byaaaayy", "Please, please, win! Meow, meow, meow!", "Put. A. Bird. On. It.", "A weekend wasted is a weekend well spent", "Would you like to super spike your meal?", "We have a mean no-no-bring-bag up here on aisle two.", "SEEK: See, Every, EVERY, Kind... of spot", "We can order that for you. It will take a year to get there.", "If you are pregnant, have a soda.", "Hear that snap? Hear that clap?", "Follow me and I may follow you", "Which is the best cafe in Portland? Discuss...", "Portland Coffee is for closers!", "Lets get this party started!", "How about them portland blazers!", "You got school'd, yo", "I love animals", "I love my dog", "What's up Portland", "Which is the best cafe in Portland? Discuss...", "I dont always tweet, but when I do it is on Tweetaspike"]
         totalUsers = 1000
+        maxUsers = 10000
         maxTweets = 20
         username = str()
         ts = 0
@@ -236,7 +237,7 @@ class TweetService(object):
         raw_input("..")
         j = 0
         while j < totalUsers:
-            username = "user" + str(random.randint(1,totalUsers))
+            username = "user" + str(random.randint(1,maxUsers))
             userKey = ("test", "users", username)
             meta = None
             policy = None
