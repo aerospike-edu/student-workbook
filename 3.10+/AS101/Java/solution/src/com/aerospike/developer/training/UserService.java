@@ -418,7 +418,7 @@ public class UserService {
         ArrayList<Object> userInterests = null;
         int totalInterests = 0;
 		int start = 1;
-		int end = 100000;
+		int end = 10000;
 		int totalUsers = end - start;
 		Random rnd1 = new Random();
 		Random rnd2 = new Random();

@@ -372,7 +372,8 @@ public class TweetService {
 		Random rnd3 = new Random();
 		Key userKey;
 		Record userRecord;
-		int totalUsers = 10000;
+		int totalUsers = 1000;
+		int maxUsers = 10000;
 		int maxTweets = 20;
 		String username;
 		long ts = 0;
@@ -386,7 +387,7 @@ public class TweetService {
 
 		for (int j = 0; j < totalUsers; j++) {
 			// Check if user record exists
-			username = "user" + rnd3.nextInt(100000);
+			username = "user" + rnd3.nextInt(maxUsers);
 			userKey = new Key("test", "users", username);
 			userRecord = client.get(null, userKey);
 			if (userRecord != null) {
