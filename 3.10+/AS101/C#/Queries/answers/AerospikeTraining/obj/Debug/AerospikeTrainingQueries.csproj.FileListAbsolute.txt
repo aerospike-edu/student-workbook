@@ -1,0 +1,1 @@
+C:\Users\Nikhil\Documents\Aerospike\WorkbookRepo\student-workbook\3.10+\AS101\C#\Queries\answers\AerospikeTraining\bin\Debug\AerospikeTraining.exe.config

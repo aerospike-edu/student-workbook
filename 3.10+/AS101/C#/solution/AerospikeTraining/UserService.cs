@@ -322,6 +322,56 @@ namespace AerospikeTraining
 
         public void aggregateUsersByTweetCountByRegion()
         {
+            ResultSet rs = null;
+            try
+            {
+                int min;
+                int max;
+                Console.WriteLine("\nEnter Min Tweet Count:");
+                min = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter Max Tweet Count:");
+                max = int.Parse(Console.ReadLine());
+
+                // NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. 
+                // NOTE: The recommended way of registering UDFs in production env is via AQL
+                string luaDirectory = @"..\..\udf";
+                LuaConfig.PackagePath = luaDirectory + @"\?.lua";
+
+                string filename = "aggregationByRegion.lua";
+                string path = Path.Combine(luaDirectory, filename);
+
+                RegisterTask rt = client.Register(null, path, filename, Language.LUA);
+                rt.Wait();
+
+                string[] bins = { "tweetcount", "region" };
+                Statement stmt = new Statement();
+                stmt.SetNamespace("test");
+                stmt.SetSetName("users");
+                stmt.SetIndexName("tweetcount_index");
+                stmt.SetBinNames(bins);
+                stmt.SetFilters(Filter.Range("tweetcount", min, max));
+
+                Console.WriteLine("\nAggregating users with " + min + "-" + max + " tweets by region. Hang on...\n");
+
+                rs = client.QueryAggregate(null, stmt, "aggregationByRegion", "sum");
+
+                if (rs.Next())
+                {
+                    Dictionary<object, object> result = (Dictionary<object, object>)rs.Object;
+                    Console.WriteLine("Total Users in North: " + result["n"]);
+                    Console.WriteLine("Total Users in South: " + result["s"]);
+                    Console.WriteLine("Total Users in East: " + result["e"]);
+                    Console.WriteLine("Total Users in West: " + result["w"]);
+                }
+            }
+            finally
+            {
+                if (rs != null)
+                {
+                    // Close record set
+                    rs.Close();
+                }
+            }
         } //aggregateUsersByTweetCountByRegion
 
         public void createUsers()

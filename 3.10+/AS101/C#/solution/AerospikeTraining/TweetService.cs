@@ -170,11 +170,97 @@ namespace AerospikeTraining
         public void queryTweetsByUsername()
         {
             Console.WriteLine("\n********** Query Tweets By Username **********\n");
+            RecordSet rs = null;
+            try
+            {
+                // Get username
+                string username;
+                Console.WriteLine("\nEnter username:");
+                username = Console.ReadLine();
+
+                if (username != null && username.Length > 0)
+                {
+                    // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
+                    // NOTE: The recommended way of creating indexes in production env is via AQL
+                    IndexTask task = client.CreateIndex(null, "test", "tweets", "username_index", "username", IndexType.STRING);
+                    task.Wait();
+
+                    string[] bins = { "tweet" };
+                    Statement stmt = new Statement();
+                    stmt.SetNamespace("test");
+                    stmt.SetSetName("tweets");
+                    stmt.SetIndexName("username_index");
+                    stmt.SetBinNames(bins);
+                    stmt.SetFilters(Filter.Equal("username", username));
+
+                    Console.WriteLine("\nHere's " + username + "'s tweet(s):\n");
+
+                    rs = client.Query(null, stmt);
+                    while (rs.Next())
+                    {
+                        Record r = rs.Record;
+                        Console.WriteLine(r.GetValue("tweet"));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("ERROR: User record not found!");
+                }
+            }
+            finally
+            {
+                if (rs != null)
+                {
+                    // Close record set
+                    rs.Close();
+                }
+            }
         } //queryTweetsByUsername
 
         public void queryUsersByTweetCount()
         {
             Console.WriteLine("\n********** Query Users By Tweet Count Range **********\n");
+            RecordSet rs = null;
+            try
+            {
+                // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
+                // NOTE: The recommended way of creating indexes in production env is via AQL
+                IndexTask task = client.CreateIndex(null, "test", "users", "tweetcount_index", "tweetcount", IndexType.NUMERIC);
+                task.Wait();
+
+                // Get min and max tweet counts
+                int min;
+                int max;
+                Console.WriteLine("\nEnter Min Tweet Count:");
+                min = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter Max Tweet Count:");
+                max = int.Parse(Console.ReadLine());
+
+                string[] bins = { "username", "tweetcount" };
+                Statement stmt = new Statement();
+                stmt.SetNamespace("test");
+                stmt.SetSetName("users");
+                stmt.SetIndexName("tweetcount_index");
+                stmt.SetBinNames(bins);
+                stmt.SetFilters(Filter.Range("tweetcount", min, max));
+
+                Console.WriteLine("\nList of users with " + min + "-" + max + " tweets:\n");
+
+                rs = client.Query(null, stmt);
+                while (rs.Next())
+                {
+                    Record r = rs.Record;
+                    Console.WriteLine(r.GetValue("username") + " has " + r.GetValue("tweetcount") + " tweets");
+                }
+            }
+            finally
+            {
+                if (rs != null)
+                {
+                    // Close record set
+                    rs.Close();
+                }
+            }
         } //queryUsersByTweetCount
 
         public void createTweets()

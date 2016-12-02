@@ -57,6 +57,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="udf\aggregationByRegion.lua" />
     <None Include="udf\updateUserPwd.lua" />
   </ItemGroup>
   <ItemGroup />
