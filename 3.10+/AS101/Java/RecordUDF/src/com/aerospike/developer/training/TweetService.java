@@ -397,7 +397,7 @@ public class TweetService {
 					client.put(wPolicy, tweetKey, bin1, bin2, bin3);
 				}
 				console.printf("\nWrote " + totalTweets + " tweets for "
-						+ username + "!");
+						+ username);
 				if (totalTweets > 0) {
 					// Update tweet count and last tweet'd timestamp in the user
 					// record

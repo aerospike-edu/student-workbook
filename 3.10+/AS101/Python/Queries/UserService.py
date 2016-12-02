@@ -308,7 +308,7 @@ class UserService(object):
         totalInterests = 0
         start = 1
         end = 10000
-        totalUsers = end - start
+        totalUsers = end - start + 1
         wr_policy = {'exists':aerospike.POLICY_EXISTS_IGNORE}
         print("\nCreate " , totalUsers , " users. Press any key to continue...\n")
         raw_input("..")
@@ -329,6 +329,6 @@ class UserService(object):
             print("Wrote user record for " , username , "\n")
             j += 1
         #  Write user record
-        print("\nDone creating " , totalUsers , "!\n")
+        print("\nDone creating " , totalUsers , " users!\n")
 
 

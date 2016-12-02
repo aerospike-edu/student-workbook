@@ -420,7 +420,7 @@ public class UserService {
         int totalInterests = 0;
 		int start = 1;
 		int end = 10000;
-		int totalUsers = end - start;
+		int totalUsers = end - start + 1;
 		Random rnd1 = new Random();
 		Random rnd2 = new Random();
 		Random rnd3 = new Random();
@@ -453,7 +453,7 @@ public class UserService {
 			client.put(wPolicy, key, bin1, bin2, bin3, bin4, bin5, bin6, bin7);
 			console.printf("Wrote user record for " + username + "\n");
 		}
-		console.printf("\nDone creating " + totalUsers + "!\n");
+		console.printf("\nDone creating " + totalUsers + " users!\n");
 	} // createUsers
 
 }

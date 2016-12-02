@@ -269,7 +269,7 @@ class TweetService(object):
                     k += 1
                 #  Create timestamp to store along with the tweet so we can
                 #  query, index and report on it
-                print("\nWrote " , totalTweets , " tweets for " , username , "!")
+                print("\nWrote " , totalTweets , " tweets for " , username)
                 if totalTweets > 0:
                     #  Update tweet count and last tweet'd timestamp in the user
                     #  record
