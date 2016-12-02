@@ -113,7 +113,7 @@ class UserService(object):
             else:
                 print("ERROR: User record not found!\n")
         else:
-            print("ERROR: User record not found!\n")
+            print("ERROR: Invalid user name.\n")
 
     def updatePasswordUsingUDF(self):
         userRecord = None
@@ -158,7 +158,7 @@ class UserService(object):
             else:
                 print("ERROR: User record not found!")
         else:
-            print("ERROR: User record not found!")
+            print("ERROR: Invalid user name.\n")
 
     def updatePasswordUsingCAS(self):
         userRecord = None
@@ -194,7 +194,7 @@ class UserService(object):
             else:
                 print("ERROR: User record not found!")
         else:
-            print("ERROR: User record not found!")
+            print("ERROR: Invalid User name.\n")
 
     def batchGetUserTweets(self):
         userRecord = None

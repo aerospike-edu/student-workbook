@@ -153,7 +153,7 @@ public class UserService {
 			if (userRecord != null) {
 				console.printf("\nINFO: User record read successfully! Here are the details:\n");
 				// TODO: Output user record to the console. 
-				// Remember to convert comma-separated interests into a list before outputting it.
+				// Remember to convert list into comma-separated interests before outputting it.
 			    // Exercise K2
 				console.printf("TODO: Print user record.\n");
 				//console.printf("username:   " + ....					
@@ -166,7 +166,7 @@ public class UserService {
 				console.printf("ERROR: User record not found!\n");
 			}		
 		} else {
-			console.printf("ERROR: User record not found!\n");
+			console.printf("ERROR: Invalid user name.\n");
 		}		
 	} //getUser
 
@@ -221,7 +221,7 @@ public class UserService {
         }
         else
         {
-        	console.printf("ERROR: User record not found!");
+        	console.printf("ERROR: Invalid user name.");
         }
     } //updatePasswordUsingUDF
 	
@@ -270,7 +270,7 @@ public class UserService {
 		}
 		else
 		{
-			console.printf("ERROR: User record not found!");
+			console.printf("ERROR: Invalid user name.");
 		}
     } //updatePasswordUsingCAS
 
@@ -307,7 +307,7 @@ public class UserService {
 				console.printf("\nHere's " + username + "'s tweet(s):\n");
 				
 				// TODO: Initiate batch read operation
-				// Batch read return all records once they have been read.
+				// Batch read returns all records once they have been read.
 				// Null returned for records not found. (We should not have any)
 				// We expect upto max 20 tweets.
 				// Exercise K3
@@ -321,9 +321,15 @@ public class UserService {
 					
 				}
 			}
-		} else {
-			console.printf("ERROR: User record not found!\n");
-		}
+			else
+            {
+            	console.printf("ERROR: User record not found!");
+            }
+        }
+        else
+        {
+        	console.printf("ERROR: Invalid user name.");
+        }
 	} //batchGetUserTweets
 
 	public void aggregateUsersByTweetCountByRegion() throws AerospikeException,

@@ -152,7 +152,7 @@ public class UserService {
 			if (userRecord != null) {
 				console.printf("\nINFO: User record read successfully! Here are the details:\n");
 				// TODO: Output user record to the console. 
-				// Remember to convert comma-separated interests into a list before outputting it.
+				// Remember to convert list into comma-separated interests before outputting it.
 			    // Exercise K2
 				console.printf("username:   " + userRecord.getValue("username")
 						+ "\n");
@@ -166,7 +166,7 @@ public class UserService {
 				console.printf("ERROR: User record not found!\n");
 			}		
 		} else {
-			console.printf("ERROR: User record not found!\n");
+			console.printf("ERROR: Invalid user name.\n");
 		}		
 	} //getUser
 
@@ -222,7 +222,7 @@ public class UserService {
         }
         else
         {
-        	console.printf("ERROR: User record not found!");
+        	console.printf("ERROR: Invalid user name.");
         }
     } //updatePasswordUsingUDF
 	
@@ -268,7 +268,7 @@ public class UserService {
 		}
 		else
 		{
-			console.printf("ERROR: User record not found!");
+			console.printf("ERROR: Invalid user name.");
 		}
     } //updatePasswordUsingCAS
 
@@ -316,9 +316,15 @@ public class UserService {
 					}
 				}
 			}
-		} else {
-			console.printf("ERROR: User record not found!\n");
-		}
+			else
+            {
+            	console.printf("ERROR: User record not found!");
+            }
+        }
+        else
+        {
+        	console.printf("ERROR: Invalid user name.");
+        }
 	} //batchGetUserTweets
 
 	public void aggregateUsersByTweetCountByRegion() throws AerospikeException,
