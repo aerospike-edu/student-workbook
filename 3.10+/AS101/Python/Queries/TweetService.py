@@ -187,7 +187,8 @@ class TweetService(object):
 
             # Create Query and Set equality Filter on username
             # Exercise Q3
-            #TODO: Create tweetQuery = ...           
+            #TODO: Create tweetQuery = ...     
+            #TODO: Select bin(s) you would like to retrieve    
             #TODO: Set tweetQuery equality filter
 
             # Define the Call back to print Tweets for given Username
@@ -216,7 +217,8 @@ class TweetService(object):
             max = int(raw_input("Enter Max Tweet Count: "))
             print("\nList of users with " , min , "-" , max , " tweets:\n")
             
-            #TODO: Create tweetQuery = ...           
+            #TODO: Create tweetQuery = ...  
+            #TODO: Select bin(s) you would like to retrieve        
             #TODO: Set tweetQuery range filter
 
             # Define the Call back to print Tweets for given Username

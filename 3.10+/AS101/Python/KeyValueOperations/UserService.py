@@ -271,7 +271,7 @@ class UserService(object):
             self.client.udf_put(lua_file_name, udf_type, policy)
             time.sleep(5)
             
-            # Create a Secondary Index on tweetcount
+            # Create a Secondary Index on tweetcount. (Same as Exercise Q4)
             # Preferred way to create a Secondary Index is via AQL
             # Exercise A2
             self.client.index_integer_create("test", "users", "tweetcount", "tweetcount_index", None)
@@ -282,6 +282,9 @@ class UserService(object):
             #Create query
             # Exercise A2
             tweetQuery = self.client.query("test", "users")
+            
+            # Select bin(s) you would like to retrieve
+            tweetQuery.select('region', 'tweetcount') 
 
             # Set min--max range Filter on tweetcount
             # Exercise A2

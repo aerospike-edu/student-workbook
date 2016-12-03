@@ -260,7 +260,7 @@ class UserService(object):
             #TODO: Register Stream UDF using udf_put()
             time.sleep(5)
             
-            # Create a Secondary Index on tweetcount
+            # Create a Secondary Index on tweetcount. (Same as Exercise Q4)
             # Preferred way to create a Secondary Index is via AQL
             # Exercise A2
             #TODO: Create NUMERIC index on tweetcount 
@@ -270,7 +270,9 @@ class UserService(object):
 
             #Create query
             # Exercise A2
-            #TODO: Create tweetQuery 
+            #TODO: Create tweetQuery             
+            
+            #TODO: Select bin(s) you would like to retrieve            
 
             # Set min--max range Filter on tweetcount
             # Exercise A2

@@ -328,7 +328,7 @@ public class UserService {
 
 	public void aggregateUsersByTweetCountByRegion() throws AerospikeException,
 			InterruptedException {
-		//TODO: Create NUMERIC index on tweetcount in users set
+		//TODO: Create NUMERIC index on tweetcount in users set (Same as Exercise Q4)
 		//Exercise A2
 		// NOTE: Index creation has been included in here for convenience and to demonstrate the syntax. 
 		// The recommended way of creating indexes in production env is via AQL
@@ -360,7 +360,7 @@ public class UserService {
 			//rt.waitTillComplete(100);
 
 			// TODO: Create String array of bins you would like to retrieve. 
-			// In this example, we want to output which user has how many tweets. 
+			// In this example, we want to output which region has how many tweets. 
 			// Exercise A2
 			console.printf("TODO: Create String array of bins you would like to retrieve.\n");
 			//String[] bins = ....
@@ -395,7 +395,8 @@ public class UserService {
 			console.printf("TODO: Set min--max range Filter on tweetcount on the instance of Statement.\n");
 			
 
-			// TODO: Execute Aggregation query passing in <null> policy and instance of Statement
+			// TODO: Execute Aggregation query passing in <null> policy and instance of Statement,
+			// Lua module and module function to call.
 		    // Exercise A2
 			console.printf("TODO: Execute Aggregation query passing in <null> policy and instance of Statement.\n");
 			
@@ -404,7 +405,7 @@ public class UserService {
 					+ max + " tweets by region. Hang on...\n");
 
 			// TODO: Iterate through returned RecordSet and for each record, 
-			// output text in format "<username> has <#> tweets"
+			// output text in format "Total Users in <region>: <#>"
 		    // Exercise A2
 			console.printf("TODO: Iterate through returned RecordSet and for each record output text in format <username> has <#> tweets.\n");
 			if (rs.next()) {

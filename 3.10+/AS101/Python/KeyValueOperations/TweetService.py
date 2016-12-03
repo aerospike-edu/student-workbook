@@ -176,7 +176,9 @@ class TweetService(object):
 
             # Create Query and Set equality Filter on username
             # Exercise Q3
-            tweetQuery = self.client.query("test", "tweets")            
+            tweetQuery = self.client.query("test", "tweets")
+            # Select bin(s) you would like to retrieve
+            tweetQuery.select('tweet')            
             tweetQuery.where(p.equals('username',username))
 
             # Define the Call back to print Tweets for given Username
@@ -205,7 +207,9 @@ class TweetService(object):
             max = int(raw_input("Enter Max Tweet Count: "))
             print("\nList of users with " , min , "-" , max , " tweets:\n")
             
-            tweetQuery = self.client.query("test", "users")            
+            tweetQuery = self.client.query("test", "users")
+            # Select bin(s) you would like to retrieve
+            tweetQuery.select('username', 'tweetcount')             
             tweetQuery.where(p.between('tweetcount',min,max))
 
             # Define the Call back to print Tweets for given Username
