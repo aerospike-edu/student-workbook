@@ -322,6 +322,14 @@ namespace AerospikeTraining
 
         public void aggregateUsersByTweetCountByRegion()
         {
+            // TODO: Create NUMERIC index on tweetcount in users set (Same as Exercise Q4)
+            // Exercise A2
+            // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
+            // The recommended way of creating indexes in production env is via AQL
+            // or create once using a standalone application.            
+            IndexTask task = client.CreateIndex(null, "test", "users", "tweetcount_index", "tweetcount", IndexType.NUMERIC);
+            task.Wait();
+
             ResultSet rs = null;
             try
             {
@@ -332,8 +340,11 @@ namespace AerospikeTraining
                 Console.WriteLine("Enter Max Tweet Count:");
                 max = int.Parse(Console.ReadLine());
 
+                // TODO: Register UDF
+                // Exercise A2
                 // NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. 
-                // NOTE: The recommended way of registering UDFs in production env is via AQL
+                // The recommended way of registering UDFs in production env is via AQL
+                // or standalone application using code similar to below.
                 string luaDirectory = @"..\..\udf";
                 LuaConfig.PackagePath = luaDirectory + @"\?.lua";
 
@@ -343,20 +354,46 @@ namespace AerospikeTraining
                 RegisterTask rt = client.Register(null, path, filename, Language.LUA);
                 rt.Wait();
 
+                // TODO: Create string array of bins that you would like to retrieve
+                // In this example, we want to display which region has how many tweets.
+                // Exercise A2
                 string[] bins = { "tweetcount", "region" };
+
+                // TODO: Create Statement instance
+                // Exercise A2
                 Statement stmt = new Statement();
+
+                // TODO: Set namespace on the instance of the Statement
+                // Exercise A2
                 stmt.SetNamespace("test");
+
+                // TODO: Set the name of the set on the instance of the Statement
+                // Exercise A2
                 stmt.SetSetName("users");
+
+                // TODO: Set the name of index on the instance of the Statement
+                // Exercise A2
                 stmt.SetIndexName("tweetcount_index");
+
+                // TODO: Set the list of bins to retrieve on the instance of the Statement
+                // Exercise A2
                 stmt.SetBinNames(bins);
+
+                // TODO: Set the range Filter on tweetcount on the instance of the Statement
+                // Exercise A2
                 stmt.SetFilters(Filter.Range("tweetcount", min, max));
 
                 Console.WriteLine("\nAggregating users with " + min + "-" + max + " tweets by region. Hang on...\n");
 
+                // TODO: Execute the Aggregation Query passing null policy and Statement instance, 
+                // Lua Module and module function to call.
+                // Exercise A2
                 rs = client.QueryAggregate(null, stmt, "aggregationByRegion", "sum");
 
                 if (rs.Next())
                 {
+                    // TODO: Iterate through returned RecordSet and output text in format "Total Users in <region>: <#>"
+                    // Exercise A2
                     Dictionary<object, object> result = (Dictionary<object, object>)rs.Object;
                     Console.WriteLine("Total Users in North: " + result["n"]);
                     Console.WriteLine("Total Users in South: " + result["s"]);
@@ -366,6 +403,8 @@ namespace AerospikeTraining
             }
             finally
             {
+                // TODO: Close the RecordSet
+                // Exercise A2
                 if (rs != null)
                 {
                     // Close record set
