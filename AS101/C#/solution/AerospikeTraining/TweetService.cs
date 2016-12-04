@@ -120,16 +120,18 @@ namespace AerospikeTraining
         } //createTweet
 
         private void updateUser(AerospikeClient client, Key userKey, WritePolicy policy, long ts, int tweetCount)
-        {
+        {            
             // TODO: Update tweet count and last tweet'd timestamp in the user record
             // Exercise K2
-            client.Put(policy, userKey, new Bin("tweetcount", tweetCount), new Bin("lasttweeted", ts));
+            Bin bin1 = new Bin("tweetcount", tweetCount);
+            Bin bin2 = new Bin("lasttweeted", ts);
+            client.Put(policy, userKey, bin1, bin2);
             Console.WriteLine("INFO: The tweet count now is: " + tweetCount);
 
             // Exercise K6
             // Comment above code and uncomment call below to updateUserUsingOperate()
             // TODO: Add code in updateUserUsingOperate()
-            //updateUserUsingOperate(client, userKey, policy, ts);
+            // updateUserUsingOperate(client, userKey, policy, ts);
         } //updateUser
 
         private void updateUserUsingOperate(AerospikeClient client, Key userKey, WritePolicy policy, long ts)
