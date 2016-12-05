@@ -74,8 +74,8 @@ namespace AerospikeTraining
             {
                 // TODO: Read user record and check if it exists
                 // Exercise K2
-                userKey = new Key("test", "users", username);
-                userRecord = client.Get(null, userKey);
+                //userKey = ....
+                //userRecord = ...
                 if (userRecord != null)
                 {
                     int nextTweetCount = int.Parse(userRecord.GetValue("tweetcount").ToString()) + 1;
@@ -87,8 +87,9 @@ namespace AerospikeTraining
 
                     // TODO: Create WritePolicy instance
                     // Exercise K2
-                    WritePolicy wPolicy = new WritePolicy();
-                    wPolicy.recordExistsAction = RecordExistsAction.UPDATE;
+                    WritePolicy wPolicy = null;
+                    //wPolicy = ....                    
+                    //wPolicy.recordExistsAction = .....
 
                     // Create timestamp to store along with the tweet so we can query, index and report on it
                     long ts = getTimeStamp();
@@ -96,15 +97,15 @@ namespace AerospikeTraining
                     // TODO: Create Key and Bin instances for the tweet record
                     // Hint: tweet key should be in username:nextTweetCount format
                     // Exercise K2
-                    tweetKey = new Key("test", "tweets", username + ":" + nextTweetCount);
+                    //tweetKey = ...
 
-                    Bin bin1 = new Bin("tweet", tweet);
-                    Bin bin2 = new Bin("ts", ts);
-                    Bin bin3 = new Bin("username", username);
+                    //Bin bin1 = ....
+                    //Bin bin2 = ....
+                    //Bin bin3 = ....
 
                     // TODO: Write tweet record
                     // Exercise K2
-                    client.Put(wPolicy, tweetKey, bin1, bin2, bin3);
+                    //client.Put(....
                     Console.WriteLine("\nINFO: Tweet record created!");
 
                     // TODO: Update tweet count and last tweet'd timestamp in the 
@@ -123,9 +124,9 @@ namespace AerospikeTraining
         {            
             // TODO: Update tweet count and last tweet'd timestamp in the user record
             // Exercise K2
-            Bin bin1 = new Bin("tweetcount", tweetCount);
-            Bin bin2 = new Bin("lasttweeted", ts);
-            client.Put(policy, userKey, bin1, bin2);
+            //Bin bin1 = ....
+            //Bin bin2 = ....
+            //client.Put(....
             Console.WriteLine("INFO: The tweet count now is: " + tweetCount);
 
             // Exercise K6
@@ -140,8 +141,8 @@ namespace AerospikeTraining
             // .Add operation incrementing tweet count, .Put operation updating timestamp
             // and .Get operation to read the user record.
             // Exercise K6
-            Record record = client.Operate(policy, userKey, Operation.Add(new Bin("tweetcount", 1)), Operation.Put(new Bin("lasttweeted", ts)), Operation.Get());
-            
+            Record record = null;
+            // record = client.Operate(policy, userKey, ....
             // TODO: Output the most recent tweetcount
             // Exercise K6
             Console.WriteLine("INFO: The tweet count now is: " + record.GetValue("tweetcount"));
@@ -152,21 +153,22 @@ namespace AerospikeTraining
             // Scan all records
             // TODO: Create ScanPolicy instance with concurrentNodes, LOW priority and includeBinData
             // Exercise K4
-            ScanPolicy policy = new ScanPolicy();
-            policy.concurrentNodes = true;
-            policy.priority = Priority.LOW;
-            policy.includeBinData = true;
+            ScanPolicy policy = null;
+            // policy = ....
+            //policy.concurrentNodes = ....
+            //policy.priority = ....
+            //policy.includeBinData = ....
 
             // TODO: Initiate scan operation that invokes callback for outputting tweets to the console.
             // Exercise K4
-            client.ScanAll(policy, "test", "tweets", scanTweetsCallback, "tweet");
+            //client.ScanAll(....
         } //scanAllTweets
 
         public void scanTweetsCallback(Key key, Record record)
         {
             // TODO: Output the tweet in the record.
             // Exercise K4
-            Console.WriteLine(record.GetValue("tweet"));
+            Console.WriteLine("....");
         } //scanTweetsCallback
 
         public void queryTweetsByUsername()
@@ -174,7 +176,7 @@ namespace AerospikeTraining
             Console.WriteLine("\n********** Query Tweets By Username **********\n");
 
             // TODO: Create STRING index on username in tweets set
-            // Exercise Q3
+            // Exercise Q1
             // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
             // The recommended way of creating indexes in production env is via AQL
             // or create once using a standalone application.
@@ -258,7 +260,7 @@ namespace AerospikeTraining
             Console.WriteLine("\n********** Query Users By Tweet Count Range **********\n");
 
             // TODO: Create NUMERIC index on tweetcount in users set
-            // Exercise Q4
+            // Exercise Q2
             // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
             // The recommended way of creating indexes in production env is via AQL
             // or create once using a standalone application.

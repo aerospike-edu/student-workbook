@@ -327,8 +327,8 @@ namespace AerospikeTraining
             // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
             // The recommended way of creating indexes in production env is via AQL
             // or create once using a standalone application.            
-            IndexTask task = client.CreateIndex(null, "test", "users", "tweetcount_index", "tweetcount", IndexType.NUMERIC);
-            task.Wait();
+            //IndexTask task = client.CreateIndex(....
+            //task.Wait();
 
             ResultSet rs = null;
             try
@@ -345,71 +345,67 @@ namespace AerospikeTraining
                 // NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. 
                 // The recommended way of registering UDFs in production env is via AQL
                 // or standalone application using code similar to below.
-                string luaDirectory = @"..\..\udf";
-                LuaConfig.PackagePath = luaDirectory + @"\?.lua";
+                //string luaDirectory = ....
+                //LuaConfig.PackagePath = ....
 
-                string filename = "aggregationByRegion.lua";
-                string path = Path.Combine(luaDirectory, filename);
+                //string filename = ....
+                //string path = ....
 
-                RegisterTask rt = client.Register(null, path, filename, Language.LUA);
-                rt.Wait();
+                //RegisterTask rt = ....
+                //rt.Wait();
 
                 // TODO: Create string array of bins that you would like to retrieve
                 // In this example, we want to display which region has how many tweets.
                 // Exercise A2
-                string[] bins = { "tweetcount", "region" };
+                //string[] bins = ....
 
                 // TODO: Create Statement instance
                 // Exercise A2
-                Statement stmt = new Statement();
+                //Statement stmt = ....
 
                 // TODO: Set namespace on the instance of the Statement
                 // Exercise A2
-                stmt.SetNamespace("test");
+                //stmt.SetNamespace(....
 
                 // TODO: Set the name of the set on the instance of the Statement
                 // Exercise A2
-                stmt.SetSetName("users");
+                //stmt.SetSetName(....
 
                 // TODO: Set the name of index on the instance of the Statement
                 // Exercise A2
-                stmt.SetIndexName("tweetcount_index");
+                //stmt.SetIndexName(....
 
                 // TODO: Set the list of bins to retrieve on the instance of the Statement
                 // Exercise A2
-                stmt.SetBinNames(bins);
+                //stmt.SetBinNames(....
 
                 // TODO: Set the range Filter on tweetcount on the instance of the Statement
                 // Exercise A2
-                stmt.SetFilters(Filter.Range("tweetcount", min, max));
+                //stmt.SetFilters(....
 
                 Console.WriteLine("\nAggregating users with " + min + "-" + max + " tweets by region. Hang on...\n");
 
                 // TODO: Execute the Aggregation Query passing null policy and Statement instance, 
                 // Lua Module and module function to call.
                 // Exercise A2
-                rs = client.QueryAggregate(null, stmt, "aggregationByRegion", "sum");
+                //rs = client.QueryAggregate(....
 
                 if (rs.Next())
                 {
                     // TODO: Iterate through returned RecordSet and output text in format "Total Users in <region>: <#>"
                     // Exercise A2
                     Dictionary<object, object> result = (Dictionary<object, object>)rs.Object;
-                    Console.WriteLine("Total Users in North: " + result["n"]);
-                    Console.WriteLine("Total Users in South: " + result["s"]);
-                    Console.WriteLine("Total Users in East: " + result["e"]);
-                    Console.WriteLine("Total Users in West: " + result["w"]);
+                    //Console.WriteLine("Total Users in North: " + ....
+                    //Console.WriteLine("Total Users in South: " + ....
+                    //Console.WriteLine("Total Users in East: " + .... 
+                    //Console.WriteLine("Total Users in West: " + .... 
                 }
             }
             finally
             {
                 // TODO: Close the RecordSet
                 // Exercise A2
-                if (rs != null)
-                {
-                    // Close record set
-                    rs.Close();
-                }
+                //....
             }
         } //aggregateUsersByTweetCountByRegion
 

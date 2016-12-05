@@ -174,7 +174,7 @@ namespace AerospikeTraining
             Console.WriteLine("\n********** Query Tweets By Username **********\n");
 
             // TODO: Create STRING index on username in tweets set
-            // Exercise Q3
+            // Exercise Q1
             // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
             // The recommended way of creating indexes in production env is via AQL
             // or create once using a standalone application.
@@ -258,7 +258,7 @@ namespace AerospikeTraining
             Console.WriteLine("\n********** Query Users By Tweet Count Range **********\n");
 
             // TODO: Create NUMERIC index on tweetcount in users set
-            // Exercise Q4
+            // Exercise Q2
             // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
             // The recommended way of creating indexes in production env is via AQL
             // or create once using a standalone application.

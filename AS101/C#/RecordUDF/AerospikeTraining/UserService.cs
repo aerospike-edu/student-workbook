@@ -233,8 +233,8 @@ namespace AerospikeTraining
             {
                 // TODO: Read userRecord and check if it exists
                 // Exercise R2
-                userKey = new Key("test", "users", username);
-                userRecord = client.Get(null, userKey);
+                //userKey = ....
+                //userRecord = ....
                 if (userRecord != null)
                 {
                     //Get new password
@@ -245,21 +245,22 @@ namespace AerospikeTraining
                     // TODO: Update userRecord using UDF                   
                     // Exercise R2
                     // NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. 
-                    // NOTE: The recommended way of registering UDFs in production env is via AQL
+                    // The recommended way of registering UDFs in production env is via AQL
+                    // or standalone application using code similar to below.
                     string luaDirectory = @"..\..\udf";
                     LuaConfig.PackagePath = luaDirectory + @"\?.lua";
-                    string filename = "updateUserPwd.lua";
-                    string path = Path.Combine(luaDirectory, filename);
-                    RegisterTask rt = client.Register(null, path, filename, Language.LUA);
-                    rt.Wait();
+                    //string filename = ....
+                    //string path = ....
+                    //RegisterTask rt = ....
+                    //rt.Wait();
 
                     // TODO: Execute the UDF updatePassword.lua
                     // Exercise R2
-                    string updatedPassword = client.Execute(null, userKey, "updateUserPwd", "updatePassword", Value.Get(password)).ToString();
+                    //string updatedPassword =  ....
                     
                     // TODO: Output the updated passord returned by the UDF
                     // Exercise R2
-                    Console.WriteLine("\nINFO: The password has been set to: " + updatedPassword);
+                    Console.WriteLine("\nINFO: The password has been set to: " + ".... (updatedPassword)");
                 }
                 else
                 {

@@ -99,25 +99,26 @@ namespace AerospikeTraining
 
                 // TODO: Create WritePolicy instance
                 // Exercise K2
-                WritePolicy wPolicy = new WritePolicy();
-                wPolicy.recordExistsAction = RecordExistsAction.UPDATE;
+                WritePolicy wPolicy = null;
+                
+                //wPolicy = ....
+                //wPolicy.recordExistsAction = RecordExistsAction.UPDATE;
 
                 //TODO: Create Key and Bin instances for the user record.
                 //Remeber to conver comma-separated interests into a list before storing it
                 // Exercise K2
-                Key key = new Key("test", "users", username);
-                Bin bin1 = new Bin("username", username);
-                Bin bin2 = new Bin("password", password);
-                Bin bin3 = new Bin("gender", gender);
-                Bin bin4 = new Bin("region", region);
-                Bin bin5 = new Bin("lasttweeted", 0);
-                Bin bin6 = new Bin("tweetcount", 0);
-                Bin bin7 = new Bin("interests", interests.Split(',').ToList<object>());
+                //Key key = ....
+                //Bin bin1 = new Bin("username", ....
+                //Bin bin2 = ....
+                //Bin bin3 = ....
+                //Bin bin4 = ....
+                //Bin bin5 = ....
+                //Bin bin6 = ....
+                //Bin bin7 = new Bin("interests", ....
 
                 // TODO: Write the user record
                 // Exercise K2
-                client.Put(wPolicy, key, bin1, bin2, bin3, bin4, bin5, bin6, bin7);
-
+                //client.Put(....
                 Console.WriteLine("\nINFO: User record created!");
             }
         } //createUser
@@ -136,21 +137,21 @@ namespace AerospikeTraining
             {
                 // TODO: Read userRecord and check if it exists
                 // Exercise K2
-                userKey = new Key("test", "users", username);
-                userRecord = client.Get(null, userKey);
+                //userKey = ....
+                //userRecord = ....
                 if (userRecord != null)
                 {
                     // TODO: Output user record to the console
                     // Remember to convert list into comma-separated interests before outputting it.
                     // Exercise K2
                     Console.WriteLine("\nINFO: User record read successfully! Here are the details:\n");
-                    Console.WriteLine("username:     " + userRecord.GetValue("username"));
-                    Console.WriteLine("password:     " + userRecord.GetValue("password"));
-                    Console.WriteLine("gender:       " + userRecord.GetValue("gender"));
-                    Console.WriteLine("region:       " + userRecord.GetValue("region"));
-                    Console.WriteLine("tweetcount:   " + userRecord.GetValue("tweetcount"));
-                    List<object> interests = (List<object>) userRecord.GetValue("interests");
-                    Console.WriteLine("interests:    " + interests.Aggregate((x, y) => x + "," + y));
+                    Console.WriteLine("username:     " + "....");
+                    Console.WriteLine("password:     " + "....");
+                    Console.WriteLine("gender:       " + "....");
+                    Console.WriteLine("region:       " + "....");
+                    Console.WriteLine("tweetcount:   " + "....");
+                    //List<object> interests = ....
+                    Console.WriteLine("interests:    " + "....");
                 }
                 else
                 {
@@ -177,21 +178,20 @@ namespace AerospikeTraining
             {
                 // TODO: Read userRecord and check if it exists
                 // Exercise K3
-                userKey = new Key("test", "users", username);
-                userRecord = client.Get(null, userKey);
+                //userKey = ....
+                //userRecord = ....
                 if (userRecord != null)
                 {
                     // TODO: Get how many tweets the user has
                     // Exercise K3
-                    int tweetCount = int.Parse(userRecord.GetValue("tweetcount").ToString());
+                    int tweetCount = 0;
+                    //tweetCount = ....
 
                     // TODO: Create an array of tweet keys so we can initiate batch read operation
                     // Exercise K3
+                    // Hint: tweetkey is username:<#> (tweetcount starts at 1)
                     Key[] keys = new Key[tweetCount];
-                    for (int i = 0; i < keys.Length; i++)
-                    {
-                        keys[i] = new Key("test", "tweets", (username + ":" + (i + 1)));
-                    }
+                    //....
 
                     Console.WriteLine("\nHere's " + username + "'s tweet(s):\n");
 
@@ -200,12 +200,13 @@ namespace AerospikeTraining
                     // read. Null is returned for records not found. (We should not have any)
                     // We expect upto max 20 tweets.
                     // Exercise K3
-                    Record[] records = client.Get(null, keys);
+                    Record[] records = null;
+                    //records = ....
                     for (int j = 0; j < records.Length; j++)
                     {
                         // TODO: Output tweets to the console
                         // Exercise K3
-                        Console.WriteLine(records[j].GetValue("tweet"));
+                        Console.WriteLine("....");
                     }
                 }
                 else
@@ -287,8 +288,8 @@ namespace AerospikeTraining
             {
                 // TODO: Read userRecord and check if it exists
                 // Exercise K5
-                userKey = new Key("test", "users", username);
-                userRecord = client.Get(null, userKey);
+                //userKey = ....
+                //userRecord = ....
                 if (userRecord != null)
                 {
                     //Get new password
@@ -299,13 +300,13 @@ namespace AerospikeTraining
                     // TODO: Update userRecord with new password only if generation is the same                    
                     // Exercise K5
                     // Create WritePolicy instance
-                    WritePolicy writePolicy = new WritePolicy();
-                    writePolicy.generation = userRecord.generation;
-                    writePolicy.generationPolicy = GenerationPolicy.EXPECT_GEN_EQUAL;
+                    //WritePolicy writePolicy = ....
+                    //writePolicy.generation = ....
+                    //writePolicy.generationPolicy = ....
                     // password bin
-                    passwordBin = new Bin("password", password);
+                    //passwordBin = ....
                     // update userRecord
-                    client.Put(writePolicy, userKey, passwordBin);
+                    //client.Put(....
 
                     Console.WriteLine("\nINFO: The password has been set to: " + password);
                 }

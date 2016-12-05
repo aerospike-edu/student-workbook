@@ -49,11 +49,12 @@ namespace AerospikeTraining
                 int asServerPort = 3000;
                 // TODO: Establish connection
                 // Exercise K1
-                client = new AerospikeClient(asServerIP, asServerPort);
+                //client = ....
 
                 // TODO: Check to see if the cluster connection succeeded
                 // Exercise K1
-                if (client!= null && client.Connected)
+                // Replace true with appropriate code
+                if (true)
                 {
                     Console.WriteLine("INFO: Connection to Aerospike cluster succeeded!\n");
 
@@ -160,7 +161,7 @@ namespace AerospikeTraining
                 {
                     // TODO: Close Aerospike server connection
                     // Exercise K1
-                    client.Close();
+                    
                 }
                 Console.Write("\n\nINFO: Press any key to exit...");
                 Console.ReadLine();

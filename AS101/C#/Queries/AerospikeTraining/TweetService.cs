@@ -174,12 +174,12 @@ namespace AerospikeTraining
             Console.WriteLine("\n********** Query Tweets By Username **********\n");
 
             // TODO: Create STRING index on username in tweets set
-            // Exercise Q3
+            // Exercise Q1
             // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
             // The recommended way of creating indexes in production env is via AQL
             // or create once using a standalone application.
-            IndexTask task = client.CreateIndex(null, "test", "tweets", "username_index", "username", IndexType.STRING);
-            task.Wait();
+            //IndexTask task = client.CreateIndex(null, "test", "tweets", "username_index", "username", IndexType.STRING);
+            //task.Wait();
 
             RecordSet rs = null;
             try
@@ -195,45 +195,44 @@ namespace AerospikeTraining
                     // In this example, we want to display all tweets for a given user.
                     // Exercise Q3
 
-                    string[] bins = { "tweet" };
+                    //string[] bins = ....
 
                     // TODO: Create Statement instance
                     // Exercise Q3
-                    Statement stmt = new Statement();
+                    //Statement stmt = ....
 
                     // TODO: Set namespace on the instance of the Statement
                     // Exercise Q3
-                    stmt.SetNamespace("test");
+                    //stmt.SetNamespace( ....
 
                     // TODO: Set the name of the set on the instance of the Statement
                     // Exercise Q3
-                    stmt.SetSetName("tweets");
+                    //stmt.SetSetName( ....
 
                     // TODO: Set the name of index on the instance of the Statement
                     // Exercise Q3
-                    stmt.SetIndexName("username_index");
+                    //stmt.SetIndexName( ....
 
                     // TODO: Set the list of bins to retrieve on the instance of the Statement
                     // Exercise Q3
-                    stmt.SetBinNames(bins);
+                    //stmt.SetBinNames( ....
 
                     // TODO: Set the equality Filter on username on the instance of the Statement
                     // Exercise Q3
-                    stmt.SetFilters(Filter.Equal("username", username));
+                    //stmt.SetFilters( ....
 
                     Console.WriteLine("\nHere's " + username + "'s tweet(s):\n");
 
                     // TODO: Execute the Query passing null policy and Statement instance
                     // Exercise Q3
-                    rs = client.Query(null, stmt);
-
+                    //rs = client.Query( ....
 
                     while (rs.Next())
                     {
                         // TODO: Iterate through returned RecordSet and output tweets to the console.
                         // Exercise Q3
-                        Record r = rs.Record;
-                        Console.WriteLine(r.GetValue("tweet"));
+                        //Record r = ....
+                        //Console.WriteLine( ....
                     }
                 }
                 else
@@ -245,11 +244,7 @@ namespace AerospikeTraining
             {
                 // TODO: Close the RecordSet
                 // Exercise Q3
-                if (rs != null)
-                {
-                    // Close record set
-                    rs.Close();
-                }
+                // ....
             }
         } //queryTweetsByUsername
 
@@ -258,12 +253,12 @@ namespace AerospikeTraining
             Console.WriteLine("\n********** Query Users By Tweet Count Range **********\n");
 
             // TODO: Create NUMERIC index on tweetcount in users set
-            // Exercise Q4
+            // Exercise Q2
             // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
             // The recommended way of creating indexes in production env is via AQL
             // or create once using a standalone application.
-            IndexTask task = client.CreateIndex(null, "test", "users", "tweetcount_index", "tweetcount", IndexType.NUMERIC);
-            task.Wait();
+            //IndexTask task = client.CreateIndex(null, "test", "users", "tweetcount_index", "tweetcount", IndexType.NUMERIC);
+            //task.Wait();
 
             RecordSet rs = null;
             try
@@ -279,45 +274,45 @@ namespace AerospikeTraining
                 // TODO: Create string array of bins that you would like to retrieve
                 // In this example, we want to display which user has how many tweets.
                 // Exercise Q4
-                string[] bins = { "username", "tweetcount" };
+                //string[] bins = ....
 
                 // TODO: Create Statement instance
                 // Exercise Q4
-                Statement stmt = new Statement();
+                //Statement stmt = ....
 
                 // TODO: Set namespace on the instance of the Statement
                 // Exercise Q4
-                stmt.SetNamespace("test");
+                //stmt.SetNamespace( ....
 
                 // TODO: Set the name of the set on the instance of the Statement
                 // Exercise Q4
-                stmt.SetSetName("users");
+                //stmt.SetSetName( ....
 
                 // TODO: Set the name of index on the instance of the Statement
                 // Exercise Q4
-                stmt.SetIndexName("tweetcount_index");
+                //stmt.SetIndexName( ....
 
                 // TODO: Set the list of bins to retrieve on the instance of the Statement
                 // Exercise Q4
-                stmt.SetBinNames(bins);
+                //stmt.SetBinNames( ....
 
                 // TODO: Set the range Filter on tweetcount on the instance of the Statement
                 // Exercise Q4
-                stmt.SetFilters(Filter.Range("tweetcount", min, max));
+                //stmt.SetFilters( ....
 
 
                 Console.WriteLine("\nList of users with " + min + "-" + max + " tweets:\n");
 
                 // TODO: Execute the Query passing null policy and Statement instance
                 // Exercise Q4
-                rs = client.Query(null, stmt);
+                //rs = client.Query( ....
 
                 while (rs.Next())
                 {
                     // TODO: Iterate through returned RecordSet and output text in format "<username> has <#> tweets"
                     // Exercise Q4
-                    Record r = rs.Record;
-                    Console.WriteLine(r.GetValue("username") + " has " + r.GetValue("tweetcount") + " tweets");
+                    //Record r =  ....
+                    //Console.WriteLine( .... + " has " +  .... + " tweets");
                 }
             }
             finally
@@ -327,7 +322,7 @@ namespace AerospikeTraining
                 if (rs != null)
                 {
                     // Close record set
-                    rs.Close();
+                    // ....
                 }
             }
         } //queryUsersByTweetCount
