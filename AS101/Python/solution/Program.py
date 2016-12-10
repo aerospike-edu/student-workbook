@@ -47,7 +47,7 @@ class Program(object):
         
         #Exercise K1, Exercise R2, Exercise Q3 & Exercise A2
         #Override with your AWS IP Address
-        host = "54.237.175.53"  
+        #host = "54.237.175.53"  
         
         # Exercise A2
         config = {'hosts': [(host,port)],
