@@ -205,7 +205,7 @@ class TweetService(object):
     def queryUsersByTweetCount(self):
         print("\n********** Query Users By Tweet Count Range **********\n")
         try:
-            # Create a Secondary Index on on tweetcount
+            # Create a Secondary Index on tweetcount
             # Exercise Q4
             #TODO: Create Index type NUMERIC on tweetcount 
             time.sleep(5)

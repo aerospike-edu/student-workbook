@@ -195,7 +195,7 @@ class TweetService(object):
     def queryUsersByTweetCount(self):
         print("\n********** Query Users By Tweet Count Range **********\n")
         try:
-            # Create a Secondary Index on on tweetcount
+            # Create a Secondary Index on tweetcount
             # Exercise Q4
             self.client.index_integer_create("test", "users", "tweetcount", "tweetcount_index", None)
             time.sleep(5)
