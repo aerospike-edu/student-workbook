@@ -179,7 +179,7 @@ class TweetService(object):
         username = raw_input("Enter username: ")
         if len(username) > 0:
           try:
-            # Create a Secondary Index on tweets
+            # Create a Secondary Index on username
             # Exercise Q3
             self.client.index_string_create("test", "tweets", "username", "username_index", None)
             time.sleep(5)
