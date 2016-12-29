@@ -242,7 +242,7 @@ exports.queryTweetsByUsername = function(client, callback)  {
         var query = client.query('test', 'tweets', statement);
         // Execute the query
         // Exercise Q3
-        var stream = query.execute();
+        var stream = query.foreach(null);  //Query Policy = null
         stream.on('data', function(record)  {
           // Handle 'data' event. Print Tweets for given Username
           // Exercise Q3
@@ -311,7 +311,7 @@ exports.queryUsersByTweetCount = function(client, callback)  {
 
     // Execute the query
     // Exercise Q4
-    var stream = query.execute();
+    var stream = query.foreach(null);  //Query Policy = null
 
     // Handle 'data' event returned by the query
     // Exercise Q4
