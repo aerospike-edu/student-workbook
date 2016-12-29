@@ -1,4 +1,5 @@
 function updatePassword(topRec,pwd)
+   -- Exercise R1
    -- TODO: Log current password
    -- TODO: Assign new password to the user record
    -- TODO: Update user record
