@@ -316,7 +316,7 @@ exports.queryUsersByTweetCount = function(client, callback)  {
     // Handle 'data' event returned by the query
     // Exercise Q4
     stream.on('data', function(record)  {
-      console.log(record.username + ' ==> ' + record.tweetcount +' tweets.');
+      console.log(record.username + ' has ' + record.tweetcount +' tweets.');
     });
 
     // Handle 'error' event returned by the query
