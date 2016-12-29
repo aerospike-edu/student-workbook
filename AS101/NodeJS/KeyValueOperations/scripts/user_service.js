@@ -325,7 +325,7 @@ exports.updatePasswordUsingCAS = function(client, callback)  {
          // Exercise K5
           var metadata = {
             gen: meta.gen
-          }
+          };
 
           // Set write Policy parameters
           // Set write policy for gen to be aerospike.policy.gen.EQ
@@ -336,7 +336,7 @@ exports.updatePasswordUsingCAS = function(client, callback)  {
             retry : aerospike.policy.retry.NONE,
             exists : aerospike.policy.exists.IGNORE,
             commitLevel : aerospike.policy.commitLevel.ALL
-          }
+          };
 
           // Set new password in password bin for the user record
           // Exercise K5
