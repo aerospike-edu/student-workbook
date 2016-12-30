@@ -226,37 +226,30 @@ exports.updatePasswordUsingUDF = function(client, callback)  {
 
         // Register UDF
         // Exercise R2
-        client.udfRegister('udf/updateUserPwd.lua', function(err) {
+        //TODO ...client.udfRegister(....
           if ( err == null ) {
             // Create UDF object for record udf execution
             // Exercise R2
-            var UDF = {module:'updateUserPwd', funcname: 'updatePassword', args: [answers.password]};
+            ////TODO ...var UDF =
 
             // We already created the user key
             // Execute Record UDF
             // Exercise R2
-            client.execute(key, UDF, function(err) {
+            //TODO ...client.execute(...
               // Check for errors
-              if ( err == null ) {
-                console.log("INFO: User password updated successfully!");
+              //if ( err == null ) {
+                //TODO ...
                 // Print updated password
                 // Exercise R2
-                client.get(key, (err, rec, meta)=>{
-                  if(err==null){
-                    console.log("Password updated to: "+rec.password)
-                    callback();
-                  }
-                  else {
-                    console.log("ERROR: User password update failed\n", err);
-                    callback();
-                  }
-                });
-              }
-              else {
-                console.log("ERROR: User password update failed\n", err);
-                callback();
-              }
-            });
+                //TODO ...client.get(
+                //TODO ...
+                //});
+              //}
+              //else {
+              //  console.log("ERROR: User password update failed\n", err);
+              //  callback();
+              //}
+            //});
           } else {
             // An error occurred
             console.error("ERROR: updateUserPwd UDF registeration failed:\n", err);

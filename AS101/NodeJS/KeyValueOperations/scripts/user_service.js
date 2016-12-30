@@ -106,37 +106,18 @@ exports.createUser = function(client, callback)	{
       // Create Key object
       // Exercise K2
       var key = {
-        ns:  "test",
-        set: "users",
-        key: answers.username
+        //TODO....
       };
 
       // Create record bins, convert comma-separated interests to List
       // Exercise K2
       var recBins = {
-        username: answers.username,
-        password: answers.password,
-        gender: answers.gender,
-        region: answers.region,
-        lasttweeted: 0,
-        tweetcount: 0,
-        interests: answers.interests.split(",")
+        //TODO....
       };
 
       // Write the user record
       // Exercise K2
-      client.put(key, recBins, function(err, recKey) {
-        // Check for errors
-        // Exercise K2
-        if ( err == null ) {
-          console.log("INFO: User "+ recKey['key'] + " record created!");
-        }
-        else {
-          console.log("ERROR: createUser(): User record not created!");
-          console.log(err);
-        }
-        callback();
-      });
+      //TODO client.put(...
     } else{
       callback();
     }
@@ -163,31 +144,13 @@ exports.getUser = function(client, callback) {
     // Create user key
     // Exercise K2
     var key = {
-      ns:  "test",
-      set: "users",
-      key: answer.username
+      //TODO ...
     };
 
-    client.get(key, function(err, rec, meta) {
-      // Check for errors (ie does the user record exist?)
-      // Exercise K2
-      if ( err == null ) {
-        // Print user info to console in: "<bin>" : value format
-        // Exercise K2
-        console.log("INFO: User record read successfully! Here are the details:");
-        console.log("username:   " + rec.username);
-        console.log("password:   " + rec.password);
-        console.log("gender:     " + rec.gender);
-        console.log("region:     " + rec.region);
-        console.log("tweetcount: " + rec.tweetcount);
-        console.log("lasttweeted: " + rec.lasttweeted);
-        console.log("interests:  " + rec.interests);
-      }
-      else {
-        console.log("ERROR: User record not found!");
-      }
-      callback();
-    });
+    //TODO ...client.get(...
+    // ...
+    // callback();
+    //});
   });
 };
 
@@ -323,40 +286,28 @@ exports.updatePasswordUsingCAS = function(client, callback)  {
 
          // Set generation value to what we just read
          // Exercise K5
-          var metadata = {
-            gen: meta.gen
-          };
+        //TODO ...  var metadata = {...
 
           // Set write Policy parameters
           // Set write policy for gen to be aerospike.policy.gen.EQ
           // Exercise K5
-          var writePolicy = {
-            gen : aerospike.policy.gen.EQ,
-            key : aerospike.policy.key.SEND,
-            retry : aerospike.policy.retry.NONE,
-            exists : aerospike.policy.exists.IGNORE,
-            commitLevel : aerospike.policy.commitLevel.ALL
-          };
+          //TODO ...var writePolicy = {
+          //TODO ...
+          //};
 
           // Set new password in password bin for the user record
           // Exercise K5
           var recordObj = {
-            password: answer2.password
+            //TODO ...
           };
 
           // Write the record update. Handle errors.
           // Exercise K5
-          client.put(key, recordObj, metadata, writePolicy, function(err, recKey) {
+          //TODO ...client.put(...
             // Check for errors
-            if ( err == null ) {
-              console.log("INFO: User password updated successfully!");
-            }
-            else {
-              console.log("ERROR: User password update failed:\n", err);
-            }
-            callback();
-          });
-
+            //TODO ...
+            //callback();
+          //});
         });
 
       }
@@ -393,42 +344,40 @@ exports.batchGetUserTweets = function(client, callback) {
 
     // Read user record
     // Exercise K3
-    client.get(key, function(err, userrecord, meta) {
+    //TODO ...client.get(
       // Check for errors
-      if ( err == null ) {
+      //if ( err == null ) {
 
         // Using total tweets by user, create a set of tweet keys.
         // Note: tweet key string is in the format <username>:<#> where # is 1 through user tweetcount
 
         // Get user tweet count.
         // Exercise K3
-        var tweet_count = userrecord.tweetcount;
+        //TODO ...var tweet_count = ...
 
         // Create a list object to hold tweet key objects.
         var tweet_keys = [];
 
         // Create list of tweet key objects for tweets to retrieve
         // Exercise K3
-        for(var i=1;i<=tweet_count;i++)  {
-          tweet_keys.push({ns: "test", set: "tweets", key: answer.username + ":" + i});
-        }
+        //TODO ...for(var i=1;i<=tweet_count;i++)  {
+        //TODO ...
+        //}
 
         // Batch read tweets
         // Exercise K3
-        client.batchGet(tweet_keys, function (err, results) {
+        //TODO ...client.batchGet(...
           // Check for errors
-          if ( err == null ) {
+          //if ( err == null ) {
             // Print out the tweets retreived
             // Exercise K3
-            for(var j=0;j<results.length;j++)  {
-              console.log(results[j].record.tweet);
-            }
-          }
-          else {
-            console.log("ERROR: Batch Read Tweets For User failed\n", err);
-          }
-          callback();  // Batch read returns all records together
-        });
+            //TODO ...for(var j=0;j<results.length;j++)  {
+            //TODO ...
+            //}
+            //else handle error
+          //TODO ...
+          //callback();  // Batch read returns all records together
+        //});
 
       }
       else {

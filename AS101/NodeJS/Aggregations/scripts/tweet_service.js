@@ -346,7 +346,7 @@ exports.aggregateUsersByTweetCountByRegion = function(client, callback)  {
     // Create a Secondary Index on tweetcount
     // (Skip if you already have the index on Aerospike from Exercise Q4)
     // Exercise A2
-    createIndexOnTweetcount(client);
+    createIndexOnTweetcount(client);  //Look at this function definition further down
 
     // Get min and max tweet counts for range filter
     var questions = [
@@ -370,15 +370,15 @@ exports.aggregateUsersByTweetCountByRegion = function(client, callback)  {
 
       // Register UDF, if successful, prepare the aggregation query and execute it.
       // Exercise A2
-      client.udfRegister('udf/aggregationByRegion.lua', function(err1) {
+      // TODO ...client.udfRegister(...
         if ( err1 == null ) {
           // Prepare query statement - Set range Filter on tweetcount
           // Exercise A2
-          var statement = {filters:[aerospike.filter.range('tweetcount', parseInt(answers.min), parseInt(answers.max))]};
+          // TODO ...var statement = ...
 
           // Create query
           // Exercise A2
-          var query = client.query('test', 'users', statement);
+          // TODO ...var query = ...
 
           //Or you can also use the construct below using 'where' to create the query object:
           //var query = client.query('test', 'users');
@@ -387,21 +387,19 @@ exports.aggregateUsersByTweetCountByRegion = function(client, callback)  {
           // Execute the query, invoking stream Aggregation UDF on the results of the query
           // UDF returns aggregated result
           // Exercise A2
-          query.apply('aggregationByRegion', 'sum', function(err2, result)  {
+          // TODO ...query.apply(...
             if (err2 == null) {
               // Display desired result: "Total Users In <region>: <#>"
               // Exercise A2
-              console.log('Total Users In East:  ', result.e);
-              console.log('Total Users In West:  ', result.w);
-              console.log('Total Users In North: ', result.n);
-              console.log('Total Users In South: ', result.s);
+              // TODO ...console.log('Total Users In East:  ', ...
+              // TODO ...
               callback();
             }
             else {
               console.log('ERROR: Aggregation Based on Tweet Count By Region failed: ',err2);
               callback();
             }
-          });  //query.apply()
+          // TODO ...(uncomment this line) });  //query.apply()
         }
         else {
           // An error occurred

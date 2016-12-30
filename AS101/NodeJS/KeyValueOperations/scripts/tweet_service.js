@@ -87,37 +87,18 @@ exports.createTweet = function(client, callback)	{
           // Create Key and Bin instances for the tweet record.
           // Exercise K2
           var tweet_key = {
-            ns:  "test",
-            set: "tweets",
-            key: userrecord.username + ":" + tweet_count
+            //TODO ...
           };
 
           // Exercise K2
           var recBins = {
-            username: userrecord.username,
-            tweet: answer.tweet,
-            ts: ts
+            //TODO ...
           };
 
           // Exercise K2
-          client.put(tweet_key, recBins, function(err, recKey) {
-            // Check for errors
-            // Exercise K2
-            if ( err == null ) {
-              console.log("INFO: Tweet record created!");
-
-              // Update tweetcount and last tweet'd timestamp in the user record
-              //updateUser(client, user_key, ts, tweet_count, callback);
-              // Exercise K2  - add code to updateUser()
-              updateUser(client, user_key, ts, tweet_count, callback);
-            }
-            else {
-              console.log("ERROR: Tweet record not created!");
-              console.log("",err);
-              callback();
-            }
-
-          });
+          //TODO ...client.put(
+          //    callback(); }
+          //});
 
         });
 
@@ -137,25 +118,16 @@ function updateUser(client, user_key, ts, tweet_count, callback) {
   // Create bins to update
   // Exercise K2
   var bins = {
-    lasttweeted: ts,
-    tweetcount: tweet_count
+    //TODO ...
   };
 
   // Update the record
   // Exercise K2
   //Comment code section below for Exercise K6
-  client.put(user_key, bins, function(err, recKey) {
-    // Check for errors
-    if ( err == null ) {
-      console.log("INFO: User " + recKey['key'] +" record updated!");
-      callback();
-    }
-    else {
-      console.log("ERROR: User record not updated!");
-      console.log(err);
-      callback();
-    }
-  });
+  //TODO ...client.put(
+  //    callback();
+  //  }
+  //});
   // Exercise K6, uncomment line below
   // In Operate, we will use the increment operation, so don't need tweet_count
   //updateUserUsingOperate(client, user_key, ts, callback);
@@ -166,44 +138,36 @@ function updateUserUsingOperate(client, user_key, ts, callback) {
   // User Operate() to set and get tweetcount
   // Exercise K6
   var operator = aerospike.operator;
-  var operations = [operator.incr('tweetcount', 1),operator.write('lasttweeted', ts),operator.read('tweetcount')];
-  client.operate(user_key, operations, function(err, record, metadata, key) {
-    // Check for errors
-    if ( err == null ) {
-      console.log("INFO: (Operate) The tweet count now is: " + record.tweetcount);
-    }
-    else {
-      console.log("ERROR: User record not updated!");
-      console.log(err);
-    }
-    callback();
-  });
+  //TODO ...var operations = [ ...  ];
+  //TODO ...client.operate(
+  //  callback();
+  //});
 }
 
 exports.scanAllTweetsForAllUsers = function(client, callback)  {
   // Initiate scan operation that invokes callback for outputting tweets on the console
   // Exercise K4
-  var query = client.query('test', 'tweets');
-  var stream = query.execute();
+  //TODO ...var query = ...
+  //TODO ...var stream = ...
   // Events returned by the stream are 'data', 'error' or 'end'.
   // Handle each event accordingly
-  stream.on('data', function(record)  {
+  //TODO ...stream.on('data',
     // Handle data event.
     // Exercise K4
-    console.log("("+ record['username'] +"):"+record['tweet']);
-  });
-  stream.on('error', function(err)  {
+    //TODO ...
+  //});
+  //TODO ...stream.on('error',
     // Handle error event.
     // Exercise K4
-    console.log('ERROR: Scan All Tweets For All Users failed: ',err);
-    callback();
-  });
-  stream.on('end', function()  {
+    //TODO ...
+  //  callback();
+  //});
+  //TODO ...stream.on('end',
     // Handle end event.
     // Exercise K4
-    console.log('INFO: Scan All Tweets For All Users completed!');
-    callback();
-  });
+    //TODO ...
+  //  callback();
+  //});
 
 };
 

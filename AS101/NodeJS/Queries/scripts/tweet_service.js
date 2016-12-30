@@ -214,7 +214,7 @@ exports.queryTweetsByUsername = function(client, callback)  {
   // NOTE: The recommended way of creating indexes in production env is via AQL.
   // Create a Secondary Index on username
   // Exercise Q3
-  createIndexOnUsername(client);
+  createIndexOnUsername(client);  //Look at this function definition further down
 
   var question = [
     {
@@ -238,28 +238,28 @@ exports.queryTweetsByUsername = function(client, callback)  {
       if ( err == null ) {
         // Create Query and Set equality Filter on username
         // Exercise Q3
-        var statement = {filters:[aerospike.filter.equal('username', answer.username)]};
-        var query = client.query('test', 'tweets', statement);
+        //TODO ...var statement = ...
+        //TODO ...var query = ...
         // Execute the query
         // Exercise Q3
-        var stream = query.foreach(null);  //Query Policy = null
-        stream.on('data', function(record)  {
+        //TODO ...var stream = ... //Query Policy = null
+        //TODO ...stream.on('data'...
           // Handle 'data' event. Print Tweets for given Username
           // Exercise Q3
-          console.log(record.tweet);
-        });
-        stream.on('error', function(err)  {
+          //TODO ...
+        //});
+        //TODO ...stream.on('error'...
           // Handle 'error' event.
           // Exercise Q3
-          console.log('ERROR: Query Tweets By Username failed: ',err);
-          callback();
-        });
-        stream.on('end', function()  {
+          //TODO ...
+          //callback();
+        //});
+        //TODO ...stream.on('end'..
           // Handle 'end' event.
           // Exercise Q3
-          console.log('INFO: Query Tweets By Username completed!');
-          callback();
-        });
+          //TODO ...
+          //callback();
+        //});
 
       }
       else {
@@ -281,7 +281,7 @@ exports.queryUsersByTweetCount = function(client, callback)  {
 
   // Create a Secondary Index on tweetcount
   // Exercise Q4
-  createIndexOnTweetcount(client);
+  createIndexOnTweetcount(client); //Look at this function definition further down
 
   var questions = [
     {
@@ -299,39 +299,39 @@ exports.queryUsersByTweetCount = function(client, callback)  {
   inquirer.prompt( questions, function( answers ) {
     // Prepare query statement - Set range Filter on tweetcount
     // Exercise Q4
-    var statement = {filters:[aerospike.filter.range('tweetcount', parseInt(answers.min), parseInt(answers.max))]};
+    //TODO ...var statement = ...
 
     // Select bins of interest to retrieve from the query
     // Exercise Q4
-    statement.select = ['username', 'tweetcount'];
+    //TODO ...statement.select = ...
 
     // Create query
     // Exercise Q4
-    var query = client.query('test', 'users', statement);
+    //TODO ...var query = ...
 
     // Execute the query
     // Exercise Q4
-    var stream = query.foreach(null);  //Query Policy = null
+    //TODO ...var stream = ... //Query Policy = null
 
     // Handle 'data' event returned by the query
     // Exercise Q4
-    stream.on('data', function(record)  {
-      console.log(record.username + ' has ' + record.tweetcount +' tweets.');
-    });
+    //TODO ...stream.on('data',
+      //TODO ...
+    //});
 
     // Handle 'error' event returned by the query
     // Exercise Q4
-    stream.on('error', function(err)  {
-      console.log('ERROR: Query Users By Tweet Count Range failed:\n',err);
-      callback();
-    });
+    //TODO ...stream.on('error', ...
+      //TODO ...
+      //callback();
+    //});
 
     // Handle 'end' event returned by the query
     // Exercise Q4
-    stream.on('end', function()  {
-      console.log('INFO: Query Users By Tweet Count Range completed!');
-      callback();
-    });
+    //TODO ...stream.on('end', ...
+      //TODO ...
+      //callback();
+    //});
 
   });
 }
