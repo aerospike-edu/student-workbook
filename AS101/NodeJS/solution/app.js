@@ -31,7 +31,7 @@ var tweet_service = require('./scripts/tweet_service');
 //Exercise K1, Exercise R2, Exercise Q3 & Exercise A2
 var hostaddr = '127.0.0.1';
 //Override with your AWS IP Address
-hostaddr = "54.172.239.132" ;
+hostaddr = "54.xx.yy.zz" ;
 
 // Note: Node.js client does not implement default modlua config for client node.
 // This is needed when using stream udfs.
