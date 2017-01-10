@@ -45,3 +45,7 @@ do
 done
 endmsg
 chmod +x insert_records.sh
+
+#Clone the student-workbook for AS102 exercises
+cd ~
+git clone https://github.com/aerospike-edu/student-workbook.git
