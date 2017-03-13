@@ -1,0 +1,3 @@
+3/12/17
+Moved notes subdirectory from student-workbook repo
+to Deprecated/notes in aerospike-developer-training
