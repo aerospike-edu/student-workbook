@@ -13,13 +13,13 @@ import com.aerospike.client.query.RegexFlag;
 import com.aerospike.client.query.Statement;
 import com.aerospike.client.query.PredExp;
 
-public class ReadContains {
+public class PredicateFilter {
 	AerospikeClient client;
 	WritePolicy writePolicy;
 	QueryPolicy queryPolicy;
 
-	public ReadContains(){
-		client = new AerospikeClient(“33.33.33.10", 3000);
+	public PredicateFilter(){
+		client = new AerospikeClient(null, "127.0.0.1", 3000);
 		writePolicy = new WritePolicy();
 		queryPolicy = new QueryPolicy();
 	}
@@ -37,7 +37,7 @@ public class ReadContains {
 		stmt.setIndexName("city_idx");
         	stmt.setPredExp(
             		PredExp.stringBin("city"),
-            		PredExp.stringValue("US.*SanDiego"),
+            		PredExp.stringValue(".*Diego"),
             		PredExp.stringRegex(RegexFlag.ICASE | RegexFlag.NEWLINE)
             	);
 
@@ -51,7 +51,7 @@ public class ReadContains {
 
 
 	public static void main(String[] args) {
-		ReadContains rc= new ReadContains();
+		PredicateFilter rc= new PredicateFilter();
 		Key key = new Key("test","test",123);
 		Bin bin1 = new Bin("city", "US-SanDiego");
 		Bin bin2 = new Bin("empid", "123456");
