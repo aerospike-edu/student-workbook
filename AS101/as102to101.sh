@@ -4,6 +4,9 @@
 # ---
 
 cd ~
+sudo service aerospike start
+asinfo -v "tip-clear:host-port-list=all"
+asinfo -v 'services-alumni-reset'
 sudo service aerospike stop
 sudo service amc stop
 sudo rm /opt/aerospike/data/*.dat
