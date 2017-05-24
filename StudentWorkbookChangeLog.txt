@@ -1,3 +1,7 @@
+5/24/17
+Added as102to101.sh script for repurposing training instances
+exercises moved to deprecated
+
 3/12/17
 Moved notes subdirectory from student-workbook repo
 to Deprecated/notes in aerospike-developer-training
