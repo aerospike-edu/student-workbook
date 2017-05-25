@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# 
+#
 #  * Copyright 2012-2014 by Aerospike.
 #  *
 #  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,7 +19,7 @@
 #  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 #  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  * IN THE SOFTWARE.
-#  
+#
 from __future__ import print_function
 import aerospike
 from aerospike.exception import *
@@ -29,7 +29,7 @@ import time
 from aerospike import predicates as p
 
 class UserService(object):
-    #client 
+    #client
 
     def __init__(self, client):
         self.client = client
@@ -57,7 +57,7 @@ class UserService(object):
         #   region: 'w',
         #   lasttweeted: 1408574221,
         #   tweetcount: 20,
-        #   interests: ['photography', 'technology', 'dancing', 'house music] 
+        #   interests: ['photography', 'technology', 'dancing', 'house music]
         # }
         # /*********************///
         username = str()
@@ -67,20 +67,20 @@ class UserService(object):
         interests = str()
         # Exercise K2
         #  Get username
-        username = raw_input("Enter username: ") 
+        username = raw_input("Enter username: ")
         record = { "username": username }
         if len(username) > 0:
             #  Get password
-            record['password'] = raw_input("Enter password for " + username + ":") 
+            record['password'] = raw_input("Enter password for " + username + ":")
             #  Get gender
-            record['gender'] = raw_input("Select gender (f or m) for " + username + ":") 
+            record['gender'] = raw_input("Select gender (f or m) for " + username + ":")
             #  Get region
-            record['region'] = raw_input("Select region (north, south, east or west) for " + username + ":") 
+            record['region'] = raw_input("Select region (north, south, east or west) for " + username + ":")
             #  Get interests
             record['interests'] = raw_input("Enter comma-separated interests for " + username + ":").split(',')
             #Initialize tweetcount
             record['tweetcount'] = 0
-            #  Write record            
+            #  Write record
             meta = None
             policy = None
             #Explicitly specify 'exists' policy of IGNORE
@@ -132,21 +132,21 @@ class UserService(object):
             policy = None
             #TODO: Create userKey for username
             #TODO: Read userRecord into a Tuple using userKey
-            if userRecord:                
+            if userRecord:
                 #  Get new password
                 password = (raw_input("Enter new password for " + username + ":"))
 
                 #  Note: Registration via udf_put() will register udfs both on server
                 #  side and local client side in local user_path specified in connection
-                #  configuration. AQL registers udfs with server only. If using AQL, 
+                #  configuration. AQL registers udfs with server only. If using AQL,
                 #  for stream udfs, copy them manually in local client node lua user_path.
 
-                #  NOTE: UDF registration has been included here for convenience 
-                #  and to demonstrate the syntax. 
+                #  NOTE: UDF registration has been included here for convenience
+                #  and to demonstrate the syntax.
                 #  Create a separate script to register udfs only when modified.
 
                 # Exercise R2
-                #TODO: Register UDF 
+                #TODO: Register UDF
                 time.sleep(5)
                 # Execute UDF
                 # Exercise R2
@@ -186,11 +186,11 @@ class UserService(object):
                 meta = {'gen':usergen}
                 try:
                   self.client.put(userKey,record,meta,policy)
+                  print("\nINFO: The password has been set to: " , record["password"])
                 except RecordGenerationError:
                   print("put() failed due to generation policy mismatch")
                 except AerospikeError as e:
-                  print("Error: {0} [{1}]".format(e.msg, e.code))
-                print("\nINFO: The password has been set to: " , record["password"])
+                  print("Error: {0} [{1}]".format(e.msg, e.code))                
             else:
                 print("ERROR: User record not found!")
         else:
@@ -216,8 +216,8 @@ class UserService(object):
                 tweetCount = userRecord['tweetcount']
                 # Exercise K3
                 # Create an array of tweet keys -- keys[tweetCount]
-                keys = []                
-                for i in range(1, tweetCount+1):                    
+                keys = []
+                for i in range(1, tweetCount+1):
                     tweetKey = userRecord['username']+':'+str(i)
                     keys.append(('test', 'tweets', tweetKey))
                 print("\nCreate an array of Key instances -- keys[tweetCount]")
@@ -259,21 +259,21 @@ class UserService(object):
 
             self.client.udf_put(lua_file_name, udf_type, policy)
             time.sleep(5)
-            
+
             # Create a Secondary Index on tweetcount. (Same as Exercise Q4)
             # Preferred way to create a Secondary Index is via AQL
             # Exercise A2
             self.client.index_integer_create("test", "users", "tweetcount", "tweetcount_index", None)
             time.sleep(5)  #give time to build the index
             print("\nNumeric Secondary Index on tweetcount Created ")
-            
+
 
             #Create query
             # Exercise A2
             tweetQuery = self.client.query("test", "users")
-            
+
             # Select bin(s) you would like to retrieve
-            tweetQuery.select('region', 'tweetcount') 
+            tweetQuery.select('region', 'tweetcount')
 
             # Set min--max range Filter on tweetcount
             # Exercise A2
@@ -284,7 +284,7 @@ class UserService(object):
             tweetQuery.apply("aggregationByRegion", "sum")
 
             # Define callback to Output result to the console in format \"Total Users in <region>: <#>\"
-            # Exercise A2            
+            # Exercise A2
             def tweetQueryAggCallback(resultMap):
               print("\nTotal Users in North: ", resultMap['n'],"\n")
               print("\nTotal Users in South: ", resultMap['s'],"\n")
@@ -333,5 +333,3 @@ class UserService(object):
             j += 1
         #  Write user record
         print("\nDone creating " , totalUsers , " users!\n")
-
-
