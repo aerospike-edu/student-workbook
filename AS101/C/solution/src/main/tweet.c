@@ -151,6 +151,7 @@ updateUser(aerospike *as,as_key *key,as_policy_write *wpol,int tc,long ts){
 		return;
 	}
 	printf("\nINFO: User record updated!\n");
+
 	//Exercise K6 - Comment code above and uncomment code below
 	//updateUserUsingOperate(as, key, ts);
 }
@@ -196,7 +197,7 @@ updateUserUsingOperate(aerospike *as,as_key *key,long ts){
 	printf("tweetcount:     %d\n",tweetcount);
 	printf("lasttweeted:     %ld\n",lasttweeted);
 
-	printf("\nINFO: User record updated!\n");
+	printf("\nINFO: User record updated using OPERATE.\n");
 }
 
 void
