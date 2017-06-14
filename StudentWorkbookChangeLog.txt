@@ -1,3 +1,7 @@
+6/14/17
+Java RecordUDF / udf/ updateUserPwd.lua and
+Aggregations/udf/aggregationByRegion.lua was already coded.
+Removed code for student to fill in.
 6/9/17
 Added script (updateTools.sh) to update tools to 3.12.0
 for collectino and Log-analyzer exercises
