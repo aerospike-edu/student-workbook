@@ -11,12 +11,13 @@ sudo service aerospike stop
 sudo service amc stop
 sudo rm /opt/aerospike/data/*.dat
 sudo cp ~/student-workbook/AS101/orig_aerospike.conf /etc/aerospike/aerospike.conf
-git clone https://github.com/aerospike/aerospike-client-python.git
-cd aerospike-client-python
-git fetch
-git checkout -b 2.2.2-ami-fix origin/2.2.2-ami-fix
-git submodule update --init
-sudo python setup.py install
+#git clone https://github.com/aerospike/aerospike-client-python.git
+#cd aerospike-client-python
+#git fetch
+#git checkout -b 2.2.2-ami-fix origin/2.2.2-ami-fix
+#git submodule update --init
+#sudo python setup.py install
+sudo pip install -vvv -U --index-url https://test.pypi.org/simple/ aerospike
 #sudo pip install aerospike -U
 #For Stream UDFs in python client, students working on AWS
 sudo chown aerotraining /usr/local/aerospike/usr-lua
