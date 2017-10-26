@@ -1,3 +1,8 @@
+10/25/17
+xdr scripts added
+10/10/17
+-2 No patch needed, script updated.
+-1 Updated patch in as102to101.sh
 10/3/17
 Temp patch in as102to101.sh for python 2.2.2 client
 6/14/17
