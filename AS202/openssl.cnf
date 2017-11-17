@@ -1,4 +1,3 @@
----Begin---
 #
 # OpenSSL configuration file.
 #
@@ -39,7 +38,7 @@ emailAddress_default               = training@aerospike.com
 localityName_default               = Mountain View
 stateOrProvinceName_default	       = California
 countryName_default		             = US
-commonName_default                 = AeroTraining
+#commonName_default                 = ip-172-x-y-z #Run $ hostname to find it
 
 [ v3_ca ]
 basicConstraints	= CA:TRUE
@@ -50,4 +49,27 @@ authorityKeyIdentifier	= keyid:always,issuer:always
 basicConstraints	= CA:FALSE
 subjectKeyIdentifier	= hash
 
-----End----
+[ ca ]
+default_ca		= CA_default
+
+[ CA_default ]
+serial			= $dir/serial
+database		= $dir/index.txt
+new_certs_dir		= $dir/newcerts
+certificate		= $dir/cacert.pem
+private_key		= $dir/private/cakey.pem
+default_days		= 365
+default_md		= md5
+preserve		= no
+email_in_dn		= no
+nameopt			= default_ca
+certopt			= default_ca
+policy			= policy_match
+
+[ policy_match ]
+countryName		= match
+stateOrProvinceName	= match
+organizationName	= match
+organizationalUnitName	= optional
+commonName		= supplied
+emailAddress		= optional
