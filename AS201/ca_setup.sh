@@ -4,6 +4,8 @@
 # ---
 
 cd ~/student-workbook/AS201
+mkdir ./CA
+cd ./CA
 echo '01'> serial
 touch index.txt
 mkdir private
