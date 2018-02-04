@@ -1,3 +1,5 @@
+2/3/18
+AS201 xdr_aerospike.conf updated. Namespace DC commented out.
 10/25/17
 xdr scripts added
 10/10/17
