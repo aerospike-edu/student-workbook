@@ -1,3 +1,5 @@
+2/16/18
+AS201 XDR Updted openssl.cnf for changed default_md from md5 to sha256
 2/3/18
 AS201 xdr_aerospike.conf updated. Namespace DC commented out.
 10/25/17
