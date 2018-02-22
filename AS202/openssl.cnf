@@ -9,7 +9,7 @@ dir			= .
 [ req ]
 default_bits  	    = 1024			# Size of keys
 default_keyfile     = key.pem		# name of generated keys
-default_md          = md5			# message digest algorithm
+default_md          = sha256		# message digest algorithm
 string_mask         = nombstr		# permitted characters
 distinguished_name  = req_distinguished_name
 req_extensions      = v3_req
@@ -38,7 +38,7 @@ emailAddress_default               = training@aerospike.com
 localityName_default               = Mountain View
 stateOrProvinceName_default	       = California
 countryName_default		             = US
-#commonName_default                 = ip-172-x-y-z #Run $ hostname to find it
+commonName_default                 = xdr-tls 
 
 [ v3_ca ]
 basicConstraints	= CA:TRUE
@@ -59,7 +59,7 @@ new_certs_dir		= $dir/newcerts
 certificate		= $dir/cacert.pem
 private_key		= $dir/private/cakey.pem
 default_days		= 365
-default_md		= md5
+default_md		= sha256
 preserve		= no
 email_in_dn		= no
 nameopt			= default_ca
