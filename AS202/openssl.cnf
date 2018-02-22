@@ -38,7 +38,7 @@ emailAddress_default               = training@aerospike.com
 localityName_default               = Mountain View
 stateOrProvinceName_default	       = California
 countryName_default		             = US
-commonName_default                 = xdr-tls 
+commonName_default                 = aql-tls 
 
 [ v3_ca ]
 basicConstraints	= CA:TRUE
