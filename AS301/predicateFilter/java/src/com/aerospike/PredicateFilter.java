@@ -43,7 +43,7 @@ public class PredicateFilter {
 		stmt.setFilter(Filter.equal("country","USA"));
         	stmt.setPredExp(
             		PredExp.stringBin("city"),
-            		PredExp.stringValue("U.*Diego"),
+            		PredExp.stringValue(".*Diego"),  //prefix-suffix match: prefix.*suffix, ignore case or newline
             		PredExp.stringRegex(RegexFlag.ICASE | RegexFlag.NEWLINE)
             	);
 

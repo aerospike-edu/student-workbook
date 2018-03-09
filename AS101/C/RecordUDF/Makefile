@@ -40,12 +40,20 @@ endif
 
 LDFLAGS = -L/usr/local/lib
 
+ifeq ($(OS),Darwin)
+  LDFLAGS += -L/usr/local/opt/openssl/lib
+endif
+
 ifeq ($(EVENT_LIB),libev)
   LDFLAGS += -lev
 endif
 
 ifeq ($(EVENT_LIB),libuv)
   LDFLAGS += -luv
+endif
+
+ifeq ($(EVENT_LIB),libevent)
+  LDFLAGS += -levent_core -levent_pthreads
 endif
 
 LDFLAGS += -lssl -lcrypto -lpthread
@@ -108,7 +116,9 @@ LDFLAGS += -lm -lz
 
 ifeq ($(OS),Darwin)
   CC = clang
+  LIBDIR = /usr/local/lib
 else
+  LIBDIR = /usr/lib
   CC = gcc
 endif
 
@@ -143,7 +153,7 @@ target/obj/%.o: src/main/%.c | target/obj
 ###target/program: $(addprefix target/obj/,$(OBJECTS)) $(AEROSPIKE)/target/$(PLATFORM)/lib/libaerospike.a | target
 ###	$(CC) -o $@ $^ $(LDFLAGS)
 
-target/program: $(addprefix target/obj/,$(OBJECTS)) /usr/lib/libaerospike.a | target
+target/program: $(addprefix target/obj/,$(OBJECTS)) $(LIBDIR)/libaerospike.a | target
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 .PHONY: run
