@@ -1,4 +1,4 @@
-function xdr_touch(rec)
+function rec_touch(rec)
  -- Update the record without changing the TTL
  record.set_ttl(rec, -2)
  -- UDF requirement: must touch at least one bin to update a record
