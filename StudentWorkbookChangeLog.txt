@@ -1,3 +1,8 @@
+4/14/18
+Update AS301 - added code for create if not exists or increment counter in same lock.
+4/13/18
+Updated AS301 - persistentCounter.py - updated printf statements to match with
+latest python client output.
 3/12/18
 AS201 - added xdr_touch.lua
 3/8/18
