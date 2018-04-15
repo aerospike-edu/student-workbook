@@ -12,20 +12,26 @@ config = { 'hosts': [ ("localhost", 3000), ] }
 client = aerospike.client(config).connect()
 
 #Insert the record containing the counter, create if it does not exist
-key = ("test", "incrementCounter", 'k1')
-client.increment(key, "counter", 1)
+key = ("test", "incTest", 'k1')
+try:
+  client.remove(key) #Delete record - init for this test
+  print("Initialized. (Deleted old test record)")
+except aerospike.exception.RecordNotFound:
+  print("Initialized.")
+client.increment(key, "counter1", 1)
+client.increment(key, "counter2", 1)
 (key,meta,bins) = client.get(key)
-print("First call")
+print("First call: Create counter1, counter2")
 print(bins)
 
-key = ("test", "incrementCounter", 'k1')
-client.increment(key, "counter", 1)
+client.increment(key, "counter1", 1)
+client.increment(key, "counter3", 1)
 (key,meta,bins) = client.get(key)
-print("Second call")
+print("Second call: Increment counter1, create counter3")
 print(bins)
 
-key = ("test", "incrementCounter", 'k1')
-client.increment(key, "counter", 1)
+client.increment(key, "counter1", 1)
+client.increment(key, "counter2", 1)
 (key,meta,bins) = client.get(key)
-print("Third call")
+print("Third call: Increment counter1 & counter2")
 print(bins)
