@@ -1,7 +1,8 @@
 5/11/18
-Update AS101 - Jave, Queries, added try-catch in TweetService.java
-if coding Secondary Index creation in Application to catch error if SI
-already exists.
+Update AS101 - Java, Queries exercise and solution,
+added try-catch in TweetService.java if coding Secondary Index creation
+in Application to catch error if SI already exists.
+AS101/Java/solution/ ....Program.java -- fixed default IP address to 127.0.0.1
 4/18/18
 Update AS301 - added script to setup test namespace.
 4/15/18

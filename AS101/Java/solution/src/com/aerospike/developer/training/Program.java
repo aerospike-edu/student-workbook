@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2012-2016 Aerospike, Inc.
  *
  * Portions may be licensed to Aerospike, Inc. under one or more contributor
@@ -41,13 +41,14 @@ public class Program {
 	public Program()
 			throws AerospikeException {
 		// TODO: Establish a connection to Aerospike cluster
-		// Exercise K1				
+		// Exercise K1
 		//Replace "127.0.0.1" with your AWS instance IP address
-		this.client = new AerospikeClient("54.237.175.53", 3000);		
-		// Note: Scroll down and also see the functions 
+    this.client = new AerospikeClient("127.0.0.1", 3000);
+		//this.client = new AerospikeClient("54.237.175.53", 3000);		
+		// Note: Scroll down and also see the functions
 		// multipleSeedNodes() and connectWithClientPolicy()
 		// for other implementations for establishing a connection.
-		
+
 		//this.writePolicy = new WritePolicy();
 		this.policy = new Policy();
 	}
@@ -99,15 +100,15 @@ public class Program {
 				console.printf("0> Exit\n");
 				console.printf("\nSelect 0-12 and hit enter:\n");
 				int feature = Integer.parseInt(console.readLine());
-				
+
 				if (feature != 0) {
 					switch (feature) {
 					case 1:
 						console.printf("\n********** Your Selection: Create A User **********\n");
-						us.createUser();						
+						us.createUser();
 						break;
 					case 2:
-						console.printf("\n********** Your Selection: Create A Tweet **********\n");						
+						console.printf("\n********** Your Selection: Create A Tweet **********\n");
 						ts.createTweet();
 						break;
 					case 3:
@@ -132,10 +133,10 @@ public class Program {
 						break;
 					case 8:
 						console.printf("\n********** Your Selection: Query Tweets By Username **********\n");
-						ts.queryTweetsByUsername();						
+						ts.queryTweetsByUsername();
 						break;
 					case 9:
-						console.printf("\n********** Your Selection: Query Users By Tweet Count Range **********\n");						
+						console.printf("\n********** Your Selection: Query Users By Tweet Count Range **********\n");
 						ts.queryUsersByTweetCount();
 						break;
 					case 10:
@@ -284,7 +285,7 @@ public class Program {
 		AerospikeClient client = new AerospikeClient(clientPolicy, "a.host", 3000);
 
 	}
-	
+
 	public void deleteBin(String username) throws AerospikeException{
 		// Java delete a bin
 		WritePolicy wPolicy = new WritePolicy();
