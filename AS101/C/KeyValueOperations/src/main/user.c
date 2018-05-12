@@ -264,6 +264,16 @@ updatePasswordUsingCAS(aerospike* as,as_policy_write* wpol){
 					"AEROSPIKE_ERR_RECORD_NOT_FOUND", err.code, err.message);
 			return;
 		}
+
+    // Testing - Extra Credits! To check Generation failure, at this point,
+    // before hitting enter to get the new password in this code,
+    // using AQL from another terminal shell,
+    // change the record so its generation value increments.
+    // For example, if username = "john"
+    // $ aql
+    // aql> INSERT INTO test.users (PK, password) VALUES ("john", "castest")
+    // Then, CAS should fail from this code.
+    
 		printf("Enter new password for %s:",username);
 		scanf("%s",password);
 

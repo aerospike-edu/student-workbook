@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2012-2015 Aerospike, Inc.
  *
  * Portions may be licensed to Aerospike, Inc. under one or more contributor
@@ -66,7 +66,7 @@ public class UserService {
 	            //lasttweeted - int (Stores epoch timestamp of the last/most recent tweet) -- Default to 0
 	            //tweetcount - int (Stores total number of tweets for the user) -- Default to 0
 	            //interests - Array of interests
-	
+
 		    //Sample Key: dash
 		    //Sample Record:
 		        //{ username: 'dash',
@@ -75,7 +75,7 @@ public class UserService {
 		        //  region: 'w',
 		        //  lasttweeted: 1408574221,
 		        //  tweetcount: 20,
-		        //  interests: ['photography', 'technology', 'dancing', 'house music] 
+		        //  interests: ['photography', 'technology', 'dancing', 'house music]
 		        //}
 	    ///*********************///
 
@@ -113,7 +113,7 @@ public class UserService {
             console.printf("TODO: Create WritePolicy instance.\n");
 			WritePolicy wPolicy = null;
 
-			// TODO: Create Key and Bin instances for the user record. 
+			// TODO: Create Key and Bin instances for the user record.
 			// Remember to convert comma-separated interests into a list before storing it.
 		    // Exercise K2
 			console.printf("TODO: Create Key and Bin instances for the user record.\n");
@@ -127,14 +127,14 @@ public class UserService {
 			//Bin bin7 = new Bin(...
 
 			// TODO: Write user record
-		    // Exercise K2			
+		    // Exercise K2
 			console.printf("TODO: Write user record.\n");
 			//client.put(....
 
 			console.printf("\nINFO: User record created!");
 		}
 	} //createUser
-	
+
 	public void getUser() throws AerospikeException {
 		Record userRecord = null;
 		Key userKey = null;
@@ -146,28 +146,28 @@ public class UserService {
 
 		if (username != null && username.length() > 0) {
 			// TODO: Read user record
-		    // Exercise K2			
+		    // Exercise K2
 			console.printf("TODO: Read user record.\n");
-			
+
 			// Check if userRecord exists
 			if (userRecord != null) {
 				console.printf("\nINFO: User record read successfully! Here are the details:\n");
-				// TODO: Output user record to the console. 
+				// TODO: Output user record to the console.
 				// Remember to convert list into comma-separated interests before outputting it.
 			    // Exercise K2
 				console.printf("TODO: Print user record.\n");
-				//console.printf("username:   " + ....					
-				//console.printf("password:   " + ....						
+				//console.printf("username:   " + ....
+				//console.printf("password:   " + ....
 				//console.printf("gender:     " + ....
 				//console.printf("region:     " + ....
 				//console.printf("tweetcount: " + ....
 				//console.printf("interests:  " + ....
 			} else {
 				console.printf("ERROR: User record not found!\n");
-			}		
+			}
 		} else {
 			console.printf("ERROR: Invalid user name.\n");
-		}		
+		}
 	} //getUser
 
     public void updatePasswordUsingUDF() throws AerospikeException
@@ -184,7 +184,7 @@ public class UserService {
         {
             // TODO: Read user record and check if userRecord exists
             // Exercise R2
-        	
+
             userKey = new Key("test", "users", username);
             userRecord = client.get(null, userKey);
             if (userRecord != null)
@@ -196,7 +196,7 @@ public class UserService {
 
                 // TODO: Register UDF
                 // Exercise R2
-                // NOTE: UDF registration has been included here for demonstration of syntax 
+                // NOTE: UDF registration has been included here for demonstration of syntax
                 // The recommended way of registering UDFs in production env is  via AQL
                 // or standalone application routines using code similar to below.
                 LuaConfig.SourceDirectory = "udf";
@@ -209,10 +209,10 @@ public class UserService {
                 // TODO: Execute UDF
                 // Exercise R2
     			String updatedPassword = client.execute(null, userKey, "updateUserPwd", "updatePassword", Value.get(password)).toString();
-                
+
                 // TODO: Output updated password to the console
                 // Exercise R2
-                console.printf("\nINFO: The password has been set to: " + updatedPassword);                
+                console.printf("\nINFO: The password has been set to: " + updatedPassword);
             }
             else
             {
@@ -224,7 +224,7 @@ public class UserService {
         	console.printf("ERROR: Invalid user name.");
         }
     } //updatePasswordUsingUDF
-	
+
     public void updatePasswordUsingCAS() throws AerospikeException
     {
 		Record userRecord = null;
@@ -243,23 +243,32 @@ public class UserService {
 			userRecord = client.get(null, userKey);
 			if (userRecord != null)
 			{
+        // Testing - Extra Credits! To check Generation failure, at this point,
+        // before hitting enter to get the new password in this code,
+        // using AQL from another terminal shell,
+        // change the record so its generation value increments.
+        // For example, if username = "john"
+        // $ aql
+        // aql> INSERT INTO test.users (PK, password) VALUES ("john", "castest")
+        // Then, CAS should fail from this code.
+
 				// Get new password
 				String password;
 				console.printf("Enter new password for " + username + ":");
 				password = console.readLine();
-				
+
 				// TODO: Update User record with new password only if generation is the same
 				// Exercise K5
 				console.printf("TODO: Create WritePolicy instance./n");
-				
+
 				// record generation
 				console.printf("TODO: Set generation policy and value./n");
-				
+
 				// password Bin
 				console.printf("TODO: Create password bin./n");
-				
+
 				console.printf("TODO: Write the record./n");
-				
+
                 //Update (xNOT) message below
 				console.printf("\nINFO: The password has NOT been set to: " + password);
 			}
@@ -286,10 +295,10 @@ public class UserService {
 
 		if (username != null && username.length() > 0) {
 			// TODO: Read user record
-			// Exercise K3	
+			// Exercise K3
 			console.printf("TODO: Read user record.\n");
-			
-			
+
+
 			// Check if userRecord exists
 			if (userRecord != null) {
 				// TODO: Get how many tweets the user has
@@ -299,13 +308,13 @@ public class UserService {
 
 				// TODO: Create an array of tweet keys -- keys[tweetCount]
 				// Exercise K3
-				
+
 				Key[] keys = new Key[tweetCount];
 				console.printf("TODO: Create an array of tweet keys -- keys[tweetCount].\n");
-				
+
 
 				console.printf("\nHere's " + username + "'s tweet(s):\n");
-				
+
 				// TODO: Initiate batch read operation
 				// Batch read returns all records once they have been read.
 				// Null returned for records not found. (We should not have any)
@@ -314,11 +323,11 @@ public class UserService {
 				console.printf("TODO: Initiate batch read operation.\n");
 				if (keys.length > 0){
 					//Record[] records = ....
-										
+
 					// TODO: Output tweets to the console
 					// Exercise K3
 					console.printf("TODO: Output tweets to the console.\n");
-					
+
 				}
 			}
 			else
@@ -336,13 +345,13 @@ public class UserService {
 			InterruptedException {
 		//TODO: Create NUMERIC index on tweetcount in users set (Same as Exercise Q4)
 		//Exercise A2
-		// NOTE: Index creation has been included in here for convenience and to demonstrate the syntax. 
+		// NOTE: Index creation has been included in here for convenience and to demonstrate the syntax.
 		// The recommended way of creating indexes in production env is via AQL
 		// or create once using standalone application code.
 		IndexTask task = client.createIndex(null, "test", "users",
 				"tweetcount_index", "tweetcount", IndexType.NUMERIC);
 		task.waitTillComplete(100);
-		
+
 		ResultSet rs = null;
 		try {
 			int min;
@@ -354,7 +363,7 @@ public class UserService {
 
 			// TODO: Register UDF
             // Exercise A2
-            // NOTE: UDF registration has been included here for demonstration of syntax 
+            // NOTE: UDF registration has been included here for demonstration of syntax
             // The recommended way of registering UDFs in production env is  via AQL
             // or standalone application routines using code similar to below.
             LuaConfig.SourceDirectory = "udf";
@@ -364,31 +373,31 @@ public class UserService {
 					udfFile.getName(), Language.LUA);
 			rt.waitTillComplete(100);
 
-			// TODO: Create String array of bins you would like to retrieve. 
-			// In this example, we want to output which region has how many tweets. 
+			// TODO: Create String array of bins you would like to retrieve.
+			// In this example, we want to output which region has how many tweets.
 			// Exercise A2
 			String[] bins = { "tweetcount", "region" };
-			
+
 			// TODO: Create Statement instance
 			// Exercise A2
 			Statement stmt = new Statement();
-			
+
 			// TODO: Set namespace on the instance of Statement
-		    // Exercise A2			
+		    // Exercise A2
 			stmt.setNamespace("test");
-			
+
 			// TODO: Set name of the set on the instance of Statement
-		    // Exercise A2			
+		    // Exercise A2
 			stmt.setSetName("users");
-			
+
 			// TODO: Set name of the index on the instance of Statement
-		    // Exercise A2			
+		    // Exercise A2
 			stmt.setIndexName("tweetcount_index");
-			
+
 			// TODO: Set list of bins you want retrieved on the instance of Statement
-		    // Exercise A2			
+		    // Exercise A2
 			stmt.setBinNames(bins);
-			
+
 			// TODO: Set min--max range Filter on tweetcount on the instance of Statement
 		    // Exercise A2
 			stmt.setFilters(Filter.range("tweetcount", min, max));
@@ -401,7 +410,7 @@ public class UserService {
 			console.printf("\nAggregating users with " + min + "-"
 					+ max + " tweets by region. Hang on...\n");
 
-			// TODO: Iterate through returned RecordSet and for each record, 
+			// TODO: Iterate through returned RecordSet and for each record,
 			// output text in format "Total Users in <region>: <#>"
 		    // Exercise A2
 			if (rs.next()) {
@@ -414,7 +423,7 @@ public class UserService {
 				console.printf("Total Users in West: " + result.get("w") + "\n");
 			}
 		} finally {
-			// TODO: Close record set 
+			// TODO: Close record set
 			// Exercise A2
 			if (rs != null) {
 				// Close result set
@@ -454,14 +463,14 @@ public class UserService {
 			Bin bin4 = new Bin("region", regions[rnd2.nextInt(4)]);
 			Bin bin5 = new Bin("lasttweeted", 0);
 			Bin bin6 = new Bin("tweetcount", 0);
-			
+
 			totalInterests = rnd3.nextInt(7);
 			userInterests = new ArrayList<Object>();
 			for(int i = 0; i < totalInterests; i++) {
 				userInterests.add(randomInterests[rnd3.nextInt(randomInterests.length)]);
 			}
 			Bin bin7 = new Bin("interests", userInterests);
-			
+
 			client.put(wPolicy, key, bin1, bin2, bin3, bin4, bin5, bin6, bin7);
 			console.printf("Wrote user record for " + username + "\n");
 		}

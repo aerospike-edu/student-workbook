@@ -263,6 +263,15 @@ exports.updatePasswordUsingCAS = function(client, callback)  {
         // Current record generation is in meta.gen.
         //console.log("INFO: Current User record generation count: ", meta.gen);
 
+        // Testing - Extra Credits! To check Generation failure, at this point,
+        // before hitting enter to get the new password in this code,
+        // using AQL from another terminal shell,
+        // change the record so its generation value increments.
+        // For example, if username = "john"
+        // $ aql
+        // aql> INSERT INTO test.users (PK, password) VALUES ("john", "castest")
+        // Then, CAS should fail from this code.
+
         // Get new password
         var question2 = [
           {

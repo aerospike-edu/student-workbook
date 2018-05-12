@@ -181,6 +181,16 @@ class UserService(object):
             (key, metadata,userRecord) = self.client.get(userKey,policy)
             if userRecord:
                 record = {}
+
+                # Testing - Extra Credits! To check Generation failure, at this point,
+                # before hitting enter to get the new password in this code,
+                # using AQL from another terminal shell,
+                # change the record so its generation value increments.
+                # For example, if username = "john"
+                # $ aql
+                # aql> INSERT INTO test.users (PK, password) VALUES ("john", "castest")
+                # Then, CAS should fail from this code.
+        
                 #  Get new password
                 record["password"] = raw_input("Enter new password for " + username + ":")
                 # Exercise K5
@@ -199,7 +209,7 @@ class UserService(object):
                 #TODO: Process RecordGenerationError exception
                   print("put() failed due to generation policy mismatch")
                 except AerospikeError as e:
-                  print("Error: {0} [{1}]".format(e.msg, e.code))                
+                  print("Error: {0} [{1}]".format(e.msg, e.code))
             else:
                 print("ERROR: User record not found!")
         else:

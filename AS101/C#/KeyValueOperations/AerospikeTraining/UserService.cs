@@ -55,7 +55,7 @@ namespace AerospikeTraining
                     //region - string (Valid values are: 'n' (North), 's' (South), 'e' (East), 'w' (West) -- to keep data entry to minimal we just store the first letter)
                     //lasttweeted - Integer (Stores epoch timestamp of the last/most recent tweet) -- Default to 0
                     //tweetcount - Integer (Stores total number of tweets for the user) -- Default to 0
-                    //interests - Array of interests) 
+                    //interests - Array of interests)
 
                 //Sample Key: dash
                 //Sample Record:
@@ -65,7 +65,7 @@ namespace AerospikeTraining
                     //  region: 'w',
                     //  lasttweeted: 1408574221,
                     //  tweetcount: 20,
-                    //  interests: ['photography', 'technology', 'dancing', 'house music] 
+                    //  interests: ['photography', 'technology', 'dancing', 'house music]
                     //}
             ///*********************///
 
@@ -100,7 +100,7 @@ namespace AerospikeTraining
                 // TODO: Create WritePolicy instance
                 // Exercise K2
                 WritePolicy wPolicy = null;
-                
+
                 //wPolicy = ....
                 //wPolicy.recordExistsAction = RecordExistsAction.UPDATE;
 
@@ -196,7 +196,7 @@ namespace AerospikeTraining
                     Console.WriteLine("\nHere's " + username + "'s tweet(s):\n");
 
                     // TODO: Initiate batch read operation
-                    // Note: Batch read returns all records once they have been 
+                    // Note: Batch read returns all records once they have been
                     // read. Null is returned for records not found. (We should not have any)
                     // We expect upto max 20 tweets.
                     // Exercise K3
@@ -223,7 +223,7 @@ namespace AerospikeTraining
         public void updatePasswordUsingUDF()
         {
             Record userRecord = null;
-            Key userKey = null;       
+            Key userKey = null;
 
             // Get username
             string username;
@@ -240,12 +240,12 @@ namespace AerospikeTraining
                 {
                     //Get new password
                     string password;
-                    Console.WriteLine("Enter new password for " + username + ":"); 
+                    Console.WriteLine("Enter new password for " + username + ":");
                     password = Console.ReadLine();
 
-                    // TODO: Update userRecord using UDF                   
+                    // TODO: Update userRecord using UDF
                     // Exercise R2
-                    // NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. 
+                    // NOTE: UDF registration has been included here for convenience and to demonstrate the syntax.
                     // NOTE: The recommended way of registering UDFs in production env is via AQL
                     string luaDirectory = @"..\..\udf";
                     LuaConfig.PackagePath = luaDirectory + @"\?.lua";
@@ -257,7 +257,7 @@ namespace AerospikeTraining
                     // TODO: Execute the UDF updatePassword.lua
                     // Exercise R2
                     string updatedPassword = client.Execute(null, userKey, "updateUserPwd", "updatePassword", Value.Get(password)).ToString();
-                    
+
                     // TODO: Output the updated passord returned by the UDF
                     // Exercise R2
                     Console.WriteLine("\nINFO: The password has been set to: " + updatedPassword);
@@ -292,12 +292,21 @@ namespace AerospikeTraining
                 //userRecord = ....
                 if (userRecord != null)
                 {
+                    // Testing - Extra Credits! To check Generation failure, at this point,
+                    // before hitting enter to get the new password in this code,
+                    // using AQL from another terminal shell,
+                    // change the record so its generation value increments.
+                    // For example, if username = "john"
+                    // $ aql
+                    // aql> INSERT INTO test.users (PK, password) VALUES ("john", "castest")
+                    // Then, CAS should fail from this code.
+                    
                     //Get new password
                     string password;
                     Console.WriteLine("Enter new password for " + username + ":");
                     password = Console.ReadLine();
 
-                    // TODO: Update userRecord with new password only if generation is the same                    
+                    // TODO: Update userRecord with new password only if generation is the same
                     // Exercise K5
                     // Create WritePolicy instance
                     //WritePolicy writePolicy = ....
@@ -327,7 +336,7 @@ namespace AerospikeTraining
             // Exercise A2
             // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
             // The recommended way of creating indexes in production env is via AQL
-            // or create once using a standalone application.            
+            // or create once using a standalone application.
             IndexTask task = client.CreateIndex(null, "test", "users", "tweetcount_index", "tweetcount", IndexType.NUMERIC);
             task.Wait();
 
@@ -343,7 +352,7 @@ namespace AerospikeTraining
 
                 // TODO: Register UDF
                 // Exercise A2
-                // NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. 
+                // NOTE: UDF registration has been included here for convenience and to demonstrate the syntax.
                 // The recommended way of registering UDFs in production env is via AQL
                 // or standalone application using code similar to below.
                 string luaDirectory = @"..\..\udf";
@@ -386,7 +395,7 @@ namespace AerospikeTraining
 
                 Console.WriteLine("\nAggregating users with " + min + "-" + max + " tweets by region. Hang on...\n");
 
-                // TODO: Execute the Aggregation Query passing null policy and Statement instance, 
+                // TODO: Execute the Aggregation Query passing null policy and Statement instance,
                 // Lua Module and module function to call.
                 // Exercise A2
                 rs = client.QueryAggregate(null, stmt, "aggregationByRegion", "sum");
@@ -428,7 +437,7 @@ namespace AerospikeTraining
             int totalUsers = end - start + 1;
             Random rnd1 = new Random();
             Random rnd2 = new Random();
-            Random rnd3 = new Random(); 
+            Random rnd3 = new Random();
 
             WritePolicy wPolicy = new WritePolicy();
             wPolicy.recordExistsAction = RecordExistsAction.UPDATE;
