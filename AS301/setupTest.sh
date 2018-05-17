@@ -1,6 +1,7 @@
 #!/bin/bash
 # ------------------------------
-# Setup for Cache Example
+# Setup test namespace
+# Clear cache example files, if any
 # ---
 
 cd ~

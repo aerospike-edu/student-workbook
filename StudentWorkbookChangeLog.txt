@@ -1,3 +1,5 @@
+5/17/18
+Fixed comments in AS301, setupTest.sh script
 5/11/18
 Update AS101 - Java, Queries exercise and solution,
 added try-catch in TweetService.java if coding Secondary Index creation
