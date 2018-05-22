@@ -32,12 +32,15 @@ function setupAerospike {
 	echo "    }" >> /etc/aerospike/aerospike.conf
 	echo "}" >> /etc/aerospike/aerospike.conf
 
+	echo "service {" >> /etc/aerospike/aerospike.conf
+	echo "node-id-interface eth2" >> /etc/aerospike/aerospike.conf
+	echo "}" >> /etc/aerospike/aerospike.conf
+
 	echo "network {" >> /etc/aerospike/aerospike.conf
 	echo "	service {" >> /etc/aerospike/aerospike.conf
 	echo "		address any" >> /etc/aerospike/aerospike.conf
 	echo "		port 3000" >> /etc/aerospike/aerospike.conf
 	echo "		access-address ${IP_PREFIX}${NODE} virtual" >> /etc/aerospike/aerospike.conf
-	echo "		network-interface-name eth2" >> /etc/aerospike/aerospike.conf
 	echo "		}" >> /etc/aerospike/aerospike.conf
 	echo "	heartbeat {" >> /etc/aerospike/aerospike.conf
 	echo "		mode mesh" >> /etc/aerospike/aerospike.conf
