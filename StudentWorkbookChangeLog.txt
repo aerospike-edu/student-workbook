@@ -1,5 +1,7 @@
+6/15/18
+Java/Aggregations/UDF  aggregationByRegion.lua last function was missing end statement, added.
 5/24/18
-AS301 - pom's revised for predicateFilter and fixedSizeList, smallRecords 
+AS301 - pom's revised for predicateFilter and fixedSizeList, smallRecords
 example code added.
 5/17/18
 Fixed comments in AS301, setupTest.sh script
