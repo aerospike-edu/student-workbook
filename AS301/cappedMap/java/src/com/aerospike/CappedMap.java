@@ -34,12 +34,6 @@ public class CappedMap {
 	}
 	public static void main(String[] args) {
 		AerospikeClient client = new AerospikeClient("127.0.0.1", 3000);
-
-		Key key = new Key("test", "testMap", "user1");
-		WritePolicy policy = new WritePolicy();
-		policy.recordExistsAction = RecordExistsAction.UPDATE;
-		
-	        MapPolicy mPolicy = new MapPolicy();	
                 int retVal = 0;
 		for (int i = 1; i < 30; i++) {
                   i = insert(client, i);
