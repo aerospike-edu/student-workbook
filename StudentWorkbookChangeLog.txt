@@ -1,4 +1,6 @@
 6/15/18
+AS301 - added Capped Map example code.
+6/15/18
 Java/Aggregations/UDF  aggregationByRegion.lua last function was missing end statement, added.
 5/24/18
 <<<<<<< HEAD
