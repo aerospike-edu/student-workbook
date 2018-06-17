@@ -35,7 +35,7 @@ public class CappedMap {
 	public static void main(String[] args) {
 		AerospikeClient client = new AerospikeClient("127.0.0.1", 3000);
                 int retVal = 0;
-		for (int i = 1; i < 30; i++) {
+		for (int i = 0; i < 30; i++) {
                   i = insert(client, i);
 		}
 		client.close();
