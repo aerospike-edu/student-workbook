@@ -1,3 +1,5 @@
+6/19/18
+Added setup directory with script and readme to update instance to java8
 6/15/18
 AS301 - added Capped Map example code and setup script.
 6/15/18
