@@ -8,6 +8,7 @@ import com.aerospike.client.Bin;
 import com.aerospike.client.Key;
 import com.aerospike.client.Value;
 import com.aerospike.client.cdt.MapOperation;
+import com.aerospike.client.cdt.MapReturnType;
 import com.aerospike.client.policy.RecordExistsAction;
 import com.aerospike.client.policy.WritePolicy;
 import com.aerospike.client.cdt.MapPolicy;
@@ -19,12 +20,15 @@ public class CappedMap {
                 int retVal=0;
                 try {
 		        client.operate(null, key, 
+                        //MapOperation.removeByIndexRange("myMap",-10,10,MapReturnType.INVERTED), 
+                        // INVERTED introduced in server version 3.16.0.1
                         MapOperation.put(mPolicy, "myMap", Value.get(i), 
                         Value.get("A quick brown fox jumps right over a lazy dog") ));
                  } 
                  catch (AerospikeException e) {
-                   //System.out.println("Error Code: "+e.getResultCode());
+                   System.out.println("Error Code: "+e.getResultCode());
                    if(e.getResultCode() == 13){
+                        System.out.println("Remove index 0 and retry");
 		        client.operate(null, key, 
                         MapOperation.removeByIndex("myMap", 0, retVal));  
                         --i; //Insert again
@@ -35,7 +39,8 @@ public class CappedMap {
 	public static void main(String[] args) {
 		AerospikeClient client = new AerospikeClient("127.0.0.1", 3000);
                 int retVal = 0;
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 123; i++) {
+                  System.out.println("Inserting k = "+i);
                   i = insert(client, i);
 		}
 		client.close();
