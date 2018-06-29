@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+6/28/18
+FixedSizeList.java updated for alternate to trim()
 6/26/18
 AS301 CappedMap.java - added code for version 3.16.0.1+ to
 use bounded maps using INVERTED flag.
