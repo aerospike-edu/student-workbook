@@ -8,14 +8,18 @@ import com.aerospike.client.Bin;
 import com.aerospike.client.Key;
 import com.aerospike.client.Value;
 import com.aerospike.client.cdt.ListOperation;
+import com.aerospike.client.cdt.ListReturnType;
 import com.aerospike.client.policy.RecordExistsAction;
 import com.aerospike.client.policy.WritePolicy;
 
 public class FixedSizeList {
 	public static void insert(AerospikeClient client, String value) {
 		Key key = new Key("test", "testList", "id1234");
-		client.operate(null, key, ListOperation.insert("myList",0, Value.get(value)),
-				ListOperation.trim("myList", 0, 20));
+		client.operate(null, key, 
+                        ListOperation.insert("myList",0, Value.get(value)),
+			ListOperation.trim("myList", 0, 20)
+			//ListOperation.removeByIndexRange("myList", 0, 20, ListReturnType.INVERTED)
+                              );
 		
 
 	}
