@@ -1,6 +1,7 @@
 StudentWorkbook Change Log
 7/3/18
 AddToList updated.
+ScanOperateList.java added - using List Operations in a scan callback.
 7/2/18
 SetOrderList.java example added.
 OperateOrdered.java example added for ListOperations
