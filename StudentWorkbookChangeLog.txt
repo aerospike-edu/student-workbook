@@ -1,5 +1,6 @@
 StudentWorkbook Change Log
 7/2/18
+OperateOrdered.java example added for ListOperations
 AddToList.java example added.
 6/28/18
 SortList.java example added.
