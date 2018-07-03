@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>aerospike.com</groupId>
-  <artifactId>as301-operateOrdered</artifactId>
+  <artifactId>as301-setOrderList</artifactId>
   <version>1.0</version>
   <packaging>jar</packaging>
 
@@ -44,7 +44,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.aerospike.OperateOrdered</mainClass>
+							<mainClass>com.aerospike.SetOrderList</mainClass>
 						</manifest>
 					</archive>
 					<finalName>${project.artifactId}-${project.version}-full</finalName>
