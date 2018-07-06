@@ -1,5 +1,6 @@
 StudentWorkbook Change Log
 7/5/18
+Added AddToMap.java exercise for Map Operations.
 Move setup related scripts in setup subdir.
 7/3/18
 AddToList updated.
