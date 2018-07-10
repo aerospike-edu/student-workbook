@@ -1,6 +1,7 @@
 StudentWorkbook Change Log
 7/9/18
 MapAPIs.java and MapBasedCounter.java added to AS301.
+ListAPIs.java added to show getByValue() and getByValueList().
 7/5/18
 Added AddToMap.java exercise for Map Operations.
 Move setup related scripts in setup subdir.
