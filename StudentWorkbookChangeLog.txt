@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+7/16/18
+AddToList.java updated.
 7/9/18
 MapAPIs.java and MapBasedCounter.java added to AS301.
 ListAPIs.java added to show getByValue() and getByValueList().
