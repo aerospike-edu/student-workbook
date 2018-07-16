@@ -49,7 +49,7 @@ public class AddToList {
                           ListOperation.append(lPolicy, "myList", Value.get(value))
                         );
                 } else {
-		client.operate(null, key,   //Extra Credit B) Comment out setOrder and retry. 
+		client.operate(null, key,   //Extra Credit B) Comment next line, setOrder(), and retry. 
                           ListOperation.setOrder("myList", ListOrder.ORDERED), 
                           ListOperation.append("myList", Value.get(value))
                          );
@@ -58,7 +58,7 @@ public class AddToList {
 	public static void appendOrdered_insertUnordered(AerospikeClient client, int value) {
 		Key key = new Key("test", "s1", 4);  //Record 1
                 ListPolicy lPolicy = new ListPolicy(ListOrder.ORDERED, ListWriteFlags.DEFAULT); 
-                if(value == 10){  //First item, idenitfy List Order. Extra Credit A) Try changing 10 to 11!
+                if(value == 10){  //First item sets List Order as ORDERD.
 		client.operate(null, key, 
                           ListOperation.append(lPolicy, "myList", Value.get(value))
                         );
