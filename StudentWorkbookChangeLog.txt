@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+8/14/18
+Added c_or_u.lua to AS101
 7/16/18
 AddToList.java updated.
 7/9/18
