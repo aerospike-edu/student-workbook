@@ -29,8 +29,7 @@ public class MapAPIs {
 	public static void main(String[] args) {
 		AerospikeClient client = new AerospikeClient("127.0.0.1", 3000);
 
-	        //Insert 3 records, key1 for UNORDERED, key2 for KEY_ORDERED 
-                //and key3 for KEY_VALUE_ORDERED	
+	        //Insert 3 records, with MapPolicy KEY_ORDERED 
 
 		Key key1 = new Key("test", "s1", 1);
 		Key key2 = new Key("test", "s1", 2);
@@ -112,7 +111,7 @@ public class MapAPIs {
                   MapOperation.getByKey("myMap", Value.get("cv6"), MapReturnType.VALUE)
                );
 
-               List<?> retList = (ArrayList)rec.getList("myMap");
+               List<?> retList = (ArrayList<?>)rec.getList("myMap");
                System.out.println("\nKey2, MultiOps inc cv1:21 by 5 = "+ retList.get(0));
                System.out.println("\nKey2, MultiOps inc cv3:23 by 5 = "+ retList.get(1));
                System.out.println("\nKey2, MultiOps dec cv1:26 by 2 = "+ retList.get(2));
