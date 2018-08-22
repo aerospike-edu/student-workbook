@@ -57,7 +57,7 @@ public class OperateOrderedList {
 		val = (Long)list.get(1);	
                 System.out.println("Return val on size - list.get(1)="+ val);
 		
-		List<?> lval = (ArrayList)list.get(2);
+		List<?> lval = (ArrayList<?>)list.get(2);
                 System.out.println("Return ArrayList on getByRankRange - list.get(2)="+ lval);
 		
 
