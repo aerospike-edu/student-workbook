@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+9/5/18
+AS103 - SC Mode course hands-on material 
 8/29/18
 AS301 ListTimeSeries.java example added.
 8/22/18
