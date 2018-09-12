@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+9/12/18
+AS103 - SC Mode handson finalized.
 9/5/18
 AS103 - SC Mode course hands-on material 
 8/29/18
