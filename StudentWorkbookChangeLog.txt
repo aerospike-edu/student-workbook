@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+11/13/18
+AS102 - Quiesce Exercise Development
 9/12/18
 AS103 - SC Mode handson finalized.
 9/5/18
