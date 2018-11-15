@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+11/15/18
+AS102 - Was Quiesce --> Rename all to AllFlash for 11/13/18 changes.
 11/13/18
 AS102 - Quiesce Exercise Development
 9/12/18
