@@ -1,4 +1,7 @@
 StudentWorkbook Change Log
+2/12/19
+intro and af sub-dirs created for Intro and Advanced Features.
+af/scripts updated.
 11/15/18
 AS102 - Was Quiesce --> Rename all to AllFlash for 11/13/18 changes.
 11/13/18
