@@ -10,7 +10,7 @@ sudo wget http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-mave
 sudo tar xzf apache-maven-3.5.4-bin.tar.gz
 sudo ln -s apache-maven-3.5.4 maven
 sudo cp ~/student-workbook/intro/maven.sh /etc/profile.d/maven.sh
-source /etc/profile/maven.sh
+source /etc/profile.d/maven.sh
 wget -O aerospike-client-java.tgz  http://www.aerospike.com/download/client/java/latest/artifact/tgz
 cd ~/packages/aerospike
 tar xvf aerospike-client-java.tgz
