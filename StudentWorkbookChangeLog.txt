@@ -1,5 +1,7 @@
 StudentWorkbook Change Log
-i2/20/19
+02/21/19
+setup scripts updated
+02/20/19
 ops scripts and subdir created for new Admin and Ops course.
 2/12/19
 intro and af sub-dirs created for Intro and Advanced Features.
