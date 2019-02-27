@@ -386,7 +386,7 @@ public class UserService {
 			
 			// TODO: Set min--max range Filter on tweetcount on the instance of Statement
 		    // Exercise A2
-			stmt.setFilters(Filter.range("tweetcount", min, max));
+			stmt.setFilter(Filter.range("tweetcount", min, max));
 
 			// TODO: Execute Aggregation query passing in <null> policy and instance of Statement,
 			// Lua module and module function to call.
