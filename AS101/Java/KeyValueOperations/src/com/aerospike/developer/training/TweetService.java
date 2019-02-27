@@ -233,7 +233,7 @@ public class TweetService {
 				
 				// TODO: Set equality Filter on username on the instance of Statement
 			    // Exercise Q3				
-				stmt.setFilters(Filter.equal("username", username));
+				stmt.setFilter(Filter.equal("username", username));
 				
 				// TODO: Execute query passing in <null> policy and instance of Statement
 				// Exercise Q3
@@ -309,7 +309,7 @@ public class TweetService {
 			
 			// TODO: Set min--max range Filter on tweetcount on the instance of Statement
 		    // Exercise Q4
-			stmt.setFilters(Filter.range("tweetcount", min, max));
+			stmt.setFilter(Filter.range("tweetcount", min, max));
 
 			// TODO: Execute query passing in <null> policy and instance of Statement
 		    // Exercise Q4
