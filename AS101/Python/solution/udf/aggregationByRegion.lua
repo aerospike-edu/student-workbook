@@ -1,16 +1,16 @@
-local function aggregate_stats(mapObj,rec)
+local function aggregate_stats(map,rec)
   -- Examine value of 'region' bin in record rec and increment respective counter in the map
   if rec.region == 'n' then
-      mapObj['n'] = mapObj['n'] + 1
+      map['n'] = map['n'] + 1
   elseif rec.region == 's' then
-      mapObj['s'] = mapObj['s'] + 1
+      map['s'] = map['s'] + 1
   elseif rec.region == 'e' then
-      mapObj['e'] = mapObj['e'] + 1
+      map['e'] = map['e'] + 1
   elseif rec.region == 'w' then
-      mapObj['w'] = mapObj['w'] + 1
+      map['w'] = map['w'] + 1
   end
-  -- return updated mapObj
-  return mapObj
+  -- return updated map
+  return map
 end
 
 local function reduce_stats(a,b)

@@ -1,5 +1,0 @@
-eclipse.preferences.version=1
-projectPrefs.auto_unit_test.enable=false
-projectPrefs.auto_unit_test.max_time=5000
-projectPrefs.auto_unit_test.regex=TestAuto[A-Za-z0-9_]*
-projectPrefs.build_extra_options=-gcflags "-N -l"

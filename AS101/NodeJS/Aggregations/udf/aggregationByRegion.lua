@@ -1,11 +1,11 @@
-local function aggregate_stats(mapObj,rec)
+local function aggregate_stats(map,rec)
   -- Exercise A1
   -- NOTE: rec will include 'region' bin of type string and the valid values are 'n', 's', 'e', 'w'
   -- rec is aerospike lua record type. It has various methods available to
   -- get the digest and the metadata as well as update the record.
-  -- mapObj is what we passed to aggregate_stats as an aerospike lua map type.
-  -- TODO: Examine value of 'region' bin in record rec and increment respective counter in the mapObj
-  -- TODO: return updated mapObj
+  -- map is what we passed to aggregate_stats as an aerospike lua map type.
+  -- TODO: Examine value of 'region' bin in record rec and increment respective counter in the map
+  -- TODO: return updated map
 end
 
 local function reduce_stats(a,b)

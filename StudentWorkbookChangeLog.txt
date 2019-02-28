@@ -1,4 +1,7 @@
 StudentWorkbook Change Log
+2/27/19
+Fix code for setFilter() ... setFilters() was deprecated.
+aggregationByRegion.lua -- change mapObj to map to match lad pdfs.
 02/21/19
 setup scripts updated
 02/20/19
