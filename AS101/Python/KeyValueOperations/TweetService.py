@@ -170,9 +170,9 @@ class TweetService(object):
           try:
             # Create a Secondary Index on username
             # Exercise Q3
-            self.client.index_string_create("test", "tweets", "username", "username_index", None)
-            time.sleep(5)
-            print("\nString Secondary Index Created ")
+            #self.client.index_string_create("test", "tweets", "username", "username_index", None)
+            #time.sleep(5)
+            #print("\nString Secondary Index Created ")
 
             # Create Query and Set equality Filter on username
             # Exercise Q3
@@ -197,9 +197,9 @@ class TweetService(object):
         try:
             # Create a Secondary Index on tweetcount
             # Exercise Q4
-            self.client.index_integer_create("test", "users", "tweetcount", "tweetcount_index", None)
-            time.sleep(5)
-            print("\nInteger Secondary Index Created ")
+            #self.client.index_integer_create("test", "users", "tweetcount", "tweetcount_index", None)
+            #time.sleep(5)
+            #print("\nInteger Secondary Index Created ")
 
             # Create Query and Set min--max range Filter on tweetcount
             # Exercise Q4

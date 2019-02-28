@@ -194,15 +194,16 @@ public class TweetService {
 		//TODO: Create STRING index on username in tweets set
 		//Exercise Q3
 		// NOTE: Index creation has been included in here for convenience and to demonstrate the syntax.
-	    // The recommended way of creating indexes in production env is via AQL
+	        // The recommended way of creating indexes in production env is via AQL
 		// or create once using standalone application code.
+                // Do Index creation within try-catch. If index already exists, indexCreate() will error out.
 		try {
-      IndexTask task = client.createIndex(null, "test", "tweets",
+                  IndexTask task = client.createIndex(null, "test", "tweets",
 				"username_index", "username", IndexType.STRING);
-        task.waitTillComplete(100);
-    } catch (Exception e) {
-        System.out.printf(e.toString());
-    }
+                  task.waitTillComplete(100);
+                } catch (Exception e) {
+                  System.out.printf(e.toString());
+                }
 		RecordSet rs = null;
 		try {
 			// Get username
@@ -271,14 +272,14 @@ public class TweetService {
 		// NOTE: Index creation has been included in here for convenience and to demonstrate the syntax.
 		// The recommended way of creating indexes in production env is via AQL
 		// or create once using standalone application code.
-    // Do Index creation within try-catch. If index already exists, indexCreate() will error out.
+                // Do Index creation within try-catch. If index already exists, indexCreate() will error out.
 		try {
-    		IndexTask task = client.createIndex(null, "test", "users",
+    		  IndexTask task = client.createIndex(null, "test", "users",
 				"tweetcount_index", "tweetcount", IndexType.NUMERIC);
-        task.waitTillComplete(100);
-    } catch (Exception e) {
-        System.out.printf(e.toString());
-    }
+                  task.waitTillComplete(100);
+                } catch (Exception e) {
+                   System.out.printf(e.toString());
+                }
 		RecordSet rs = null;
 		try {
 			// Get min and max tweet counts

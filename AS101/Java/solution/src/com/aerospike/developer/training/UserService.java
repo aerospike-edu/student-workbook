@@ -333,10 +333,14 @@ public class UserService {
 		// NOTE: Index creation has been included in here for convenience and to demonstrate the syntax. 
 		// The recommended way of creating indexes in production env is via AQL
 		// or create once using standalone application code.
-		IndexTask task = client.createIndex(null, "test", "users",
+	        // Do Index creation within try-catch. If index already exists, indexCreate() will error out.
+		try {
+		  IndexTask task = client.createIndex(null, "test", "users",
 				"tweetcount_index", "tweetcount", IndexType.NUMERIC);
-		task.waitTillComplete(100);
-		
+		  task.waitTillComplete(100);
+		} catch (Exception e) {
+		   System.out.printf(e.toString());
+		}	
 		ResultSet rs = null;
 		try {
 			int min;

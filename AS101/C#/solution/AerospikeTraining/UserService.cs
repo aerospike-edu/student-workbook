@@ -327,8 +327,8 @@ namespace AerospikeTraining
             // NOTE: Index creation has been included in here for convenience and to demonstrate the syntax
             // The recommended way of creating indexes in production env is via AQL
             // or create once using a standalone application.            
-            IndexTask task = client.CreateIndex(null, "test", "users", "tweetcount_index", "tweetcount", IndexType.NUMERIC);
-            task.Wait();
+            //IndexTask task = client.CreateIndex(null, "test", "users", "tweetcount_index", "tweetcount", IndexType.NUMERIC);
+            //task.Wait();
 
             ResultSet rs = null;
             try

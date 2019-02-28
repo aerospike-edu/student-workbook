@@ -284,9 +284,9 @@ class UserService(object):
             # Create a Secondary Index on tweetcount. (Same as Exercise Q4)
             # Preferred way to create a Secondary Index is via AQL
             # Exercise A2
-            self.client.index_integer_create("test", "users", "tweetcount", "tweetcount_index", None)
-            time.sleep(5)  #give time to build the index
-            print("\nNumeric Secondary Index on tweetcount Created ")
+            #self.client.index_integer_create("test", "users", "tweetcount", "tweetcount_index", None)
+            #time.sleep(5)  #give time to build the index
+            #print("\nNumeric Secondary Index on tweetcount Created ")
 
 
             #Create query

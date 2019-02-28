@@ -2,6 +2,9 @@ StudentWorkbook Change Log
 2/27/19
 Fix code for setFilter() ... setFilters() was deprecated.
 aggregationByRegion.lua -- change mapObj to map to match lad pdfs.
+Fix C#, Java and Python lab code for SI creation. Creating SI 
+again now bombs. In Java, added exception, in Python and C# have
+students create index via AQL, code commented.
 02/21/19
 setup scripts updated
 02/20/19
