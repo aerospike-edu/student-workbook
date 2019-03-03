@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+3/3/19
+Added sc sub-dir for Strong Consistency Mode module.
 2/27/19
 Fix code for setFilter() ... setFilters() was deprecated.
 aggregationByRegion.lua -- change mapObj to map to match lad pdfs.
