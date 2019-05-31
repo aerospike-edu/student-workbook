@@ -1,0 +1,26 @@
+[aerotraining@ip-172-31-31-28 ops2]$ asadm -e info
+Seed:        [('127.0.0.1', 3000, None)]
+Config_file: /home/aerotraining/.aerospike/astools.conf, /etc/aerospike/astools.conf
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Network Information (2019-05-31 05:18:28 UTC)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                             Node               Node                   Ip       Build   Cluster   Migrations        Cluster     Cluster         Principal   Client     Uptime   
+                                                .                 Id                    .           .      Size            .            Key   Integrity                 .    Conns          .   
+ip-172-31-17-250.ap-south-1.compute.internal:3000   *BB99CD81DB90A02   172.31.17.250:3000   E-4.5.3.2         2      0.000     176CBF4FC061   True        BB99CD81DB90A02        2   00:22:38   
+ip-172-31-31-28.ap-south-1.compute.internal:3000    BB95E259FF03202    172.31.31.28:3000    E-4.5.3.2         2      0.000     176CBF4FC061   True        BB99CD81DB90A02        2   00:22:36   
+Number of rows: 2
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Namespace Usage Information (2019-05-31 05:18:28 UTC)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Namespace                                                Node     Total   Expirations,Evictions     Stop        Disk    Disk     HWM   Avail%          Mem     Mem    HWM      Stop      PI          PI      PI     PI   
+        .                                                   .   Records                       .   Writes        Used   Used%   Disk%        .         Used   Used%   Mem%   Writes%    Type        Used   Used%   HWM%   
+ns1         ip-172-31-17-250.ap-south-1.compute.internal:3000   1.000 K   (0.000,  0.000)         false    28.671 MB   2       50      97        62.500 KB   1       60     90        shmem   62.500 KB   N/E     N/E    
+ns1         ip-172-31-31-28.ap-south-1.compute.internal:3000    1.000 K   (0.000,  0.000)         false    28.671 MB   2       50      97        62.500 KB   1       60     90        shmem   62.500 KB   N/E     N/E    
+ns1                                                             2.000 K   (0.000,  0.000)                  57.343 MB                            125.000 KB                                     0.000 B                   
+Number of rows: 3
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Namespace Object Information (2019-05-31 05:18:28 UTC)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Namespace                                                Node     Total     Repl                         Objects                   Tombstones             Pending   Rack   
+        .                                                   .   Records   Factor      (Master,Prole,Non-Replica)   (Master,Prole,Non-Replica)            Migrates     ID   
+        .                                                   .         .        .                               .                            .             (tx,rx)      .   
+ns1         ip-172-31-17-250.ap-south-1.compute.internal:3000   1.000 K   2        (513.000,  487.000,  0.000)     (0.000,  0.000,  0.000)      (0.000,  0.000)     0      
+ns1         ip-172-31-31-28.ap-south-1.compute.internal:3000    1.000 K   2        (487.000,  513.000,  0.000)     (0.000,  0.000,  0.000)      (0.000,  0.000)     0      
+ns1                                                             2.000 K            (1.000 K, 1.000 K, 0.000)       (0.000,  0.000,  0.000)      (0.000,  0.000)            
+Number of rows: 3
