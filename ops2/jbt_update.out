@@ -1,0 +1,30 @@
+[aerotraining@ip-172-31-50-28 ops2]$ ./update.sh 
+Benchmark: 52.66.212.176 3000, namespace: ns1, set: testset, threads: 8, workload: READ_UPDATE
+read: 50% (all bins: 100%, single bin: 0%), write: 50% (all bins: 100%, single bin: 0%)
+keys: 10000, start key: 1, transactions: 0, bins: 1, random values: false, throughput: unlimited
+read policy:
+    socketTimeout: 30000, totalTimeout: 0, timeoutDelay: 0, maxRetries: 2, sleepBetweenRetries: 0
+    readModeAP: ONE, readModeSC: SESSION, replica: SEQUENCE, reportNotFound: false
+write policy:
+    socketTimeout: 30000, totalTimeout: 0, timeoutDelay: 0, maxRetries: 0, sleepBetweenRetries: 0
+    commitLevel: COMMIT_ALL
+Sync: connPoolsPerNode: 1
+bin[0]: string[30000]
+debug: false
+2019-05-31 04:34:27.435 INFO Thread main Add node BB95E259FF03202 52.66.212.176 3000
+2019-05-31 04:34:28.359 INFO Thread main Add node BB99CD81DB90A02 13.232.231.62 3000
+2019-05-31 04:34:30.197 write(tps=2 timeouts=0 errors=0) read(tps=9 timeouts=0 errors=0) total(tps=11 timeouts=0 errors=0)
+2019-05-31 04:34:31.197 write(tps=15 timeouts=0 errors=0) read(tps=16 timeouts=0 errors=0) total(tps=31 timeouts=0 errors=0)
+2019-05-31 04:34:32.198 write(tps=15 timeouts=0 errors=0) read(tps=20 timeouts=0 errors=0) total(tps=35 timeouts=0 errors=0)
+2019-05-31 04:34:33.198 write(tps=18 timeouts=0 errors=0) read(tps=22 timeouts=0 errors=0) total(tps=40 timeouts=0 errors=0)
+2019-05-31 04:34:34.199 write(tps=13 timeouts=0 errors=0) read(tps=17 timeouts=0 errors=0) total(tps=30 timeouts=0 errors=0)
+2019-05-31 04:34:35.199 write(tps=16 timeouts=0 errors=0) read(tps=22 timeouts=0 errors=0) total(tps=38 timeouts=0 errors=0)
+2019-05-31 04:34:36.200 write(tps=16 timeouts=0 errors=0) read(tps=21 timeouts=0 errors=0) total(tps=37 timeouts=0 errors=0)
+2019-05-31 04:34:37.200 write(tps=21 timeouts=0 errors=0) read(tps=21 timeouts=0 errors=0) total(tps=42 timeouts=0 errors=0)
+2019-05-31 04:34:38.200 write(tps=20 timeouts=0 errors=0) read(tps=15 timeouts=0 errors=0) total(tps=35 timeouts=0 errors=0)
+...
+...
+...
+2019-05-31 04:35:29.220 write(tps=20 timeouts=0 errors=0) read(tps=22 timeouts=0 errors=0) total(tps=42 timeouts=0 errors=0)
+2019-05-31 04:35:30.221 write(tps=17 timeouts=0 errors=0) read(tps=22 timeouts=0 errors=0) total(tps=39 timeouts=0 errors=0)
+^C[aerotraining@ip-172-31-50-28 ops2]$ 

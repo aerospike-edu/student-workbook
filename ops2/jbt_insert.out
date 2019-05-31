@@ -1,0 +1,27 @@
+[aerotraining@ip-172-31-50-28 ops2]$ ./insert.sh 
+Benchmark: 52.66.212.176 3000, namespace: ns1, set: testset, threads: 8, workload: INITIALIZE
+keys: 10000, start key: 1, transactions: 0, bins: 1, random values: false, throughput: unlimited
+write policy:
+    socketTimeout: 30000, totalTimeout: 0, timeoutDelay: 0, maxRetries: 0, sleepBetweenRetries: 0
+    commitLevel: COMMIT_ALL
+Sync: connPoolsPerNode: 1
+bin[0]: string[30000]
+debug: false
+2019-05-31 04:29:51.827 INFO Thread main Add node BB95E259FF03202 52.66.212.176 3000
+2019-05-31 04:29:52.747 INFO Thread main Add node BB99CD81DB90A02 13.232.231.62 3000
+2019-05-31 04:29:54.571 write(count=15 tps=15 timeouts=0 errors=0)
+2019-05-31 04:29:55.572 write(count=57 tps=42 timeouts=0 errors=0)
+2019-05-31 04:29:56.572 write(count=95 tps=38 timeouts=0 errors=0)
+2019-05-31 04:29:57.573 write(count=140 tps=45 timeouts=0 errors=0)
+2019-05-31 04:29:58.573 write(count=176 tps=36 timeouts=0 errors=0)
+2019-05-31 04:29:59.573 write(count=223 tps=47 timeouts=0 errors=0)
+2019-05-31 04:30:00.574 write(count=260 tps=37 timeouts=0 errors=0)
+....
+
+....
+
+2019-05-31 04:34:02.659 write(count=9996 tps=4 timeouts=0 errors=0)
+2019-05-31 04:34:03.660 write(count=10000 tps=4 timeouts=0 errors=0)
+2019-05-31 04:34:04.662 INFO Thread tend Remove node BB95E259FF03202 52.66.212.176 3000
+2019-05-31 04:34:04.662 INFO Thread tend Remove node BB99CD81DB90A02 13.232.231.62 3000
+

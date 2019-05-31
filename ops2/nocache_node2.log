@@ -1,0 +1,411 @@
+May 31 2019 04:46:53 GMT: INFO (as): (as.c:317) <><><><><><><><><><>  Aerospike Enterprise Edition build 4.5.3.2  <><><><><><><><><><>
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) # Aerospike database configuration file.
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) service {
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	user root
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	group root
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	paxos-single-replica-limit 1 # Number of nodes where the replica count is automatically reduced to 1.
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	pidfile /var/run/aerospike/asd.pid
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	service-threads 4
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	transaction-queues 4
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	transaction-threads-per-queue 4
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	proto-fd-max 15000
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) }
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) logging {
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	# Log file must be an absolute path.
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	file /var/log/aerospike/aerospike.log {
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 		context any info
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	}
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) }
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) network {
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	service {
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 		address any
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)                 access-address 13.232.231.62
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 		port 3000
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	}
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	heartbeat {
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)     mode mesh
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)     port 3002
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)     address any
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)     # To form a cluster, add Private IP of a node on AWS
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)     # You can add multiple entries for mesh-seed-address-port
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 		mesh-seed-address-port 172.31.31.28 3002
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 		interval 150
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 		timeout 10
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	}
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	fabric {
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 		port 3001
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	}
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	info {
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 		port 3003
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	}
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) }
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) #Note - space before { bracket. Important to have the space.
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) namespace ns1 {
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	replication-factor 2
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	memory-size 100M
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 	default-ttl 30m # 30 minutes
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) 
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)         storage-engine device {
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)   		file /opt/aerospike/data/ns1.dat
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)   		filesize 1500M
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)                 write-block-size 64K  # 1M is the default
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)                 direct-files true
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)   		data-in-memory false # Store data in memory in addition to file? false is also default.
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050)   	}
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4050) }
+May 31 2019 04:46:53 GMT: INFO (config): (features_ee.c:135) no feature key (/etc/aerospike/features.conf)
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4073) system file descriptor limit: 100000, proto-fd-max: 15000
+May 31 2019 04:46:53 GMT: INFO (hardware): (hardware.c:1990) detected 1 CPU(s), 1 core(s), 1 NUMA node(s)
+May 31 2019 04:46:53 GMT: INFO (socket): (socket.c:2879) Node port 3001, node ID bb99cd81db90a02
+May 31 2019 04:46:53 GMT: INFO (config): (cfg.c:4116) node-id bb99cd81db90a02
+May 31 2019 04:46:53 GMT: INFO (smd): (smd.c:2320) no file '/opt/aerospike/smd/evict.smd' - starting empty
+May 31 2019 04:46:53 GMT: INFO (drv_ssd): (drv_ssd_ee.c:836) {ns1} peek couldn't open file /opt/aerospike/data/ns1.dat: No such file or directory
+May 31 2019 04:46:53 GMT: INFO (namespace): (namespace_ee.c:269) {ns1} found no stored data, will cold start
+May 31 2019 04:46:54 GMT: INFO (namespace): (namespace_ee.c:377) {ns1} beginning cold start
+May 31 2019 04:46:54 GMT: INFO (smd): (smd.c:2320) no file '/opt/aerospike/smd/roster.smd' - starting empty
+May 31 2019 04:46:54 GMT: INFO (smd): (smd.c:2320) no file '/opt/aerospike/smd/truncate.smd' - starting empty
+May 31 2019 04:46:54 GMT: INFO (smd): (smd.c:2320) no file '/opt/aerospike/smd/sindex.smd' - starting empty
+May 31 2019 04:46:54 GMT: INFO (drv_ssd): (drv_ssd.c:3297) opened file /opt/aerospike/data/ns1.dat: usable size 1572864000
+May 31 2019 04:46:54 GMT: INFO (drv_ssd): (drv_ssd.c:1057) /opt/aerospike/data/ns1.dat has 24000 wblocks of size 65536
+May 31 2019 04:46:54 GMT: INFO (drv_ssd): (drv_ssd.c:2930) {ns1} found all 1 devices fresh, initializing to random 13141706246666231141
+May 31 2019 04:46:54 GMT: INFO (drv_ssd): (drv_ssd.c:1025) {ns1} loading free & defrag queues
+May 31 2019 04:46:54 GMT: INFO (drv_ssd): (drv_ssd.c:964) /opt/aerospike/data/ns1.dat init defrag profile: 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+May 31 2019 04:46:54 GMT: INFO (drv_ssd): (drv_ssd.c:1046) /opt/aerospike/data/ns1.dat init wblock free-q 23872, defrag-q 0
+May 31 2019 04:46:54 GMT: INFO (drv_ssd): (drv_ssd.c:2181) {ns1} starting device maintenance threads
+May 31 2019 04:46:54 GMT: INFO (drv_ssd): (drv_ssd.c:1490) {ns1} starting write threads
+May 31 2019 04:46:54 GMT: INFO (drv_ssd): (drv_ssd.c:884) {ns1} starting defrag threads
+May 31 2019 04:46:54 GMT: INFO (as): (as.c:376) initializing services...
+May 31 2019 04:46:54 GMT: INFO (tsvc): (thr_tsvc.c:129) 4 transaction queues: starting 4 threads per queue
+May 31 2019 04:46:54 GMT: INFO (hb): (hb.c:6806) added new mesh seed 172.31.31.28:3002
+May 31 2019 04:46:54 GMT: INFO (fabric): (fabric.c:767) updated fabric published address list to {172.31.17.250:3001}
+May 31 2019 04:46:54 GMT: INFO (partition): (partition_balance.c:201) {ns1} 4096 partitions: found 4096 absent, 0 stored
+May 31 2019 04:46:54 GMT: INFO (hb): (hb.c:5525) updated heartbeat published address list to {172.31.17.250:3002}
+May 31 2019 04:46:54 GMT: INFO (smd): (smd.c:2320) no file '/opt/aerospike/smd/UDF.smd' - starting empty
+May 31 2019 04:46:54 GMT: INFO (batch): (batch.c:731) starting 1 batch-index-threads
+May 31 2019 04:46:54 GMT: INFO (health): (health.c:319) starting health monitor thread
+May 31 2019 04:46:54 GMT: INFO (fabric): (fabric.c:424) starting 8 fabric send threads
+May 31 2019 04:46:54 GMT: INFO (fabric): (fabric.c:438) starting 16 fabric rw channel recv threads
+May 31 2019 04:46:54 GMT: INFO (fabric): (fabric.c:438) starting 4 fabric ctrl channel recv threads
+May 31 2019 04:46:54 GMT: INFO (fabric): (fabric.c:438) starting 4 fabric bulk channel recv threads
+May 31 2019 04:46:54 GMT: INFO (fabric): (fabric.c:438) starting 4 fabric meta channel recv threads
+May 31 2019 04:46:54 GMT: INFO (fabric): (fabric.c:444) starting fabric accept thread
+May 31 2019 04:46:54 GMT: INFO (xdr): (xdr_serverside.c:596) XDR is not configured, not initializing XDR
+May 31 2019 04:46:54 GMT: INFO (hb): (hb.c:7042) initializing mesh heartbeat socket: 0.0.0.0:3002
+May 31 2019 04:46:54 GMT: INFO (hb): (hb.c:7071) mtu of the network is 9001
+May 31 2019 04:46:54 GMT: INFO (hb): (socket.c:847) Started mesh heartbeat endpoint 0.0.0.0:3002
+May 31 2019 04:46:54 GMT: INFO (hb): (socket.c:847) Started mesh heartbeat endpoint [::]:3002
+May 31 2019 04:46:54 GMT: INFO (nsup): (nsup.c:212) starting namespace supervisor threads
+May 31 2019 04:46:54 GMT: INFO (service): (service.c:646) starting reaper thread
+May 31 2019 04:46:54 GMT: INFO (service): (socket.c:847) Started client endpoint 0.0.0.0:3000
+May 31 2019 04:46:54 GMT: INFO (service): (socket.c:847) Started client endpoint [::]:3000
+May 31 2019 04:46:54 GMT: INFO (service): (service.c:148) starting 4 service threads
+May 31 2019 04:46:54 GMT: INFO (service): (service.c:157) starting accept thread
+May 31 2019 04:46:54 GMT: INFO (info-port): (thr_info_port.c:298) starting info port thread
+May 31 2019 04:46:54 GMT: INFO (fabric): (socket.c:847) Started fabric endpoint 0.0.0.0:3001
+May 31 2019 04:46:54 GMT: INFO (fabric): (socket.c:847) Started fabric endpoint [::]:3001
+May 31 2019 04:46:54 GMT: INFO (info-port): (socket.c:847) Started info endpoint 0.0.0.0:3003
+May 31 2019 04:46:54 GMT: INFO (info-port): (socket.c:847) Started info endpoint [::]:3003
+May 31 2019 04:46:54 GMT: INFO (drv_ssd): (drv_ssd_ee.c:1427) {ns1} starting tomb raider thread
+May 31 2019 04:46:54 GMT: INFO (as): (as.c:421) service ready: soon there will be cake!
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 1277(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 1193(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 1109(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 1025(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 941(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 857(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 773(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 687(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 602(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 516(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 430(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7243) ignoring stale join request from node bb95e259ff03202 - delay estimate 346(ms) 
+May 31 2019 04:46:54 GMT: INFO (clustering): (clustering.c:7260) accepted join request from node bb95e259ff03202
+May 31 2019 04:46:54 GMT: INFO (hb): (hb.c:8642) node arrived bb95e259ff03202
+May 31 2019 04:46:54 GMT: INFO (fabric): (fabric.c:2462) fabric: node bb95e259ff03202 arrived
+May 31 2019 04:46:54 GMT: INFO (info): (thr_info.c:3195) Changing value of enable-benchmarks-read of ns ns1 from false to true
+May 31 2019 04:46:54 GMT: INFO (info): (thr_info.c:3494) config-set command completed: params context=namespace;id=ns1;enable-benchmarks-read=true
+May 31 2019 04:46:55 GMT: INFO (info): (thr_info.c:3266) Changing value of enable-benchmarks-write of ns ns1 from false to true
+May 31 2019 04:46:55 GMT: INFO (info): (thr_info.c:3494) config-set command completed: params context=namespace;id=ns1;enable-benchmarks-write=true
+May 31 2019 04:46:55 GMT: INFO (clustering): (clustering.c:6312) neighboring orphans for cluster formation: bb95e259ff03202
+May 31 2019 04:46:55 GMT: INFO (clustering): (clustering.c:6316) pending join requests: bb95e259ff03202
+May 31 2019 04:46:55 GMT: INFO (clustering): (clustering.c:6356) principal node - forming new cluster with succession list: bb99cd81db90a02 bb95e259ff03202
+May 31 2019 04:46:55 GMT: INFO (clustering): (clustering.c:4627) paxos round started - cluster key: 68d754ad4575
+May 31 2019 04:46:55 GMT: INFO (clustering): (clustering.c:4629) paxos round started - succession list: bb99cd81db90a02 bb95e259ff03202
+May 31 2019 04:46:55 GMT: INFO (clustering): (clustering.c:5795) applied new cluster key 68d754ad4575
+May 31 2019 04:46:55 GMT: INFO (clustering): (clustering.c:5797) applied new succession list bb99cd81db90a02 bb95e259ff03202
+May 31 2019 04:46:55 GMT: INFO (clustering): (clustering.c:5799) applied cluster size 2
+May 31 2019 04:46:55 GMT: INFO (exchange): (exchange.c:2315) data exchange started with cluster key 68d754ad4575
+May 31 2019 04:46:55 GMT: INFO (info): (thr_info.c:3214) Changing value of enable-benchmarks-storage of ns ns1 from false to true
+May 31 2019 04:46:55 GMT: INFO (info): (thr_info.c:3494) config-set command completed: params context=namespace;id=ns1;enable-benchmarks-storage=true
+May 31 2019 04:46:55 GMT: INFO (exchange): (exchange.c:3191) received commit command from principal node bb99cd81db90a02
+May 31 2019 04:46:55 GMT: INFO (exchange): (exchange.c:3154) data exchange completed with cluster key 68d754ad4575
+May 31 2019 04:46:55 GMT: INFO (partition): (partition_balance.c:985) {ns1} replication factor is 2
+May 31 2019 04:46:55 GMT: INFO (partition): (partition_balance.c:957) {ns1} rebalanced: expected-migrations (0,0,0) fresh-partitions 4096
+May 31 2019 04:46:56 GMT: INFO (info): (thr_info.c:2532) Changing value of enable-benchmarks-svc to true
+May 31 2019 04:46:56 GMT: INFO (info): (thr_info.c:3494) config-set command completed: params context=service;enable-benchmarks-svc=true
+May 31 2019 04:46:56 GMT: INFO (info): (thr_info.c:3285) Changing value of enable-hist-proxy of ns ns1 from false to true
+May 31 2019 04:46:56 GMT: INFO (info): (thr_info.c:3494) config-set command completed: params context=namespace;id=ns1;enable-hist-proxy=true
+May 31 2019 04:47:04 GMT: INFO (info): (ticker.c:162) NODE-ID bb99cd81db90a02 CLUSTER-SIZE 2
+May 31 2019 04:47:04 GMT: INFO (info): (ticker.c:243)    cluster-clock: skew-ms 0
+May 31 2019 04:47:04 GMT: INFO (info): (ticker.c:270)    system-memory: free-kbytes 1934680 free-pct 94 heap-kbytes (82598,83248,145408) heap-efficiency-pct 56.8
+May 31 2019 04:47:04 GMT: INFO (info): (ticker.c:282)    in-progress: tsvc-q 0 info-q 0 rw-hash 0 proxy-hash 0 tree-gc-q 0
+May 31 2019 04:47:04 GMT: INFO (info): (ticker.c:303)    fds: proto (0,5,5) heartbeat (1,1,0) fabric (24,42,18)
+May 31 2019 04:47:04 GMT: INFO (info): (ticker.c:311)    heartbeat-received: self 0 foreign 66
+May 31 2019 04:47:04 GMT: INFO (info): (ticker.c:341)    fabric-bytes-per-second: bulk (4,4) ctrl (54,78) meta (2,7) rw (19,19)
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: svc-demarshal (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: svc-queue (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (ticker.c:399) {ns1} objects: all 0 master 0 prole 0 non-replica 0
+May 31 2019 04:47:04 GMT: INFO (info): (ticker.c:457) {ns1} migrations: complete
+May 31 2019 04:47:04 GMT: INFO (info): (ticker.c:484) {ns1} memory-usage: total-bytes 0 index-bytes 0 sindex-bytes 0 used-pct 0.00
+May 31 2019 04:47:04 GMT: INFO (info): (ticker.c:545) {ns1} device-usage: used-bytes 0 avail-pct 99 cache-read-pct 0.00
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-start (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-restart (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-dup-res (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-repl-ping (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-local (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-response (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-start (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-restart (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-dup-res (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-master (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-repl-write (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-response (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-proxy (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-read-size (0 total) bytes
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-write-size (0 total) bytes
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-read (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-large-block-read (0 total) msec
+May 31 2019 04:47:04 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-write (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (drv_ssd): (drv_ssd.c:1911) {ns1} /opt/aerospike/data/ns1.dat: used-bytes 8478048 free-wblocks 23731 write-q 0 write (140,7.0) defrag-q 0 defrag-read (0,0.0) defrag-write (0,0.0)
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:162) NODE-ID bb99cd81db90a02 CLUSTER-SIZE 2
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:243)    cluster-clock: skew-ms 0
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:270)    system-memory: free-kbytes 1918396 free-pct 93 heap-kbytes (94260,96320,190464) heap-efficiency-pct 49.5
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:282)    in-progress: tsvc-q 0 info-q 0 rw-hash 0 proxy-hash 0 tree-gc-q 0
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:303)    fds: proto (8,13,5) heartbeat (1,1,0) fabric (24,42,18)
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:311)    heartbeat-received: self 0 foreign 133
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:341)    fabric-bytes-per-second: bulk (0,0) ctrl (0,0) meta (0,0) rw (437271,413240)
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: svc-demarshal (145 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:257)  (00: 0000000124) (01: 0000000004) (02: 0000000002) (08: 0000000015)
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: svc-queue (145 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:266)  (00: 0000000145)
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:399) {ns1} objects: all 282 master 145 prole 137 non-replica 0
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:457) {ns1} migrations: complete
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:484) {ns1} memory-usage: total-bytes 18048 index-bytes 18048 sindex-bytes 0 used-pct 0.02
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:545) {ns1} device-usage: used-bytes 8478048 avail-pct 98 cache-read-pct 0.00
+May 31 2019 04:47:14 GMT: INFO (info): (ticker.c:595) {ns1} client: tsvc (0,0) proxy (0,0,0) read (0,0,0,0) write (145,0,0) delete (0,0,0,0) udf (0,0,0) lang (0,0,0,0)
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-start (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-restart (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-dup-res (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-repl-ping (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-local (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-response (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write (145 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:257)  (00: 0000000012) (01: 0000000110) (02: 0000000004) (03: 0000000004)
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:266)  (08: 0000000015)
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-start (145 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:257)  (00: 0000000123) (01: 0000000005) (02: 0000000002) (08: 0000000015)
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-restart (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-dup-res (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-master (145 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:266)  (00: 0000000145)
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-repl-write (145 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:266)  (00: 0000000122) (01: 0000000019) (02: 0000000004)
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-response (145 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:266)  (00: 0000000145)
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-proxy (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-read-size (0 total) bytes
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-write-size (282 total) bytes
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:266)  (15: 0000000282)
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-read (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-large-block-read (0 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-write (140 total) msec
+May 31 2019 04:47:14 GMT: INFO (info): (hist.c:266)  (01: 0000000061) (02: 0000000075) (03: 0000000004)
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:162) NODE-ID bb99cd81db90a02 CLUSTER-SIZE 2
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:243)    cluster-clock: skew-ms 0
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:270)    system-memory: free-kbytes 1908268 free-pct 93 heap-kbytes (102312,104684,194560) heap-efficiency-pct 52.6
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:282)    in-progress: tsvc-q 0 info-q 0 rw-hash 0 proxy-hash 0 tree-gc-q 0
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:303)    fds: proto (8,13,5) heartbeat (1,1,0) fabric (24,42,18)
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:311)    heartbeat-received: self 0 foreign 200
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:341)    fabric-bytes-per-second: bulk (0,0) ctrl (0,0) meta (0,0) rw (579206,645289)
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: svc-demarshal (337 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:257)  (00: 0000000285) (01: 0000000016) (02: 0000000006) (08: 0000000030)
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: svc-queue (337 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:266)  (00: 0000000337)
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:399) {ns1} objects: all 688 master 337 prole 351 non-replica 0
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:457) {ns1} migrations: complete
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:484) {ns1} memory-usage: total-bytes 44032 index-bytes 44032 sindex-bytes 0 used-pct 0.04
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:545) {ns1} device-usage: used-bytes 20684032 avail-pct 98 cache-read-pct 0.00
+May 31 2019 04:47:24 GMT: INFO (info): (ticker.c:595) {ns1} client: tsvc (0,0) proxy (0,0,0) read (0,0,0,0) write (337,0,0) delete (0,0,0,0) udf (0,0,0) lang (0,0,0,0)
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-start (0 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-restart (0 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-dup-res (0 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-repl-ping (0 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-local (0 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-response (0 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write (337 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:257)  (00: 0000000053) (01: 0000000233) (02: 0000000015) (03: 0000000006)
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:266)  (08: 0000000030)
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-start (337 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:257)  (00: 0000000284) (01: 0000000017) (02: 0000000006) (08: 0000000030)
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-restart (0 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-dup-res (0 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-master (337 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:266)  (00: 0000000337)
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-repl-write (337 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:257)  (00: 0000000303) (01: 0000000028) (02: 0000000005) (03: 0000000001)
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-response (337 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:266)  (00: 0000000337)
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-proxy (0 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-read-size (0 total) bytes
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-write-size (688 total) bytes
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:266)  (15: 0000000688)
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-read (0 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-large-block-read (0 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-write (343 total) msec
+May 31 2019 04:47:24 GMT: INFO (info): (hist.c:266)  (01: 0000000150) (02: 0000000186) (03: 0000000007)
+May 31 2019 04:47:34 GMT: INFO (drv_ssd): (drv_ssd.c:1911) {ns1} /opt/aerospike/data/ns1.dat: used-bytes 30064000 free-wblocks 23372 write-q 0 write (499,18.0) defrag-q 0 defrag-read (0,0.0) defrag-write (0,0.0)
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:162) NODE-ID bb99cd81db90a02 CLUSTER-SIZE 2
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:243)    cluster-clock: skew-ms 0
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:270)    system-memory: free-kbytes 1907620 free-pct 93 heap-kbytes (103030,105580,196608) heap-efficiency-pct 52.4
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:282)    in-progress: tsvc-q 0 info-q 0 rw-hash 0 proxy-hash 0 tree-gc-q 0
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:303)    fds: proto (8,13,5) heartbeat (1,1,0) fabric (24,42,18)
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:311)    heartbeat-received: self 0 foreign 266
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:341)    fabric-bytes-per-second: bulk (0,0) ctrl (0,0) meta (0,0) rw (530572,410420)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: svc-demarshal (513 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:257)  (00: 0000000439) (01: 0000000025) (02: 0000000006) (03: 0000000001)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:266)  (08: 0000000042)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: svc-queue (513 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:266)  (00: 0000000513)
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:399) {ns1} objects: all 1000 master 513 prole 487 non-replica 0
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:457) {ns1} migrations: complete
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:484) {ns1} memory-usage: total-bytes 64000 index-bytes 64000 sindex-bytes 0 used-pct 0.06
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:545) {ns1} device-usage: used-bytes 30064000 avail-pct 97 cache-read-pct 0.00
+May 31 2019 04:47:34 GMT: INFO (info): (ticker.c:595) {ns1} client: tsvc (0,0) proxy (0,0,0) read (0,0,0,0) write (513,0,0) delete (0,0,0,0) udf (0,0,0) lang (0,0,0,0)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-start (0 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-restart (0 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-dup-res (0 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-repl-ping (0 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-local (0 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-response (0 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write (513 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:257)  (00: 0000000107) (01: 0000000335) (02: 0000000021) (03: 0000000008)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:266)  (08: 0000000042)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-start (513 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:257)  (00: 0000000438) (01: 0000000026) (02: 0000000006) (03: 0000000001)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:266)  (08: 0000000042)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-restart (0 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-dup-res (0 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-master (513 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:266)  (00: 0000000513)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-repl-write (513 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:257)  (00: 0000000471) (01: 0000000033) (02: 0000000007) (03: 0000000002)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-response (513 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:266)  (00: 0000000513)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-proxy (0 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-read-size (0 total) bytes
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-write-size (1000 total) bytes
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:266)  (15: 0000001000)
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-read (0 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-large-block-read (0 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-write (500 total) msec
+May 31 2019 04:47:34 GMT: INFO (info): (hist.c:257)  (01: 0000000232) (02: 0000000257) (03: 0000000010) (04: 0000000001)
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:162) NODE-ID bb99cd81db90a02 CLUSTER-SIZE 2
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:243)    cluster-clock: skew-ms 0
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:270)    system-memory: free-kbytes 1908552 free-pct 93 heap-kbytes (103029,105580,196608) heap-efficiency-pct 52.4
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:282)    in-progress: tsvc-q 0 info-q 0 rw-hash 0 proxy-hash 0 tree-gc-q 0
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:303)    fds: proto (0,13,13) heartbeat (1,1,0) fabric (24,42,18)
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:311)    heartbeat-received: self 0 foreign 333
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:341)    fabric-bytes-per-second: bulk (0,0) ctrl (0,0) meta (0,0) rw (0,0)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: svc-demarshal (513 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:257)  (00: 0000000439) (01: 0000000025) (02: 0000000006) (03: 0000000001)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:266)  (08: 0000000042)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: svc-queue (513 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:266)  (00: 0000000513)
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:399) {ns1} objects: all 1000 master 513 prole 487 non-replica 0
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:457) {ns1} migrations: complete
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:484) {ns1} memory-usage: total-bytes 64000 index-bytes 64000 sindex-bytes 0 used-pct 0.06
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:545) {ns1} device-usage: used-bytes 30064000 avail-pct 97 cache-read-pct 0.00
+May 31 2019 04:47:44 GMT: INFO (info): (ticker.c:595) {ns1} client: tsvc (0,0) proxy (0,0,0) read (0,0,0,0) write (513,0,0) delete (0,0,0,0) udf (0,0,0) lang (0,0,0,0)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-start (0 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-restart (0 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-dup-res (0 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-repl-ping (0 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-local (0 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-response (0 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write (513 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:257)  (00: 0000000107) (01: 0000000335) (02: 0000000021) (03: 0000000008)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:266)  (08: 0000000042)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-start (513 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:257)  (00: 0000000438) (01: 0000000026) (02: 0000000006) (03: 0000000001)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:266)  (08: 0000000042)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-restart (0 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-dup-res (0 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-master (513 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:266)  (00: 0000000513)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-repl-write (513 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:257)  (00: 0000000471) (01: 0000000033) (02: 0000000007) (03: 0000000002)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-response (513 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:266)  (00: 0000000513)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-proxy (0 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-read-size (0 total) bytes
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-write-size (1000 total) bytes
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:266)  (15: 0000001000)
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-read (0 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-large-block-read (0 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-write (500 total) msec
+May 31 2019 04:47:44 GMT: INFO (info): (hist.c:257)  (01: 0000000232) (02: 0000000257) (03: 0000000010) (04: 0000000001)
+May 31 2019 04:47:54 GMT: INFO (drv_ssd): (drv_ssd.c:1911) {ns1} /opt/aerospike/data/ns1.dat: used-bytes 30064000 free-wblocks 23372 write-q 0 write (499,0.0) defrag-q 0 defrag-read (0,0.0) defrag-write (0,0.0)
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:162) NODE-ID bb99cd81db90a02 CLUSTER-SIZE 2
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:243)    cluster-clock: skew-ms 0
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:270)    system-memory: free-kbytes 1907100 free-pct 93 heap-kbytes (103029,105580,196608) heap-efficiency-pct 52.4
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:282)    in-progress: tsvc-q 0 info-q 0 rw-hash 0 proxy-hash 0 tree-gc-q 0
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:303)    fds: proto (0,13,13) heartbeat (1,1,0) fabric (24,42,18)
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:311)    heartbeat-received: self 0 foreign 399
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:341)    fabric-bytes-per-second: bulk (0,0) ctrl (0,0) meta (0,0) rw (0,0)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: svc-demarshal (513 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:257)  (00: 0000000439) (01: 0000000025) (02: 0000000006) (03: 0000000001)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:266)  (08: 0000000042)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: svc-queue (513 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:266)  (00: 0000000513)
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:399) {ns1} objects: all 1000 master 513 prole 487 non-replica 0
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:457) {ns1} migrations: complete
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:484) {ns1} memory-usage: total-bytes 64000 index-bytes 64000 sindex-bytes 0 used-pct 0.06
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:545) {ns1} device-usage: used-bytes 30064000 avail-pct 97 cache-read-pct 0.00
+May 31 2019 04:47:54 GMT: INFO (info): (ticker.c:595) {ns1} client: tsvc (0,0) proxy (0,0,0) read (0,0,0,0) write (513,0,0) delete (0,0,0,0) udf (0,0,0) lang (0,0,0,0)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-start (0 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-restart (0 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-dup-res (0 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-repl-ping (0 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-local (0 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-read-response (0 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write (513 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:257)  (00: 0000000107) (01: 0000000335) (02: 0000000021) (03: 0000000008)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:266)  (08: 0000000042)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-start (513 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:257)  (00: 0000000438) (01: 0000000026) (02: 0000000006) (03: 0000000001)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:266)  (08: 0000000042)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-restart (0 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-dup-res (0 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-master (513 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:266)  (00: 0000000513)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-repl-write (513 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:257)  (00: 0000000471) (01: 0000000033) (02: 0000000007) (03: 0000000002)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-write-response (513 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:266)  (00: 0000000513)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-proxy (0 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-read-size (0 total) bytes
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-device-write-size (1000 total) bytes
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:266)  (15: 0000001000)
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-read (0 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-large-block-read (0 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:240) histogram dump: {ns1}-/opt/aerospike/data/ns1.dat-write (500 total) msec
+May 31 2019 04:47:54 GMT: INFO (info): (hist.c:257)  (01: 0000000232) (02: 0000000257) (03: 0000000010) (04: 0000000001)

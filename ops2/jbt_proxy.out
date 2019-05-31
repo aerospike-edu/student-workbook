@@ -1,0 +1,47 @@
+[aerotraining@ip-172-31-50-28 ops2]$ ./proxy.sh
+Benchmark: 52.66.212.176 3000, namespace: ns1, set: testset, threads: 8, workload: INITIALIZE
+keys: 1000, start key: 1, transactions: 0, bins: 1, random values: false, throughput: unlimited
+write policy:
+    socketTimeout: 30000, totalTimeout: 0, timeoutDelay: 0, maxRetries: 0, sleepBetweenRetries: 0
+    commitLevel: COMMIT_ALL
+Sync: connPoolsPerNode: 1
+bin[0]: string[30000]
+debug: false
+2019-05-31 04:56:08.487 INFO Thread main Invalid address 172.31.31.28:3000. access-address is probably not configured on server.
+2019-05-31 04:56:08.489 INFO Thread main Add node BB95E259FF03202 52.66.212.176 3000
+2019-05-31 04:56:09.858 WARN Thread main Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:11.420 WARN Thread main Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:12.334 write(count=16 tps=16 timeouts=0 errors=0)
+2019-05-31 04:56:12.789 WARN Thread tend Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:13.334 write(count=64 tps=48 timeouts=0 errors=0)
+2019-05-31 04:56:14.334 write(count=104 tps=40 timeouts=0 errors=0)
+2019-05-31 04:56:15.155 WARN Thread tend Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:15.335 write(count=152 tps=48 timeouts=0 errors=0)
+2019-05-31 04:56:16.335 write(count=192 tps=40 timeouts=0 errors=0)
+2019-05-31 04:56:17.336 write(count=239 tps=47 timeouts=0 errors=0)
+2019-05-31 04:56:17.521 WARN Thread tend Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:18.336 write(count=280 tps=41 timeouts=0 errors=0)
+2019-05-31 04:56:19.336 write(count=324 tps=44 timeouts=0 errors=0)
+2019-05-31 04:56:19.888 WARN Thread tend Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:20.337 write(count=368 tps=44 timeouts=0 errors=0)
+2019-05-31 04:56:21.337 write(count=412 tps=44 timeouts=0 errors=0)
+2019-05-31 04:56:22.255 WARN Thread tend Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:22.337 write(count=456 tps=44 timeouts=0 errors=0)
+2019-05-31 04:56:23.338 write(count=500 tps=44 timeouts=0 errors=0)
+2019-05-31 04:56:24.338 write(count=543 tps=43 timeouts=0 errors=0)
+2019-05-31 04:56:24.622 WARN Thread tend Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:25.338 write(count=588 tps=45 timeouts=0 errors=0)
+2019-05-31 04:56:26.339 write(count=631 tps=43 timeouts=0 errors=0)
+2019-05-31 04:56:26.989 WARN Thread tend Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:27.339 write(count=676 tps=45 timeouts=0 errors=0)
+2019-05-31 04:56:28.339 write(count=716 tps=40 timeouts=0 errors=0)
+2019-05-31 04:56:29.340 write(count=764 tps=48 timeouts=0 errors=0)
+2019-05-31 04:56:29.355 WARN Thread tend Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:30.340 write(count=804 tps=40 timeouts=0 errors=0)
+2019-05-31 04:56:31.341 write(count=849 tps=45 timeouts=0 errors=0)
+2019-05-31 04:56:31.722 WARN Thread tend Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:32.341 write(count=892 tps=43 timeouts=0 errors=0)
+2019-05-31 04:56:33.341 write(count=937 tps=45 timeouts=0 errors=0)
+2019-05-31 04:56:34.090 WARN Thread tend Add node 172.31.17.250 3000 failed: Error -8: java.net.SocketTimeoutException: connect timed out
+2019-05-31 04:56:34.342 write(count=980 tps=43 timeouts=0 errors=0)
+2019-05-31 04:56:35.342 write(count=1000 tps=20 timeouts=0 errors=0)
