@@ -1,0 +1,25 @@
+[aerotraining@ip-172-31-50-28 ops2]$ ./insert.sh 
+Benchmark: 52.66.212.176 3000, namespace: ns1, set: testset, threads: 160, workload: INITIALIZE
+keys: 10000, start key: 1, transactions: 0, bins: 1, random values: false, throughput: unlimited
+write policy:
+    socketTimeout: 30000, totalTimeout: 0, timeoutDelay: 0, maxRetries: 0, sleepBetweenRetries: 0
+    commitLevel: COMMIT_ALL
+Sync: connPoolsPerNode: 1
+bin[0]: string[30000]
+debug: false
+2019-06-04 01:45:04.600 INFO Thread main Add node BB95E259FF03202 52.66.212.176 3000
+2019-06-04 01:45:05.518 INFO Thread main Add node BB99CD81DB90A02 13.232.231.62 3000
+2019-06-04 01:45:07.387 write(count=107 tps=107 timeouts=0 errors=0)
+2019-06-04 01:45:08.387 write(count=922 tps=815 timeouts=0 errors=0)
+2019-06-04 01:45:09.387 write(count=1729 tps=807 timeouts=0 errors=0)
+2019-06-04 01:45:10.388 write(count=2557 tps=828 timeouts=0 errors=0)
+2019-06-04 01:45:11.388 write(count=3388 tps=831 timeouts=0 errors=0)
+2019-06-04 01:45:12.388 write(count=4232 tps=844 timeouts=0 errors=0)
+2019-06-04 01:45:13.389 write(count=5058 tps=826 timeouts=0 errors=0)
+2019-06-04 01:45:14.389 write(count=5903 tps=845 timeouts=0 errors=0)
+2019-06-04 01:45:15.389 write(count=6733 tps=830 timeouts=0 errors=0)
+2019-06-04 01:45:16.390 write(count=7563 tps=830 timeouts=0 errors=0)
+2019-06-04 01:45:17.390 write(count=8389 tps=826 timeouts=0 errors=0)
+2019-06-04 01:45:18.391 write(count=9212 tps=823 timeouts=0 errors=0)
+2019-06-04 01:45:19.391 write(count=9921 tps=709 timeouts=0 errors=0)
+2019-06-04 01:45:20.391 write(count=10000 tps=79 timeouts=0 errors=0)
