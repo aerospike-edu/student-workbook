@@ -1,38 +1,69 @@
 [aerotraining@ip-172-31-50-28 ops2]$ ./nocache.sh 
 Benchmark: 52.66.212.176 3000, namespace: ns1, set: testset, threads: 8, workload: INITIALIZE
-keys: 1000, start key: 1, transactions: 0, bins: 1, random values: false, throughput: unlimited
+keys: 10000, start key: 1, transactions: 0, bins: 1, random values: false, throughput: unlimited
 write policy:
     socketTimeout: 30000, totalTimeout: 0, timeoutDelay: 0, maxRetries: 0, sleepBetweenRetries: 0
     commitLevel: COMMIT_ALL
 Sync: connPoolsPerNode: 1
 bin[0]: string[30000]
 debug: false
-2019-05-31 04:47:04.692 INFO Thread main Add node BB95E259FF03202 52.66.212.176 3000
-2019-05-31 04:47:05.617 INFO Thread main Add node BB99CD81DB90A02 13.232.231.62 3000
-2019-05-31 04:47:07.448 write(count=13 tps=13 timeouts=0 errors=0)
-2019-05-31 04:47:08.448 write(count=50 tps=37 timeouts=0 errors=0)
-2019-05-31 04:47:09.449 write(count=88 tps=38 timeouts=0 errors=0)
-2019-05-31 04:47:10.449 write(count=133 tps=45 timeouts=0 errors=0)
-2019-05-31 04:47:11.450 write(count=171 tps=38 timeouts=0 errors=0)
-2019-05-31 04:47:12.450 write(count=216 tps=45 timeouts=0 errors=0)
-2019-05-31 04:47:13.450 write(count=253 tps=37 timeouts=0 errors=0)
-2019-05-31 04:47:14.451 write(count=297 tps=44 timeouts=0 errors=0)
-2019-05-31 04:47:15.451 write(count=336 tps=39 timeouts=0 errors=0)
-2019-05-31 04:47:16.451 write(count=378 tps=42 timeouts=0 errors=0)
-2019-05-31 04:47:17.452 write(count=416 tps=38 timeouts=0 errors=0)
-2019-05-31 04:47:18.452 write(count=456 tps=40 timeouts=0 errors=0)
-2019-05-31 04:47:19.452 write(count=500 tps=44 timeouts=0 errors=0)
-2019-05-31 04:47:20.453 write(count=537 tps=37 timeouts=0 errors=0)
-2019-05-31 04:47:21.453 write(count=580 tps=43 timeouts=0 errors=0)
-2019-05-31 04:47:22.453 write(count=618 tps=38 timeouts=0 errors=0)
-2019-05-31 04:47:23.454 write(count=661 tps=43 timeouts=0 errors=0)
-2019-05-31 04:47:24.454 write(count=696 tps=35 timeouts=0 errors=0)
-2019-05-31 04:47:25.455 write(count=740 tps=44 timeouts=0 errors=0)
-2019-05-31 04:47:26.455 write(count=778 tps=38 timeouts=0 errors=0)
-2019-05-31 04:47:27.455 write(count=822 tps=44 timeouts=0 errors=0)
-2019-05-31 04:47:28.456 write(count=858 tps=36 timeouts=0 errors=0)
-2019-05-31 04:47:29.456 write(count=905 tps=47 timeouts=0 errors=0)
-2019-05-31 04:47:30.456 write(count=942 tps=37 timeouts=0 errors=0)
-2019-05-31 04:47:31.457 write(count=984 tps=42 timeouts=0 errors=0)
-2019-05-31 04:47:32.457 write(count=999 tps=15 timeouts=0 errors=0)
-2019-05-31 04:47:33.458 write(count=1000 tps=1 timeouts=0 errors=0)
+2019-06-07 20:57:53.894 INFO Thread main Add node BB95E259FF03202 52.66.212.176 3000
+2019-06-07 20:57:54.816 INFO Thread main Add node BB99CD81DB90A02 13.232.231.62 3000
+2019-06-07 20:57:56.642 write(count=15 tps=15 timeouts=0 errors=0)
+2019-06-07 20:57:57.643 write(count=54 tps=39 timeouts=0 errors=0)
+2019-06-07 20:57:58.643 write(count=89 tps=35 timeouts=0 errors=0)
+2019-06-07 20:57:59.643 write(count=133 tps=44 timeouts=0 errors=0)
+2019-06-07 20:58:00.644 write(count=167 tps=34 timeouts=0 errors=0)
+2019-06-07 20:58:01.644 write(count=212 tps=45 timeouts=0 errors=0)
+2019-06-07 20:58:02.644 write(count=246 tps=34 timeouts=0 errors=0)
+2019-06-07 20:58:03.645 write(count=279 tps=33 timeouts=0 errors=0)
+2019-06-07 20:58:04.645 write(count=324 tps=45 timeouts=0 errors=0)
+2019-06-07 20:58:05.645 write(count=361 tps=37 timeouts=0 errors=0)
+2019-06-07 20:58:06.646 write(count=402 tps=41 timeouts=0 errors=0)
+2019-06-07 20:58:07.646 write(count=440 tps=38 timeouts=0 errors=0)
+2019-06-07 20:58:08.647 write(count=482 tps=42 timeouts=0 errors=0)
+2019-06-07 20:58:09.647 write(count=518 tps=36 timeouts=0 errors=0)
+2019-06-07 20:58:10.647 write(count=557 tps=39 timeouts=0 errors=0)
+2019-06-07 20:58:11.648 write(count=598 tps=41 timeouts=0 errors=0)
+2019-06-07 20:58:12.648 write(count=635 tps=37 timeouts=0 errors=0)
+2019-06-07 20:58:13.648 write(count=674 tps=39 timeouts=0 errors=0)
+2019-06-07 20:58:14.649 write(count=711 tps=37 timeouts=0 errors=0)
+2019-06-07 20:58:15.649 write(count=755 tps=44 timeouts=0 errors=0)
+2019-06-07 20:58:16.649 write(count=793 tps=38 timeouts=0 errors=0)
+
+....
+
+2019-06-07 21:02:16.745 write(count=9989 tps=17 timeouts=0 errors=0)
+2019-06-07 21:02:17.745 write(count=9995 tps=6 timeouts=0 errors=0)
+2019-06-07 21:02:18.745 write(count=10000 tps=5 timeouts=0 errors=0)
+Benchmark: 52.66.212.176 3000, namespace: ns1, set: testset, threads: 8, workload: READ_UPDATE
+read: 50% (all bins: 100%, single bin: 0%), write: 50% (all bins: 100%, single bin: 0%)
+keys: 10000, start key: 1, transactions: 0, bins: 1, random values: false, throughput: unlimited
+read policy:
+    socketTimeout: 30000, totalTimeout: 0, timeoutDelay: 0, maxRetries: 2, sleepBetweenRetries: 0
+    readModeAP: ONE, readModeSC: SESSION, replica: SEQUENCE, reportNotFound: false
+write policy:
+    socketTimeout: 30000, totalTimeout: 0, timeoutDelay: 0, maxRetries: 0, sleepBetweenRetries: 0
+    commitLevel: COMMIT_ALL
+Sync: connPoolsPerNode: 1
+bin[0]: string[30000]
+debug: false
+2019-06-07 21:02:20.322 INFO Thread main Add node BB95E259FF03202 52.66.212.176 3000
+2019-06-07 21:02:21.243 INFO Thread main Add node BB99CD81DB90A02 13.232.231.62 3000
+2019-06-07 21:02:23.076 write(tps=4 timeouts=0 errors=0) read(tps=5 timeouts=0 errors=0) total(tps=9 timeouts=0 errors=0)
+2019-06-07 21:02:24.077 write(tps=13 timeouts=0 errors=0) read(tps=21 timeouts=0 errors=0) total(tps=34 timeouts=0 errors=0)
+2019-06-07 21:02:25.077 write(tps=17 timeouts=0 errors=0) read(tps=15 timeouts=0 errors=0) total(tps=32 timeouts=0 errors=0)
+2019-06-07 21:02:26.078 write(tps=26 timeouts=0 errors=0) read(tps=15 timeouts=0 errors=0) total(tps=41 timeouts=0 errors=0)
+2019-06-07 21:02:27.078 write(tps=19 timeouts=0 errors=0) read(tps=13 timeouts=0 errors=0) total(tps=32 timeouts=0 errors=0)
+2019-06-07 21:02:28.079 write(tps=23 timeouts=0 errors=0) read(tps=20 timeouts=0 errors=0) total(tps=43 timeouts=0 errors=0)
+2019-06-07 21:02:29.079 write(tps=13 timeouts=0 errors=0) read(tps=22 timeouts=0 errors=0) total(tps=35 timeouts=0 errors=0)
+2019-06-07 21:02:30.079 write(tps=21 timeouts=0 errors=0) read(tps=19 timeouts=0 errors=0) total(tps=40 timeouts=0 errors=0)
+2019-06-07 21:02:31.080 write(tps=17 timeouts=0 errors=0) read(tps=18 timeouts=0 errors=0) total(tps=35 timeouts=0 errors=0)
+2019-06-07 21:02:32.080 write(tps=20 timeouts=0 errors=0) read(tps=18 timeouts=0 errors=0) total(tps=38 timeouts=0 errors=0)
+2019-06-07 21:02:33.080 write(tps=19 timeouts=0 errors=0) read(tps=16 timeouts=0 errors=0) total(tps=35 timeouts=0 errors=0)
+2019-06-07 21:02:34.081 write(tps=19 timeouts=0 errors=0) read(tps=16 timeouts=0 errors=0) total(tps=35 timeouts=0 errors=0)
+2019-06-07 21:02:35.081 write(tps=22 timeouts=0 errors=0) read(tps=14 timeouts=0 errors=0) total(tps=36 timeouts=0 errors=0)
+2019-06-07 21:02:36.082 write(tps=15 timeouts=0 errors=0) read(tps=21 timeouts=0 errors=0) total(tps=36 timeouts=0 errors=0)
+2019-06-07 21:02:37.082 write(tps=19 timeouts=0 errors=0) read(tps=14 timeouts=0 errors=0) total(tps=33 timeouts=0 errors=0)
+2019-06-07 21:02:38.082 write(tps=17 timeouts=0 errors=0) read(tps=19 timeouts=0 errors=0) total(tps=36 timeouts=0 errors=0)
+2019-06-07 21:02:39.083 write(tps=17 timeouts=0 errors=0) read(tps=19 timeouts=0 errors=0) total(tps=36 timeouts=0 errors=0)
