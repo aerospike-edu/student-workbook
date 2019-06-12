@@ -70,7 +70,7 @@ config = {
 ##########################################################################
 # Application
 ##########################################################################
-emsg = "Server Report \n"
+emsg = "Aerospike Server Report \n"
 exitCode = 0
 try:
 
@@ -102,8 +102,9 @@ try:
                 if len(res) > 0:
                     nslist = res.split(';')
             break # assume all namespaces present on first node
-#-----------------------------------------------------------------------------------------------------i
         #print("Namespaces: "+' '.join(nslist))
+
+        #---------- LOOP THRU COLLECTED DECLARED NAMESPACES ----------------
        
         for ns in nslist: 
             emsg = emsg + "Namespace: {0}:\n".format(ns)
@@ -111,6 +112,9 @@ try:
             if len(args) > 0:
                 request = ' '.join(args)
             #print ("request= ", request) 
+
+            # --- Use filter below to select the metrics of interest ---
+
             filter = ["master_objects", 
                       "device_free_pct", 
                       "device_available_pct", 
@@ -122,6 +126,9 @@ try:
                       "dead_partitions",
                       "unavailable_partitions"
                      ]
+
+            # --- Loop thru all nodes of the cluster ---
+
             for node, (err, res) in list(client.info(request).items()):
                 if res is not None:
                     res = res.strip()
@@ -204,21 +211,24 @@ try:
     server = smtplib.SMTP('smtp.gmail.com',587)
     server.ehlo()
     server.starttls()
-    server.login("aeromonitor@gmail.com", "emailPassword")
+    server.login("yourmonitor@gmail.com", "emailPassword")
 
     from email.MIMEMultipart import MIMEMultipart
     from email.MIMEText import MIMEText
     fromaddr = "aero4453@gmail.com"
     msg = MIMEMultipart()
     msg['From'] = fromaddr
-    msg['To'] = "pgupta@aerospike.com"
-    #msg['To'] = "pgupta@aerospike.com,9254135235@txt.att.net"
+    msg['To'] = "user1@yourcompany.com"
+    #msg['To'] = "user1@yourcompany.com,9255551212@txt.att.net"
     msg['Cc'] = " "
-    #msg['Cc'] = "gupta4453@gmail.com,piyush.gupta@sbcglobal.net"
+    #msg['Cc'] = "user2@gmail.com,user3@yourcompany.com"
     msg['Subject'] = "Aerospike Cluster Report -Testing"
     msg.attach(MIMEText(emsg, 'plain'))
     content = msg.as_string()
-    #print("emailing: "+emsg)  # For testing, uncomment print, comment sendmail.
+
+    # --- For testing, uncomment print, comment sendmail. ---
+
+    #print("emailing: "+emsg)
     server.sendmail(fromaddr, msg['To'].split(",")+msg['Cc'].split(","), content)
 
     # ----------------------------------------------------------------------------
