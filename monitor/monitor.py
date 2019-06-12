@@ -215,7 +215,7 @@ try:
 
     from email.MIMEMultipart import MIMEMultipart
     from email.MIMEText import MIMEText
-    fromaddr = "aero4453@gmail.com"
+    fromaddr = "yourmonitor@gmail.com"
     msg = MIMEMultipart()
     msg['From'] = fromaddr
     msg['To'] = "user1@yourcompany.com"
