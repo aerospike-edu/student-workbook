@@ -204,7 +204,7 @@ try:
     server = smtplib.SMTP('smtp.gmail.com',587)
     server.ehlo()
     server.starttls()
-    server.login("aero@gmail.com", "emailPassword")
+    server.login("aeromonitor@gmail.com", "emailPassword")
 
     from email.MIMEMultipart import MIMEMultipart
     from email.MIMEText import MIMEText
