@@ -11,6 +11,7 @@ class AvgHist:
     hist = ""
     timestamp = ""
     ms = 0
+    max_ms = 0
     items = 0
     _latencies = {}
     latencies = []
@@ -197,7 +198,7 @@ usage = "%s\n\tt | tail\t\tif set, will tail the file. If run and tail are not s
 usage = "%s\n\ti | ignore-first\tif set, ignore each first histogram for each namespace (since they are cumulative)" % usage
 usage = "%s\n\td | no-detail\t\tif set, will not produce per histogram tick detail, only summary" % usage
 usage = "%s\n\ts | no-summary\t\tif set, will not produce summary at the end of the run/tail" % usage
-usage = "%s\n\tf | file\t\tif set, will process this file. Default: /var/log/aerospike.log" % usage
+usage = "%s\n\tf | file\t\tif set, will process this file. Default: /var/log/aerospike/aerospike.log" % usage
 usage = "%s\n\th | help\t\tthis help screen\n" % usage
 
 # let's run it
