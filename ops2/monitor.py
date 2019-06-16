@@ -45,7 +45,7 @@ optparser.add_option(
     help="Password to connect to database.")
 
 optparser.add_option(
-    "-h", "--host", dest="host", type="string", default="52.66.212.176", metavar="<ADDRESS>",
+    "-h", "--host", dest="host", type="string", default="127.0.0.1", metavar="<ADDRESS>",
     help="Address of Aerospike server.")
 
 optparser.add_option(
@@ -228,8 +228,8 @@ try:
 
     # --- For testing, uncomment print, comment sendmail. ---
 
-    #print("emailing: "+emsg)
-    server.sendmail(fromaddr, msg['To'].split(",")+msg['Cc'].split(","), content)
+    print("emailing:\n"+emsg)
+    #server.sendmail(fromaddr, msg['To'].split(",")+msg['Cc'].split(","), content)
 
     # ----------------------------------------------------------------------------
 
