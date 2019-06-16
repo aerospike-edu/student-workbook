@@ -207,8 +207,8 @@ try:
     # ----------------------------------------------------------------------------
     # Send email notifications
     # ----------------------------------------------------------------------------
-    # --- For testing, set sendEmail = false
-    sendEmail = false
+    # --- For testing, set sendEmail = False, else True
+    sendEmail = False
     if sendEmail:
 	    server = smtplib.SMTP('smtp.gmail.com',587)
 	    server.ehlo()
