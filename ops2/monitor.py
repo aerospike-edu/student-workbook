@@ -207,29 +207,29 @@ try:
     # ----------------------------------------------------------------------------
     # Send email notifications
     # ----------------------------------------------------------------------------
+    # --- For testing, set sendEmail = false
+    sendEmail = false
+    if sendEmail:
+	    server = smtplib.SMTP('smtp.gmail.com',587)
+	    server.ehlo()
+	    server.starttls()
+	    server.login("yourmonitor@gmail.com", "emailPassword")
 
-    server = smtplib.SMTP('smtp.gmail.com',587)
-    server.ehlo()
-    server.starttls()
-    server.login("yourmonitor@gmail.com", "emailPassword")
-
-    from email.MIMEMultipart import MIMEMultipart
-    from email.MIMEText import MIMEText
-    fromaddr = "yourmonitor@gmail.com"
-    msg = MIMEMultipart()
-    msg['From'] = fromaddr
-    msg['To'] = "user1@yourcompany.com"
-    #msg['To'] = "user1@yourcompany.com,9255551212@txt.att.net"
-    msg['Cc'] = " "
-    #msg['Cc'] = "user2@gmail.com,user3@yourcompany.com"
-    msg['Subject'] = "Aerospike Cluster Report -Testing"
-    msg.attach(MIMEText(emsg, 'plain'))
-    content = msg.as_string()
-
-    # --- For testing, uncomment print, comment sendmail. ---
-
-    print("emailing:\n"+emsg)
-    #server.sendmail(fromaddr, msg['To'].split(",")+msg['Cc'].split(","), content)
+	    from email.MIMEMultipart import MIMEMultipart
+	    from email.MIMEText import MIMEText
+	    fromaddr = "yourmonitor@gmail.com"
+	    msg = MIMEMultipart()
+	    msg['From'] = fromaddr
+	    msg['To'] = "user1@yourcompany.com"
+	    #msg['To'] = "user1@yourcompany.com,9255551212@txt.att.net"
+	    msg['Cc'] = " "
+	    #msg['Cc'] = "user2@gmail.com,user3@yourcompany.com"
+	    msg['Subject'] = "Aerospike Cluster Report -Testing"
+	    msg.attach(MIMEText(emsg, 'plain'))
+	    content = msg.as_string()
+	    server.sendmail(fromaddr, msg['To'].split(",")+msg['Cc'].split(","), content)
+    else:
+	    print("emailing:\n"+emsg)
 
     # ----------------------------------------------------------------------------
 
