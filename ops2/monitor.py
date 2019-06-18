@@ -65,7 +65,11 @@ if options.help:
 ##########################################################################
 
 config = {
-    'hosts': [(options.host, options.port)]
+    'hosts': [(options.host, options.port)]  # OK for testing.
+
+    # Best to provide all ip:port lists of all nodes in the cluster
+    # If using single node and that node is down, metrics will not get updated.
+    #'hosts': [("52.66.212.176", 3000), ("13.232.231.62",3000)]
 }
 
 ##########################################################################

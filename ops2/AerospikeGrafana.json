@@ -20,14 +20,15 @@
   "panels": [
     {
       "gridPos": {
-        "h": 7,
-        "w": 20,
+        "h": 6,
+        "w": 12,
         "x": 0,
         "y": 0
       },
       "id": 8,
       "links": [],
       "options": {
+        "displayMode": "lcd",
         "fieldOptions": {
           "calcs": [
             "mean"
@@ -45,16 +46,19 @@
               "value": null
             },
             {
-              "color": "green",
+              "color": "yellow",
               "index": 1,
               "value": 10
+            },
+            {
+              "color": "green",
+              "index": 2,
+              "value": 40
             }
           ],
           "values": false
         },
-        "orientation": "auto",
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "orientation": "vertical"
       },
       "pluginVersion": "6.2.0-beta2",
       "targets": [
@@ -70,75 +74,188 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Memory Free Percent",
-      "type": "gauge"
+      "type": "bargauge"
     },
     {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
       "datasource": "Prometheus",
+      "format": "locale",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
       "gridPos": {
-        "h": 6,
-        "w": 10,
-        "x": 0,
-        "y": 7
+        "h": 3,
+        "w": 5,
+        "x": 12,
+        "y": 0
       },
-      "id": 6,
+      "id": 2,
+      "interval": null,
       "links": [],
-      "options": {
-        "fieldOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "defaults": {
-            "max": 100,
-            "min": 0,
-            "title": ""
-          },
-          "mappings": [],
-          "override": {},
-          "thresholds": [
-            {
-              "color": "green",
-              "index": 0,
-              "value": null
-            },
-            {
-              "color": "red",
-              "index": 1,
-              "value": 50
-            }
-          ],
-          "values": false
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
         },
-        "orientation": "auto",
-        "showThresholdLabels": true,
-        "showThresholdMarkers": true
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
       },
-      "pluginVersion": "6.2.0-beta2",
+      "tableColumn": "",
       "targets": [
         {
-          "expr": "(100-device_free_pct)",
+          "expr": "sum(master_objects{namespace=\"ns1\"})",
           "format": "time_series",
           "instant": true,
           "intervalFactor": 1,
-          "legendFormat": "{{node}}:{{namespace}}",
+          "legendFormat": "",
           "refId": "A"
         }
       ],
+      "thresholds": "",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Device Used Pct",
-      "type": "gauge"
+      "title": "Master Objects - ns1",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "Prometheus",
+      "format": "locale",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 5,
+        "x": 12,
+        "y": 3
+      },
+      "id": 11,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "expr": "sum(master_objects{namespace=\"ns2\"})",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Master Objects-ns2",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
     },
     {
       "datasource": "Prometheus",
       "gridPos": {
         "h": 6,
-        "w": 10,
-        "x": 10,
-        "y": 7
+        "w": 6,
+        "x": 0,
+        "y": 6
       },
       "id": 12,
       "links": [],
       "options": {
+        "displayMode": "lcd",
         "fieldOptions": {
           "calcs": [
             "mean"
@@ -164,9 +281,7 @@
           ],
           "values": false
         },
-        "orientation": "auto",
-        "showThresholdLabels": true,
-        "showThresholdMarkers": true
+        "orientation": "vertical"
       },
       "pluginVersion": "6.2.0-beta2",
       "targets": [
@@ -182,7 +297,287 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Device Available Percent",
-      "type": "gauge"
+      "type": "bargauge"
+    },
+    {
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 6
+      },
+      "id": 6,
+      "links": [],
+      "options": {
+        "displayMode": "lcd",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "max": 100,
+            "min": 0,
+            "title": ""
+          },
+          "mappings": [],
+          "override": {},
+          "thresholds": [
+            {
+              "color": "green",
+              "index": 0,
+              "value": null
+            },
+            {
+              "color": "red",
+              "index": 1,
+              "value": 50
+            }
+          ],
+          "values": false
+        },
+        "orientation": "vertical"
+      },
+      "pluginVersion": "6.2.0-beta2",
+      "targets": [
+        {
+          "expr": "(100-device_free_pct)",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "{{node}}:{{namespace}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Device Used Pct",
+      "type": "bargauge"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 12,
+        "y": 6
+      },
+      "id": 13,
+      "links": [],
+      "options": {
+        "displayMode": "basic",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "max": 100,
+            "min": 0
+          },
+          "mappings": [],
+          "override": {},
+          "thresholds": [
+            {
+              "color": "green",
+              "index": 0,
+              "value": null
+            },
+            {
+              "color": "red",
+              "index": 1,
+              "value": 80
+            }
+          ],
+          "values": false
+        },
+        "orientation": "horizontal"
+      },
+      "targets": [
+        {
+          "expr": "cluster_size",
+          "format": "time_series",
+          "instant": true,
+          "intervalFactor": 1,
+          "legendFormat": "{{node}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Cluster Size Reported by Each Node",
+      "type": "bargauge"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 0,
+        "y": 12
+      },
+      "id": 14,
+      "links": [],
+      "options": {
+        "displayMode": "gradient",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "max": 1,
+            "min": 0
+          },
+          "mappings": [],
+          "override": {},
+          "thresholds": [
+            {
+              "color": "green",
+              "index": 0,
+              "value": null
+            },
+            {
+              "color": "red",
+              "index": 1,
+              "value": 1
+            }
+          ],
+          "values": false
+        },
+        "orientation": "horizontal"
+      },
+      "pluginVersion": "6.2.0-beta2",
+      "targets": [
+        {
+          "expr": "clock_skew_stop_writes",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{node}}:{{namespace}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "CLOCK SKEW STOP WRITES",
+      "type": "bargauge"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 7,
+        "w": 3,
+        "x": 4,
+        "y": 12
+      },
+      "id": 10,
+      "links": [],
+      "options": {
+        "displayMode": "gradient",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "max": 1,
+            "min": 0
+          },
+          "mappings": [],
+          "override": {},
+          "thresholds": [
+            {
+              "color": "green",
+              "index": 0,
+              "value": null
+            },
+            {
+              "color": "red",
+              "index": 1,
+              "value": 1
+            }
+          ],
+          "values": false
+        },
+        "orientation": "horizontal"
+      },
+      "pluginVersion": "6.2.0-beta2",
+      "targets": [
+        {
+          "expr": "stop_writes",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{node}}:{{namespace}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "STOP WRITES",
+      "type": "bargauge"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "Prometheus",
+      "gridPos": {
+        "h": 7,
+        "w": 3,
+        "x": 7,
+        "y": 12
+      },
+      "id": 15,
+      "links": [],
+      "options": {
+        "displayMode": "gradient",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "max": 1,
+            "min": 0
+          },
+          "mappings": [],
+          "override": {},
+          "thresholds": [
+            {
+              "color": "green",
+              "index": 0,
+              "value": null
+            },
+            {
+              "color": "red",
+              "index": 1,
+              "value": 1
+            }
+          ],
+          "values": false
+        },
+        "orientation": "horizontal"
+      },
+      "pluginVersion": "6.2.0-beta2",
+      "targets": [
+        {
+          "expr": "hwm_breached",
+          "format": "time_series",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{node}}:{{namespace}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "HWM BREACHED",
+      "type": "bargauge"
     },
     {
       "aliasColors": {
@@ -195,10 +590,10 @@
       "datasource": "Prometheus",
       "fill": 1,
       "gridPos": {
-        "h": 8,
-        "w": 10,
-        "x": 0,
-        "y": 13
+        "h": 7,
+        "w": 7,
+        "x": 10,
+        "y": 12
       },
       "id": 4,
       "legend": {
@@ -292,288 +687,9 @@
         "align": false,
         "alignLevel": null
       }
-    },
-    {
-      "cacheTimeout": null,
-      "datasource": "Prometheus",
-      "gridPos": {
-        "h": 8,
-        "w": 5,
-        "x": 10,
-        "y": 13
-      },
-      "id": 10,
-      "links": [],
-      "options": {
-        "displayMode": "gradient",
-        "fieldOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "defaults": {
-            "max": 1,
-            "min": 0
-          },
-          "mappings": [],
-          "override": {},
-          "thresholds": [
-            {
-              "color": "green",
-              "index": 0,
-              "value": null
-            },
-            {
-              "color": "red",
-              "index": 1,
-              "value": 1
-            }
-          ],
-          "values": false
-        },
-        "orientation": "horizontal"
-      },
-      "pluginVersion": "6.2.0-beta2",
-      "targets": [
-        {
-          "expr": "stop_writes",
-          "format": "time_series",
-          "hide": false,
-          "instant": true,
-          "interval": "",
-          "intervalFactor": 1,
-          "legendFormat": "{{node}}:{{namespace}}",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "STOP WRITES",
-      "type": "bargauge"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "Prometheus",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 5,
-        "x": 15,
-        "y": 13
-      },
-      "id": 2,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "expr": "sum(master_objects{namespace=\"ns1\"})",
-          "format": "time_series",
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "thresholds": "",
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Master Objects - ns1",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "avg"
-    },
-    {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "Prometheus",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
-      },
-      "gridPos": {
-        "h": 2,
-        "w": 5,
-        "x": 15,
-        "y": 15
-      },
-      "id": 11,
-      "interval": null,
-      "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
-      "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
-      },
-      "tableColumn": "",
-      "targets": [
-        {
-          "expr": "sum(master_objects{namespace=\"ns2\"})",
-          "format": "time_series",
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "",
-          "refId": "A"
-        }
-      ],
-      "thresholds": "",
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Master Objects-ns2",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "avg"
-    },
-    {
-      "cacheTimeout": null,
-      "datasource": "Prometheus",
-      "gridPos": {
-        "h": 4,
-        "w": 5,
-        "x": 15,
-        "y": 17
-      },
-      "id": 13,
-      "links": [],
-      "options": {
-        "displayMode": "basic",
-        "fieldOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "defaults": {
-            "max": 100,
-            "min": 0
-          },
-          "mappings": [],
-          "override": {},
-          "thresholds": [
-            {
-              "color": "green",
-              "index": 0,
-              "value": null
-            },
-            {
-              "color": "red",
-              "index": 1,
-              "value": 80
-            }
-          ],
-          "values": false
-        },
-        "orientation": "horizontal"
-      },
-      "targets": [
-        {
-          "expr": "cluster_size",
-          "format": "time_series",
-          "instant": true,
-          "intervalFactor": 1,
-          "legendFormat": "{{node}}",
-          "refId": "A"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Cluster Size Reported by Each Node",
-      "type": "bargauge"
     }
   ],
-  "refresh": "5s",
+  "refresh": "1m",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],
@@ -612,5 +728,5 @@
   "timezone": "",
   "title": "Aerospike Cluster",
   "uid": "XMI0oEnWk",
-  "version": 6
+  "version": 10
 }
