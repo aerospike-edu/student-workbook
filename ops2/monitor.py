@@ -22,6 +22,7 @@ from __future__ import print_function
 import aerospike
 import sys
 import smtplib  #for sending email
+import os #for using curl to push to Prometheus
 from optparse import OptionParser
 
 ##########################################################################
@@ -70,8 +71,15 @@ config = {
 ##########################################################################
 # Application
 ##########################################################################
-emsg = "Aerospike Server Report \n"
+emsg = "Aerospike Server Report \n"  
+#For building the email message
+
+dmsg = ""  
+# dmsg is for pushing to Prometheus, must contain name value per line
+# metric_name{"label1"="val1","label2"="value2"} 123 
+
 exitCode = 0
+
 try:
 
     # ----------------------------------------------------------------------------
@@ -94,106 +102,98 @@ try:
         request = "namespaces"  # request for getting all namespace names 
         if len(args) > 0:
             request = ' '.join(args)
-        #print ("request= ", request) 
+        #print ("request= ", request)   #for testing
         nslist = []
         for node, (err, res) in list(client.info(request).items()):
-            if res is not None:
-                res = res.strip()
-                if len(res) > 0:
-                    nslist = res.split(';')
-            break # assume all namespaces present on first node
-        #print("Namespaces: "+' '.join(nslist))
+          if res is not None:
+            res = res.strip()
+            if len(res) > 0:
+              nslist.extend(res.split(';'))
+              #print("Namespaces: "+' '.join(nslist))  #for testing
+
+        nslist = list(dict.fromkeys(nslist))  #remove duplicate entries
+        #nslist.append("nsAbsent")  #test non-existent namespace on a node is ignored
+        #print("Namespaces: "+' '.join(nslist))  #for testing
 
         #---------- LOOP THRU COLLECTED DECLARED NAMESPACES ----------------
-       
+
         for ns in nslist: 
-            emsg = emsg + "Namespace: {0}:\n".format(ns)
-            request = "namespace/"+ns  # request for namespace ns1  (repeat / loop for multiple namespaces)
-            if len(args) > 0:
-                request = ' '.join(args)
-            #print ("request= ", request) 
+          #emsg = emsg + "Namespace: {0}:\n".format(ns)
+          request = "namespace/"+ns  # request loop for multiple namespaces)
+          if len(args) > 0:
+            request = ' '.join(args)
+          #print ("request= ", request)  #for testing
 
-            # --- Use filter below to select the metrics of interest ---
+          # --- Use filter below to select the metrics of interest ---
 
-            filter = ["master_objects", 
-                      "device_free_pct", 
-                      "device_available_pct", 
-                      "memory_free_pct",
-                      "evicted_objects",
-                      "clock_skew_stop_writes", 
-                      "stop_writes", 
-                      "hwm_breached",
-                      "dead_partitions",
-                      "unavailable_partitions"
-                     ]
+          filter = ["master_objects",
+                    "device_free_pct", 
+                    "device_available_pct", 
+                    "memory_free_pct",
+                    "evicted_objects",
+                    "clock_skew_stop_writes", 
+                    "stop_writes", 
+                    "hwm_breached",
+                    "dead_partitions",
+                    "unavailable_partitions"
+                   ]
 
-            # --- Loop thru all nodes of the cluster ---
+          # --- Loop thru all nodes of the cluster ---
 
-            for node, (err, res) in list(client.info(request).items()):
-                if res is not None:
-                    res = res.strip()
-                    if len(res) > 0:
-                        entries = res.split(';')
-                        if len(entries) > 1:
-                            #print("NodeID {0}:".format(node))
-                            emsg = emsg + "NodeID {0}:\n".format(node)
-                            for entry in entries:
-                                entry = entry.strip()
-                                if len(entry) > 0:
-                                    count = 0
-                                    if "=" in entry:
-                                        (name, value) = entry.split('=')
-                                        if name in filter:
-                                          if count > 0:
-                                            #print(
-                                            #    "      {0}: {1}".format(name, value))
-                                            emsg = emsg +  "      {0}: {1}\n".format(name, value)
-                                          else:
-                                            #print(
-                                            #    "    - {0}: {1}".format(name, value))
-                                            emsg = emsg +  "     - {0}: {1}\n".format(name, value)
-                                        count += 1
-                        else:
-                            #print("{0}: {1}".format(node, res))
-                            emsg = emsg + "{0}: {1}\n".format(node, res)
+          for node, (err, res) in list(client.info(request).items()):
+            if res is not None:
+              res = res.strip()
+              if len(res) > 0:
+                entries = res.split(';')
+                if len(entries) > 1:
+                  #print("NodeID {0}:".format(node))
+                  emsg = emsg + "NodeID {0}, Namespace - {1}:\n".format(node,ns)
+                  #count = 0
+                  for entry in entries:
+                    entry = entry.strip()
+                    if len(entry) > 0:
+                      if "=" in entry:
+                        (name, value) = entry.split('=')
+                        if(value == 'false'): value=0 # convert boolean to numeric
+                        if(value == 'true'): value=1
+                        if name in filter:
+                          emsg = emsg +  "      {0}: {1}\n".format(name, value)
+                          dmsg = dmsg + "{0}".format(name)+ \
+                                 "{"+ 'node=\"{0}\",namespace=\"{1}\"'.format(node,ns)+ "}" + \
+                                 " {0}\n".format(value)
 
+                    else:  #if len(entry) = 0
+                      emsg = emsg + "{0}: {1}\n".format(node, res)
+
+        # - end of for ns loop - #
         # ---------------------------------------
         # Gather "statistics" for Cluster metrics
         # ---------------------------------------
 
-        request = "statistics"  # request for namespace ns1  (repeat / loop for multiple namespaces)
+        request = "statistics"  
         if len(args) > 0:
             request = ' '.join(args)
         #print ("request= ", request) 
         filter = ["cluster_size"] 
         for node, (err, res) in list(client.info(request).items()):
-            if res is not None:
-                res = res.strip()
-                if len(res) > 0:
-                    entries = res.split(';')
-                    if len(entries) > 1:
-                        #print("NodeID {0}:".format(node))
-                        emsg = emsg + "Cluster:\n"
-                        for entry in entries:
-                            entry = entry.strip()
-                            if len(entry) > 0:
-                                count = 0
-                                if "=" in entry:
-                                    (name, value) = entry.split('=')
-                                    if name in filter:
-                                      if count > 0:
-                                        #print(
-                                        #    "      {0}: {1}".format(name, value))
-                                        emsg = emsg +  "      {0}: {1}\n".format(name, value)
-                                      else:
-                                        #print(
-                                        #    "    - {0}: {1}".format(name, value))
-                                        emsg = emsg +  "     - {0}: {1}\n".format(name, value)
-                                    count += 1
-                    else:
-                        #print("{0}: {1}".format(node, res))
-                        emsg = emsg + "{0}: {1}\n".format(node, res)
-            break  #Don't loop through all nodes for cluster metrics
+          if res is not None:
+            res = res.strip()
+            if len(res) > 0:
+              entries = res.split(';')
+              if len(entries) > 1:
+                emsg = emsg + "NodeID {0} reporting...\n".format(node)
+                for entry in entries:
+                  entry = entry.strip()
+                  if len(entry) > 0:
+                    if "=" in entry:
+                      (name, value) = entry.split('=')
+                      if name in filter:
+                        emsg = emsg +  "      {0}: {1}\n".format(name, value)
+                        dmsg = dmsg + "{0}".format(name)+ \
+                               "{"+ 'node=\"{0}\"'.format(node)+ "}" + \
+                               " {0}\n".format(value)
+                  else:  #if len(entry) = 0
+                    emsg = emsg + "{0}: {1}\n".format(node, res)
     except Exception as e:
         print("error: {0}".format(e), file=sys.stderr)
         exitCode = 2
@@ -209,30 +209,39 @@ try:
     # ----------------------------------------------------------------------------
     # --- For testing, set sendEmail = False, else True
     sendEmail = False
+    printOutput = True #False
+    pushToPrometheus = False #True
     if sendEmail:
-	    server = smtplib.SMTP('smtp.gmail.com',587)
-	    server.ehlo()
-	    server.starttls()
-	    server.login("yourmonitor@gmail.com", "emailPassword")
+      server = smtplib.SMTP('smtp.gmail.com',587)
+      server.ehlo()
+      server.starttls()
+      server.login("yourmonitor@gmail.com", "emailPassword")
 
-	    from email.MIMEMultipart import MIMEMultipart
-	    from email.MIMEText import MIMEText
-	    fromaddr = "yourmonitor@gmail.com"
-	    msg = MIMEMultipart()
-	    msg['From'] = fromaddr
-	    msg['To'] = "user1@yourcompany.com"
-	    #msg['To'] = "user1@yourcompany.com,9255551212@txt.att.net"
-	    msg['Cc'] = " "
-	    #msg['Cc'] = "user2@gmail.com,user3@yourcompany.com"
-	    msg['Subject'] = "Aerospike Cluster Report -Testing"
-	    msg.attach(MIMEText(emsg, 'plain'))
-	    content = msg.as_string()
-	    server.sendmail(fromaddr, msg['To'].split(",")+msg['Cc'].split(","), content)
-    else:
-	    print("emailing:\n"+emsg)
+      from email.MIMEMultipart import MIMEMultipart
+      from email.MIMEText import MIMEText
+      fromaddr = "yourmonitor@gmail.com"
+      msg = MIMEMultipart()
+      msg['From'] = fromaddr
+      msg['To'] = "user1@yourcompany.com"
+      #msg['To'] = "user1@yourcompany.com,9255551212@txt.att.net"
+      msg['Cc'] = " "
+      #msg['Cc'] = "user2@gmail.com,user3@yourcompany.com"
+      msg['Subject'] = "Aerospike Cluster Report -Testing"
+      msg.attach(MIMEText(emsg, 'plain'))
+      content = msg.as_string()
+      server.sendmail(fromaddr, msg['To'].split(",")+msg['Cc'].split(","), content)
+    if printOutput:
+      print("email Body:\n"+emsg)
+      print("Push to Prometheus:\n"+dmsg)
+    if pushToPrometheus:
+      cmd = "curl -X POST -H 'Content-Type: text/plain' --data '"+ \
+             dmsg+"' http://localhost:9091/metrics/job/aerospike/instance/apac"
+      if printOutput:
+        print(os.system(cmd))
+      else:
+        os.system(cmd)
 
     # ----------------------------------------------------------------------------
-
 
 except Exception as eargs:
     print("error: {0}".format(eargs), file=sys.stderr)
