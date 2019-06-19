@@ -108,7 +108,7 @@ try:
             request = ' '.join(args)
         #print ("request= ", request)   #for testing
         nslist = []
-        for node, (err, res) in list(client.info(request).items()):
+        for node, (err, res) in list(client.info_all(request).items()):
           if res is not None:
             res = res.strip()
             if len(res) > 0:
@@ -117,7 +117,7 @@ try:
 
         nslist = list(dict.fromkeys(nslist))  #remove duplicate entries
         #nslist.append("nsAbsent")  #test non-existent namespace on a node is ignored
-        #print("Namespaces: "+' '.join(nslist))  #for testing
+        print("Namespaces: "+' '.join(nslist))  #for testing
 
         #---------- LOOP THRU COLLECTED DECLARED NAMESPACES ----------------
 
@@ -144,7 +144,7 @@ try:
 
           # --- Loop thru all nodes of the cluster ---
 
-          for node, (err, res) in list(client.info(request).items()):
+          for node, (err, res) in list(client.info_all(request).items()):
             if res is not None:
               res = res.strip()
               if len(res) > 0:
@@ -179,7 +179,7 @@ try:
             request = ' '.join(args)
         #print ("request= ", request) 
         filter = ["cluster_size"] 
-        for node, (err, res) in list(client.info(request).items()):
+        for node, (err, res) in list(client.info_all(request).items()):
           if res is not None:
             res = res.strip()
             if len(res) > 0:
