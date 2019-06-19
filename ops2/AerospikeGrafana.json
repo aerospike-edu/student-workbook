@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 2,
-  "iteration": 1560909085159,
+  "iteration": 1560909085163,
   "links": [],
   "panels": [
     {
@@ -624,7 +624,7 @@
           "expr": "sum(evicted_objects{namespace=\"$ns\"})by(node)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "\"$ns\":{{node}}",
+          "legendFormat": "$ns:{{node}}",
           "refId": "A"
         }
       ],
@@ -738,5 +738,5 @@
   "timezone": "",
   "title": "Aerospike Cluster",
   "uid": "XMI0oEnWk",
-  "version": 15
+  "version": 16
 }
