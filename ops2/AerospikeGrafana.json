@@ -16,9 +16,11 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 2,
+  "iteration": 1560909085159,
   "links": [],
   "panels": [
     {
+      "datasource": "Prometheus",
       "gridPos": {
         "h": 6,
         "w": 12,
@@ -619,39 +621,18 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(evicted_objects{namespace=\"ns1\"})by(node)",
+          "expr": "sum(evicted_objects{namespace=\"$ns\"})by(node)",
           "format": "time_series",
           "intervalFactor": 1,
-          "legendFormat": "ns1:{{node}}",
+          "legendFormat": "\"$ns\":{{node}}",
           "refId": "A"
-        },
-        {
-          "expr": "sum(evicted_objects{namespace=\"ns2\"})by(node)",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "ns2:{{node}}",
-          "refId": "B"
-        },
-        {
-          "expr": "sum(evicted_objects{namespace=\"ns1\"})",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Total:ns1",
-          "refId": "C"
-        },
-        {
-          "expr": "sum(evicted_objects{namespace=\"ns2\"})",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "Total:ns2",
-          "refId": "D"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Evicted Objects",
+      "title": "Evicted Objects For Selected Namespace",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -694,10 +675,39 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "tags": [],
+          "text": "ns1",
+          "value": "ns1"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Namespace",
+        "multi": false,
+        "name": "ns",
+        "options": [
+          {
+            "selected": true,
+            "text": "ns1",
+            "value": "ns1"
+          },
+          {
+            "selected": false,
+            "text": "ns2",
+            "value": "ns2"
+          }
+        ],
+        "query": "ns1, ns2",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-6h",
     "to": "now"
   },
   "timepicker": {
@@ -728,5 +738,5 @@
   "timezone": "",
   "title": "Aerospike Cluster",
   "uid": "XMI0oEnWk",
-  "version": 10
+  "version": 15
 }
