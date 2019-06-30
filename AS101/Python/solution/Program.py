@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# 
+#
 #  * Copyright 2012-2014 by Aerospike.
 #  *
 #  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,21 +19,20 @@
 #  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 #  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 #  * IN THE SOFTWARE.
-#  
+#
 from __future__ import print_function
 import aerospike
-#Exercise K1
-from aerospike.exception import *
-import sys
 from optparse import OptionParser
+from aerospike import exception, predicates
 from UserService import UserService
 from TweetService import TweetService
+import sys
 
-# 
-#  * @author Raghavendra Kumar 
-#  
+#
+#  * @author Raghavendra Kumar
+#
 class Program(object):
-    client=None 
+    client=None
     seedHost = str()
     port = int()
     namespace = str()
@@ -43,23 +42,23 @@ class Program(object):
 
     def __init__(self, host, port, namespace, set):
         #  Establish a connection to Aerospike cluster
-        host = "127.0.0.1"  
-        
+        host = "127.0.0.1"
+
         #Exercise K1, Exercise R2, Exercise Q3 & Exercise A2
         #Override with your AWS IP Address
-        #host = "54.237.175.53"  
-        
+        #host = "54.237.175.53"
+
         # Exercise A2
         config = {'hosts': [(host,port)],
                   'lua': {'system_path':'/usr/local/aerospike/lua/',
                           'user_path':'/usr/local/aerospike/usr-lua/'
                          }
                  }
-        
+
         # Exercise K1
         try:
             self.client = aerospike.client(config).connect()
-        except ClientError as e:
+        except exception.ClientError as e:
             print("ERROR: Connection to Aerospike cluster failed!")
             print("Please check the server settings and try again!")
             print("Error: {0} [{1}]".format(e.msg, e.code))
@@ -69,7 +68,7 @@ class Program(object):
         self.namespace = namespace
         self.set = set
         self.writePolicy = {}
-        self.policy = {} 
+        self.policy = {}
 
     @classmethod
     def main(cls, args):
@@ -90,8 +89,8 @@ class Program(object):
 
 
     def work(self):
-        print("***** Welcome to Aerospike Developer Training *****\n")      
-        
+        print("***** Welcome to Aerospike Developer Training *****\n")
+
         if self.client:
               print("\nINFO: Connection to Aerospike cluster succeeded!\n")
               #  Create instance of UserService
@@ -115,7 +114,7 @@ class Program(object):
               print("0> Exit\n")
               print("\nSelect 0-12 and hit enter:\n")
               try:
-                feature=int(raw_input('Input:'))
+                feature=int(input('Input:'))
               except ValueError:
                 print("Input a valid feature number")
                 sys.exit(0)
@@ -124,7 +123,7 @@ class Program(object):
                       print("\n********** Your Selection: Create A User **********\n")
                       us.createUser()
                   elif feature==2:
-                      print("\n********** Your Selection: Create A Tweet By A User **********\n")                      
+                      print("\n********** Your Selection: Create A Tweet By A User **********\n")
                       ts.createTweet()
                   elif feature==3:
                       print("\n********** Your Selection: Read A User Record **********\n")
@@ -153,16 +152,16 @@ class Program(object):
                   elif feature==11:
                       print("\n********** Create A Test Set of Users **********\n")
                       us.createUsers()
-                  elif feature==12:                     
+                  elif feature==12:
                       print("\n********** Create A Test Set of Tweets **********\n")
                       ts.createTweets()
                   else:
                       print ("Enter a Valid number from above menu !!")
               #Exercise K1
               self.client.close()
-    # 
+    #
     # 	 * example method calls
-    # 	 
+    #
     def readPartial(self, userName):
         """ Python read specific bins """
         (key, metadata, record) = self.client.get(("test", "users", userName), ("username", "password", "gender", "region") )
@@ -174,7 +173,7 @@ class Program(object):
     def write(self, username, password):
         """  Python read-modify-write """
         meta = None
-        wr_policy = {'gen':aerospike.POLICY_GEN_EQ}                
+        wr_policy = {'gen':aerospike.POLICY_GEN_EQ}
         key = ("test", "users", username)
         self.client.put(key,{"username": username,"password": password},meta,wr_policy)
 
@@ -199,19 +198,19 @@ class Program(object):
         """ Touch """
         key = ("test", "users", username)
         self.client.touch(key)
-        
+
     def append(self, username, binname, str2append):
         """ Append """
         key = ("test", "users", username)
         self.client.append(key, binname, str2append)
-        
+
     def connectWithClientPolicy(self):
         """ Connect with Client configs """
-        config = { 'hosts': [ ( '127.0.0.1', 3000 ) 
-         ], 
-         'policies': { 'timeout': 1000 # milliseconds 
+        config = { 'hosts': [ ( '127.0.0.1', 3000 )
+         ],
+         'policies': { 'timeout': 1000 # milliseconds
          } }
-        client = aerospike.client(config) 
+        client = aerospike.client(config)
 
     def deleteBin(self, username):
         key = ("test", "users", username)

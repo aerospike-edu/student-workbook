@@ -22,11 +22,11 @@
 #
 from __future__ import print_function
 import aerospike
-from aerospike.exception import *
+from aerospike import exception, predicates as p
 import sys
 import random
 import time
-from aerospike import predicates as p
+
 
 class UserService(object):
     #client
@@ -67,17 +67,17 @@ class UserService(object):
         interests = str()
         # Exercise K2
         #  Get username
-        username = raw_input("Enter username: ")
+        username = input("Enter username: ")
         record = { "username": username }
         if len(username) > 0:
             #  Get password
-            record['password'] = raw_input("Enter password for " + username + ":")
+            record['password'] = input("Enter password for " + username + ":")
             #  Get gender
-            record['gender'] = raw_input("Select gender (f or m) for " + username + ":")
+            record['gender'] = input("Select gender (f or m) for " + username + ":")
             #  Get region
-            record['region'] = raw_input("Select region (north, south, east or west) for " + username + ":")
+            record['region'] = input("Select region (north, south, east or west) for " + username + ":")
             #  Get interests
-            record['interests'] = raw_input("Enter comma-separated interests for " + username + ":").split(',')
+            record['interests'] = input("Enter comma-separated interests for " + username + ":").split(',')
             #Initialize tweetcount
             record['tweetcount'] = 0
             #  Write record
@@ -93,7 +93,7 @@ class UserService(object):
         userKey = None
         #  Get username
         username = str()
-        username = raw_input("Enter username: ")
+        username = input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             # Exercise K2
@@ -123,7 +123,7 @@ class UserService(object):
         lua_file_name = 'udf/updateUserPwd.lua'
         #  Get username
         username = str()
-        username = raw_input("Enter username: ")
+        username = input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             # Read user record
@@ -134,7 +134,7 @@ class UserService(object):
             (key, metadata,userRecord) = self.client.get(userKey,policy)
             if userRecord:
                 #  Get new password
-                password = (raw_input("Enter new password for " + username + ":"))
+                password = (input("Enter new password for " + username + ":"))
 
                 #  Note: Registration via udf_put() will register udfs both on server
                 #  side and local client side in local user_path specified in connection
@@ -166,7 +166,7 @@ class UserService(object):
         passwordBin = None
         #  Get username
         username = str()
-        username = raw_input("Enter username: ")
+        username = input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             meta = None
@@ -176,7 +176,7 @@ class UserService(object):
             if userRecord:
                 record = {}
                 #  Get new password
-                record["password"] = raw_input("Enter new password for " + username + ":")
+                record["password"] = input("Enter new password for " + username + ":")
                 # Exercise K5
                 #  Save record generation
                 usergen = metadata['gen']
@@ -187,10 +187,10 @@ class UserService(object):
                 try:
                   self.client.put(userKey,record,meta,policy)
                   print("\nINFO: The password has been set to: " , record["password"])
-                except RecordGenerationError:
+                except exception.RecordGenerationError:
                   print("put() failed due to generation policy mismatch")
-                except AerospikeError as e:
-                  print("Error: {0} [{1}]".format(e.msg, e.code))                
+                except exception.AerospikeError as e:
+                  print("Error: {0} [{1}]".format(e.msg, e.code))
             else:
                 print("ERROR: User record not found!")
         else:
@@ -201,7 +201,7 @@ class UserService(object):
         userKey = None
         #  Get username
         username = str()
-        username = raw_input("Enter username: ")
+        username = input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             # Exercise K3
@@ -242,8 +242,8 @@ class UserService(object):
         udf_type = 0 # 0 for LUA
         lua_file_name = 'udf/aggregationByRegion.lua'
         try:
-            min = int(raw_input("Enter Min Tweet Count: "))
-            max = int(raw_input("Enter Max Tweet Count: "))
+            min = int(input("Enter Min Tweet Count: "))
+            max = int(input("Enter Max Tweet Count: "))
             print("\nAggregating users with " , min , "-" , max , " tweets by region:\n")
 
             # Register UDF
@@ -314,7 +314,7 @@ class UserService(object):
         totalUsers = end - start + 1
         wr_policy = {'exists':aerospike.POLICY_EXISTS_IGNORE}
         print("\nCreate " , totalUsers , " users. Press any key to continue...\n")
-        raw_input("..")
+        input("..")
         j = start
         while j <= end:
             username = "user" + str(j)

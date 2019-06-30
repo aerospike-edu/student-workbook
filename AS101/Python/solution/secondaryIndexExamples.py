@@ -1,7 +1,8 @@
 import aerospike
-from aerospike import predicates as p
+from aerospike import exception, predicates as p
 
-def print_result((key, metadata, record)):
+def print_result(rec):
+   (key, metadata, record) = rec
    print(record)
 
 config = { 'hosts': [ ("localhost", 3000), ] }
