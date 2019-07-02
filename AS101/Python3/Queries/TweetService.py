@@ -21,8 +21,9 @@
 #  * IN THE SOFTWARE.
 #  
 from __future__ import print_function
+from builtins import input
 import aerospike
-from aerospike.exception import *
+from aerospike import exception
 import sys
 import time
 from aerospike import predicates as p
@@ -58,7 +59,7 @@ class TweetService(object):
         tweetKey = None
         # Get username
         username = str()
-        username = raw_input("Enter username: ") 
+        username = input("Enter username: ") 
         if len(username) > 0:
             # Check if username exists
             # Exercise K2
@@ -75,7 +76,7 @@ class TweetService(object):
                 else:
                   nextTweetCount = 1
                 #  Get tweet
-                record['tweet'] = raw_input("Enter tweet for " + username + ":")
+                record['tweet'] = input("Enter tweet for " + username + ":")
                 #  Create timestamp to store along with the tweet so we can
                 #  query, index and report on it
                 ts= self.getTimeStamp()
@@ -176,14 +177,14 @@ class TweetService(object):
         print("\n********** Query Tweets By Username **********\n")
         #  Get username
         username = str()
-        username = raw_input("Enter username: ")
+        username = input("Enter username: ")
         if len(username) > 0:
           try:
             # Create a Secondary Index on username
             # Exercise Q3
-            #TODO: Create Index type STRING on username 
-            time.sleep(5)
-            print("\nString Secondary Index Created ")
+            #TODO: Create Index type STRING on username - DO VIA AQL 
+            #time.sleep(5)
+            #print("\nString Secondary Index Created ")
 
             # Create Query and Set equality Filter on username
             # Exercise Q3
@@ -207,14 +208,14 @@ class TweetService(object):
         try:
             # Create a Secondary Index on tweetcount
             # Exercise Q4
-            #TODO: Create Index type NUMERIC on tweetcount 
-            time.sleep(5)
-            print("\nInteger Secondary Index Created ")
+            #TODO: Create Index type NUMERIC on tweetcount - DO VIA AQL
+            #time.sleep(5)
+            #print("\nInteger Secondary Index Created ")
 
             # Create Query and Set min--max range Filter on tweetcount
             # Exercise Q4
-            min = int(raw_input("Enter Min Tweet Count: "))
-            max = int(raw_input("Enter Max Tweet Count: "))
+            min = int(input("Enter Min Tweet Count: "))
+            max = int(input("Enter Max Tweet Count: "))
             print("\nList of users with " , min , "-" , max , " tweets:\n")
             
             #TODO: Create tweetQuery = ...  
@@ -247,7 +248,7 @@ class TweetService(object):
         ts = 0
         wr_policy = {'exists':aerospike.POLICY_EXISTS_IGNORE}                
         print("\nCreate up to " , maxTweets , " tweets each for " , totalUsers , " users. Press any key to continue...\n")
-        raw_input("..")
+        input("..")
         j = 0
         while j < totalUsers:
             username = "user" + str(random.randint(1,maxUsers))

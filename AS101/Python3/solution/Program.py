@@ -21,7 +21,6 @@
 #  * IN THE SOFTWARE.
 #  
 from __future__ import print_function
-#from __future__ import builtins
 from builtins import input
 import aerospike
 #Exercise K1
@@ -117,8 +116,7 @@ class Program(object):
               print("0> Exit\n")
               print("\nSelect 0-12 and hit enter:\n")
               try:
-                feature=int(input('Input:')) #input with builtins import for 2.7 & 3.6
-                #feature=int(raw_input('Input:')) #raw_input in Python2.7
+                feature=int(input('Input:')) 
               except ValueError:
                 print("Input a valid feature number")
                 sys.exit(0)
