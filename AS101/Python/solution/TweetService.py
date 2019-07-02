@@ -21,8 +21,9 @@
 #  * IN THE SOFTWARE.
 #
 from __future__ import print_function
+from builtins import input
 import aerospike
-from aerospike.exception import *
+from aerospike import exception
 import sys
 import time
 from aerospike import predicates as p
@@ -58,7 +59,7 @@ class TweetService(object):
         tweetKey = None
         # Get username
         username = str()
-        username = raw_input("Enter username: ")
+        username = input("Enter username: ")
         if len(username) > 0:
             # Check if username exists
             # Exercise K2
@@ -75,7 +76,7 @@ class TweetService(object):
                 else:
                   nextTweetCount = 1
                 #  Get tweet
-                record['tweet'] = raw_input("Enter tweet for " + username + ":")
+                record['tweet'] = input("Enter tweet for " + username + ":")
                 #  Create timestamp to store along with the tweet so we can
                 #  query, index and report on it
                 ts= self.getTimeStamp()
@@ -126,7 +127,8 @@ class TweetService(object):
             tweetScan = self.client.scan("test", "tweets")
             tweetScan.select('tweet')
             # callback for each record read
-            def tweetCallback((key, meta, record)):
+            def tweetCallback(input_tuple):
+              (key, meta, record) = input_tuple
               print(record)
             # invoke the operations, and for each record invoke the callback
             tweetScan.foreach(tweetCallback)
@@ -176,7 +178,7 @@ class TweetService(object):
         print("\n********** Query Tweets By Username **********\n")
         #  Get username
         username = str()
-        username = raw_input("Enter username: ")
+        username = input("Enter username: ")
         if len(username) > 0:
           try:
             # Create a Secondary Index on username
@@ -194,7 +196,8 @@ class TweetService(object):
 
             # Define the Call back to print Tweets for given Username
             # Exercise Q3
-            def tweetQueryCallback((key, meta, record)):
+            def tweetQueryCallback(input_tuple):
+              (key, meta, record)=input_tuple
               print(record["tweet"])
 
             # Execute query and for each record invoke the callback
@@ -214,8 +217,8 @@ class TweetService(object):
 
             # Create Query and Set min--max range Filter on tweetcount
             # Exercise Q4
-            min = int(raw_input("Enter Min Tweet Count: "))
-            max = int(raw_input("Enter Max Tweet Count: "))
+            min = int(input("Enter Min Tweet Count: "))
+            max = int(input("Enter Max Tweet Count: "))
             print("\nList of users with " , min , "-" , max , " tweets:\n")
 
             tweetQuery = self.client.query("test", "users")
@@ -226,7 +229,8 @@ class TweetService(object):
             # Define the Call back to print Tweets for given Username
             # Exercise Q4
 
-            def tweetQueryCountCallback((key, meta, record)):
+            def tweetQueryCountCallback(input_tuple):
+              (key, meta, record)=input_tuple
               print(record["username"] , " has " , record["tweetcount"] , " tweets\n")
 
             # Execute query and for each record invoke the callback
@@ -249,7 +253,7 @@ class TweetService(object):
         ts = 0
         wr_policy = {'exists':aerospike.POLICY_EXISTS_IGNORE}
         print("\nCreate up to " , maxTweets , " tweets each for " , totalUsers , " users. Press any key to continue...\n")
-        raw_input("..")
+        input("..")
         j = 0
         while j < totalUsers:
             username = "user" + str(random.randint(1,maxUsers))

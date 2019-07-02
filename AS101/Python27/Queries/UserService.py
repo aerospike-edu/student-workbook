@@ -21,9 +21,8 @@
 #  * IN THE SOFTWARE.
 #
 from __future__ import print_function
-from builtins import input
 import aerospike
-from aerospike import exception
+from aerospike.exception import *
 import sys
 import random
 import time
@@ -68,17 +67,17 @@ class UserService(object):
         interests = str()
         # Exercise K2
         #  Get username
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         record = { "username": username }
         if len(username) > 0:
             #  Get password
-            record['password'] = input("Enter password for " + username + ":")
+            record['password'] = raw_input("Enter password for " + username + ":")
             #  Get gender
-            record['gender'] = input("Select gender (f or m) for " + username + ":")
+            record['gender'] = raw_input("Select gender (f or m) for " + username + ":")
             #  Get region
-            record['region'] = input("Select region (north, south, east or west) for " + username + ":")
+            record['region'] = raw_input("Select region (north, south, east or west) for " + username + ":")
             #  Get interests
-            record['interests'] = input("Enter comma-separated interests for " + username + ":").split(',')
+            record['interests'] = raw_input("Enter comma-separated interests for " + username + ":").split(',')
             #Initialize tweetcount
             record['tweetcount'] = 0
             #  Write record
@@ -94,7 +93,7 @@ class UserService(object):
         userKey = None
         #  Get username
         username = str()
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             # Exercise K2
@@ -124,7 +123,7 @@ class UserService(object):
         lua_file_name = 'udf/updateUserPwd.lua'
         #  Get username
         username = str()
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             # Read user record
@@ -135,7 +134,7 @@ class UserService(object):
             (key, metadata,userRecord) = self.client.get(userKey,policy)
             if userRecord:
                 #  Get new password
-                password = (input("Enter new password for " + username + ":"))
+                password = (raw_input("Enter new password for " + username + ":"))
 
                 #  Note: Registration via udf_put() will register udfs both on server
                 #  side and local client side in local user_path specified in connection
@@ -159,7 +158,7 @@ class UserService(object):
             else:
                 print("ERROR: User record not found!")
         else:
-            print("ERROR: Invalid user name.")
+            print("ERROR: Invalid user name.\n")
 
     def updatePasswordUsingCAS(self):
         userRecord = None
@@ -167,7 +166,7 @@ class UserService(object):
         passwordBin = None
         #  Get username
         username = str()
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             meta = None
@@ -177,7 +176,7 @@ class UserService(object):
             if userRecord:
                 record = {}
                 #  Get new password
-                record["password"] = input("Enter new password for " + username + ":")
+                record["password"] = raw_input("Enter new password for " + username + ":")
                 # Exercise K5
                 #  Save record generation
                 usergen = metadata['gen']
@@ -195,14 +194,14 @@ class UserService(object):
             else:
                 print("ERROR: User record not found!")
         else:
-            print("ERROR: Invalid user name.")
+            print("ERROR: Invalid user name.\n")
 
     def batchGetUserTweets(self):
         userRecord = None
         userKey = None
         #  Get username
         username = str()
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             # Exercise K3
@@ -243,8 +242,8 @@ class UserService(object):
         udf_type = 0 # 0 for LUA
         lua_file_name = 'udf/aggregationByRegion.lua'
         try:
-            min = int(input("Enter Min Tweet Count: "))
-            max = int(input("Enter Max Tweet Count: "))
+            min = int(raw_input("Enter Min Tweet Count: "))
+            max = int(raw_input("Enter Max Tweet Count: "))
             print("\nAggregating users with " , min , "-" , max , " tweets by region:\n")
 
             # Register UDF
@@ -315,7 +314,7 @@ class UserService(object):
         totalUsers = end - start + 1
         wr_policy = {'exists':aerospike.POLICY_EXISTS_IGNORE}
         print("\nCreate " , totalUsers , " users. Press any key to continue...\n")
-        input("..")
+        raw_input("..")
         j = start
         while j <= end:
             username = "user" + str(j)

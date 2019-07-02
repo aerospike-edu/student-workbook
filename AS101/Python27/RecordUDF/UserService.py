@@ -21,9 +21,8 @@
 #  * IN THE SOFTWARE.
 #
 from __future__ import print_function
-from builtins import input
 import aerospike
-from aerospike import exception
+from aerospike.exception import *
 import sys
 import random
 import time
@@ -68,17 +67,17 @@ class UserService(object):
         interests = str()
         # Exercise K2
         #  Get username
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         record = { "username": username }
         if len(username) > 0:
             #  Get password
-            record['password'] = input("Enter password for " + username + ":")
+            record['password'] = raw_input("Enter password for " + username + ":")
             #  Get gender
-            record['gender'] = input("Select gender (f or m) for " + username + ":")
+            record['gender'] = raw_input("Select gender (f or m) for " + username + ":")
             #  Get region
-            record['region'] = input("Select region (north, south, east or west) for " + username + ":")
+            record['region'] = raw_input("Select region (north, south, east or west) for " + username + ":")
             #  Get interests
-            record['interests'] = input("Enter comma-separated interests for " + username + ":").split(',')
+            record['interests'] = raw_input("Enter comma-separated interests for " + username + ":").split(',')
             #Initialize tweetcount
             record['tweetcount'] = 0
             #  Write record
@@ -94,7 +93,7 @@ class UserService(object):
         userKey = None
         #  Get username
         username = str()
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             # Exercise K2
@@ -124,18 +123,18 @@ class UserService(object):
         lua_file_name = 'udf/updateUserPwd.lua'
         #  Get username
         username = str()
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             # Read user record
             # Exercise R2
             meta = None
             policy = None
-            userKey = ("test", "users", username)
-            (key, metadata,userRecord) = self.client.get(userKey,policy)
+            #TODO: Create userKey for username
+            #TODO: Read userRecord into a Tuple using userKey
             if userRecord:
                 #  Get new password
-                password = (input("Enter new password for " + username + ":"))
+                password = (raw_input("Enter new password for " + username + ":"))
 
                 #  Note: Registration via udf_put() will register udfs both on server
                 #  side and local client side in local user_path specified in connection
@@ -147,19 +146,19 @@ class UserService(object):
                 #  Create a separate script to register udfs only when modified.
 
                 # Exercise R2
-                self.client.udf_put(lua_file_name, udf_type, policy)
+                #TODO: Register UDF
                 time.sleep(5)
                 # Execute UDF
                 # Exercise R2
-                updatedPassword = self.client.apply(userKey, "updateUserPwd", "updatePassword", [password])
+                #TODO: updatedPassword = ... Update password using Record UDF
 
                 # Output updated password to the console
                 # Exercise R2
-                print("\nINFO: The password has been set to: " , updatedPassword)
+                #TODO: print("\nINFO: The password ....
             else:
                 print("ERROR: User record not found!")
         else:
-            print("ERROR: Invalid user name.")
+            print("ERROR: Invalid user name.\n")
 
     def updatePasswordUsingCAS(self):
         userRecord = None
@@ -167,7 +166,7 @@ class UserService(object):
         passwordBin = None
         #  Get username
         username = str()
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             meta = None
@@ -177,7 +176,7 @@ class UserService(object):
             if userRecord:
                 record = {}
                 #  Get new password
-                record["password"] = input("Enter new password for " + username + ":")
+                record["password"] = raw_input("Enter new password for " + username + ":")
                 # Exercise K5
                 #  Save record generation
                 usergen = metadata['gen']
@@ -195,14 +194,14 @@ class UserService(object):
             else:
                 print("ERROR: User record not found!")
         else:
-            print("ERROR: Invalid user name.")
+            print("ERROR: Invalid User name.\n")
 
     def batchGetUserTweets(self):
         userRecord = None
         userKey = None
         #  Get username
         username = str()
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         if len(username) > 0:
             #  Check if username exists
             # Exercise K3
@@ -243,8 +242,8 @@ class UserService(object):
         udf_type = 0 # 0 for LUA
         lua_file_name = 'udf/aggregationByRegion.lua'
         try:
-            min = int(input("Enter Min Tweet Count: "))
-            max = int(input("Enter Max Tweet Count: "))
+            min = int(raw_input("Enter Min Tweet Count: "))
+            max = int(raw_input("Enter Max Tweet Count: "))
             print("\nAggregating users with " , min , "-" , max , " tweets by region:\n")
 
             # Register UDF
@@ -258,41 +257,45 @@ class UserService(object):
             #  and to demonstrate the syntax.
             #  Create a separate script to register udfs only when modified.
 
-            #TODO: Register Stream UDF using udf_put()
+            self.client.udf_put(lua_file_name, udf_type, policy)
             time.sleep(5)
 
             # Create a Secondary Index on tweetcount. (Same as Exercise Q4)
             # Preferred way to create a Secondary Index is via AQL
             # Exercise A2
-            #TODO: Create NUMERIC index on tweetcount - DO VIA AQL (if not already done)
+            #self.client.index_integer_create("test", "users", "tweetcount", "tweetcount_index", None)
             #time.sleep(5)  #give time to build the index
-            #print("\nNumeric Secondary Index on tweetcount Created.")
+            #print("\nNumeric Secondary Index on tweetcount Created ")
 
 
             #Create query
             # Exercise A2
-            #TODO: Create tweetQuery
+            tweetQuery = self.client.query("test", "users")
 
-            #TODO: Select bin(s) you would like to retrieve
+            # Select bin(s) you would like to retrieve
+            tweetQuery.select('region', 'tweetcount')
 
             # Set min--max range Filter on tweetcount
             # Exercise A2
-            #TODO: Apply range filter on tweetQuery
+            tweetQuery.where(p.between('tweetcount',min,max))
 
             # Execute aggregate query passing in , .lua filename of the UDF and lua function name
             # Exercise A2
-            #TODO: Apply Stream UDF to stream of results from the range query
+            tweetQuery.apply("aggregationByRegion", "sum")
 
             # Define callback to Output result to the console in format \"Total Users in <region>: <#>\"
             # Exercise A2
-            #TODO: def tweetQueryAggCallback(resultMap):
-              #TODO: print Total Users in each region
+            def tweetQueryAggCallback(resultMap):
+              print("\nTotal Users in North: ", resultMap['n'],"\n")
+              print("\nTotal Users in South: ", resultMap['s'],"\n")
+              print("\nTotal Users in East: ", resultMap['e'],"\n")
+              print("\nTotal Users in West: ", resultMap['w'],"\n")
 
 
             # Execute the query and for each result invoke the callback
             # Note: We expect a single result of type map in this example.
             # Exercise A2
-            #TODO: Execute tweetQuery and for each aggregated result run tweetQueryAggCallback
+            tweetQuery.foreach(tweetQueryAggCallback)
 
         except Exception as e :
             print("error: {0}".format(e), file=sys.stderr)
@@ -311,7 +314,7 @@ class UserService(object):
         totalUsers = end - start + 1
         wr_policy = {'exists':aerospike.POLICY_EXISTS_IGNORE}
         print("\nCreate " , totalUsers , " users. Press any key to continue...\n")
-        input("..")
+        raw_input("..")
         j = start
         while j <= end:
             username = "user" + str(j)

@@ -21,10 +21,9 @@
 #  * IN THE SOFTWARE.
 #  
 from __future__ import print_function
-from builtins import input
 import aerospike
 #Exercise K1
-from aerospike import exception
+from aerospike.exception import *
 import sys
 from optparse import OptionParser
 from UserService import UserService
@@ -116,7 +115,7 @@ class Program(object):
               print("0> Exit\n")
               print("\nSelect 0-12 and hit enter:\n")
               try:
-                feature=int(input('Input:'))
+                feature=int(raw_input('Input:'))
               except ValueError:
                 print("Input a valid feature number")
                 sys.exit(0)

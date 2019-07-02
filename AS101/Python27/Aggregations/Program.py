@@ -21,10 +21,9 @@
 #  * IN THE SOFTWARE.
 #  
 from __future__ import print_function
-from builtins import input
 import aerospike
 #Exercise K1
-from aerospike import exception
+from aerospike.exception import *
 import sys
 from optparse import OptionParser
 from UserService import UserService
@@ -50,12 +49,9 @@ class Program(object):
         #Override with your AWS IP Address
         #host = "54.237.175.53"  
         
-        # Exercise A2
-        config = {'hosts': [(host,port)],
-                  'lua': {'system_path':'/usr/local/aerospike/lua/',
-                          'user_path':'/usr/local/aerospike/usr-lua/'
-                         }
-                 }
+        # Exercise R2 & Exercise A2
+        #TODO: Instantiate config = ... with Host list and lua path configurations
+        
         
         # Exercise K1
         try:
@@ -116,7 +112,7 @@ class Program(object):
               print("0> Exit\n")
               print("\nSelect 0-12 and hit enter:\n")
               try:
-                feature=int(input('Input:'))
+                feature=int(raw_input('Input:'))
               except ValueError:
                 print("Input a valid feature number")
                 sys.exit(0)

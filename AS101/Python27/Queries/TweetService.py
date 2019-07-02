@@ -21,9 +21,8 @@
 #  * IN THE SOFTWARE.
 #  
 from __future__ import print_function
-from builtins import input
 import aerospike
-from aerospike import exception
+from aerospike.exception import *
 import sys
 import time
 from aerospike import predicates as p
@@ -59,7 +58,7 @@ class TweetService(object):
         tweetKey = None
         # Get username
         username = str()
-        username = input("Enter username: ") 
+        username = raw_input("Enter username: ") 
         if len(username) > 0:
             # Check if username exists
             # Exercise K2
@@ -76,7 +75,7 @@ class TweetService(object):
                 else:
                   nextTweetCount = 1
                 #  Get tweet
-                record['tweet'] = input("Enter tweet for " + username + ":")
+                record['tweet'] = raw_input("Enter tweet for " + username + ":")
                 #  Create timestamp to store along with the tweet so we can
                 #  query, index and report on it
                 ts= self.getTimeStamp()
@@ -177,30 +176,29 @@ class TweetService(object):
         print("\n********** Query Tweets By Username **********\n")
         #  Get username
         username = str()
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         if len(username) > 0:
           try:
             # Create a Secondary Index on username
             # Exercise Q3
-            #self.client.index_string_create("test", "tweets", "username", "username_index", None)
-            #time.sleep(5)
-            #print("\nString Secondary Index Created ")
+            #TODO: Create Index type STRING on username 
+            time.sleep(5)
+            print("\nString Secondary Index Created ")
 
             # Create Query and Set equality Filter on username
             # Exercise Q3
-            tweetQuery = self.client.query("test", "tweets")
-            # Select bin(s) you would like to retrieve
-            tweetQuery.select('tweet')            
-            tweetQuery.where(p.equals('username',username))
+            #TODO: Create tweetQuery = ...     
+            #TODO: Select bin(s) you would like to retrieve    
+            #TODO: Set tweetQuery equality filter
 
             # Define the Call back to print Tweets for given Username
             # Exercise Q3
-            def tweetQueryCallback((key, meta, record)):
-              print(record["tweet"])
+            #TODO: def tweetQueryCallback(...that prints the tweet
+              
 
             # Execute query and for each record invoke the callback
             # Exercise Q3
-            tweetQuery.foreach(tweetQueryCallback)
+            #TODO: Execute tweetQuery and Invoke tweetQueryCallback for each 
           except Exception as e :
             print("error: {0}".format(e), file=sys.stderr)
             
@@ -209,30 +207,29 @@ class TweetService(object):
         try:
             # Create a Secondary Index on tweetcount
             # Exercise Q4
-            #self.client.index_integer_create("test", "users", "tweetcount", "tweetcount_index", None)
-            #time.sleep(5)
-            #print("\nInteger Secondary Index Created ")
+            #TODO: Create Index type NUMERIC on tweetcount 
+            time.sleep(5)
+            print("\nInteger Secondary Index Created ")
 
             # Create Query and Set min--max range Filter on tweetcount
             # Exercise Q4
-            min = int(input("Enter Min Tweet Count: "))
-            max = int(input("Enter Max Tweet Count: "))
+            min = int(raw_input("Enter Min Tweet Count: "))
+            max = int(raw_input("Enter Max Tweet Count: "))
             print("\nList of users with " , min , "-" , max , " tweets:\n")
             
-            tweetQuery = self.client.query("test", "users")
-            # Select bin(s) you would like to retrieve
-            tweetQuery.select('username', 'tweetcount')             
-            tweetQuery.where(p.between('tweetcount',min,max))
+            #TODO: Create tweetQuery = ...  
+            #TODO: Select bin(s) you would like to retrieve        
+            #TODO: Set tweetQuery range filter
 
             # Define the Call back to print Tweets for given Username
             # Exercise Q4
             
-            def tweetQueryCountCallback((key, meta, record)):
-              print(record["username"] , " has " , record["tweetcount"] , " tweets\n")
+            #TODO: def tweetQueryCountCallback((key, meta, record)):
+              #TODO: print user has n tweets in the callback.
 
             # Execute query and for each record invoke the callback
             # Exercise Q4            
-            tweetQuery.foreach(tweetQueryCountCallback)
+            #TODO: Execute tweetQuery and for each record invoke tweetQueryCountCallback
         except Exception as e :
             print("error: {0}".format(e), file=sys.stderr)
 
@@ -250,7 +247,7 @@ class TweetService(object):
         ts = 0
         wr_policy = {'exists':aerospike.POLICY_EXISTS_IGNORE}                
         print("\nCreate up to " , maxTweets , " tweets each for " , totalUsers , " users. Press any key to continue...\n")
-        input("..")
+        raw_input("..")
         j = 0
         while j < totalUsers:
             username = "user" + str(random.randint(1,maxUsers))

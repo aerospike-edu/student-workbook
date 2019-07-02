@@ -21,9 +21,8 @@
 #  * IN THE SOFTWARE.
 #  
 from __future__ import print_function
-from builtins import input
 import aerospike
-from aerospike import exception
+from aerospike.exception import *
 import sys
 import time
 from aerospike import predicates as p
@@ -59,7 +58,7 @@ class TweetService(object):
         tweetKey = None
         # Get username
         username = str()
-        username = input("Enter username: ") 
+        username = raw_input("Enter username: ") 
         if len(username) > 0:
             # Check if username exists
             # Exercise K2
@@ -67,8 +66,8 @@ class TweetService(object):
             meta = None
             policy = None
             record = {}
-            reckey = ('test', 'users', username)
-            (reckey, meta, userRecord) = self.client.get(reckey)
+            #TODO: Create Record Key Tuple: reckey = ...
+            #TODO: Read userRecord into a Record Tuple
             if userRecord:
                 # Set Tweet Count
                 if 'tweetcount' in userRecord:
@@ -76,7 +75,7 @@ class TweetService(object):
                 else:
                   nextTweetCount = 1
                 #  Get tweet
-                record['tweet'] = input("Enter tweet for " + username + ":")
+                record['tweet'] = raw_input("Enter tweet for " + username + ":")
                 #  Create timestamp to store along with the tweet so we can
                 #  query, index and report on it
                 ts= self.getTimeStamp()
@@ -86,19 +85,20 @@ class TweetService(object):
 
                 #Set the 'exists' policy ie what to do if the record exists
                 #to POLICY_EXISTS_CREATE - create record only if it does not exist
-                policy = {'exists': aerospike.POLICY_EXISTS_CREATE}
+                #TODO: policy = ...
 
                 # Create Key and Bin instances for the tweet record.
-                # Exercise K2                
+                # Exercise K2
                 print("\nCreate Primary Key and Bin instances for the tweet record");
-                #HINT: tweet key should be in username:nextTweetCount format
-                tweetKey = ('test', 'tweets', username + ':'+ str(nextTweetCount))
-                record['ts']=ts
-                record['username']=username
+                #HINT: tweet key should be in username:nextTweetCount format                
+                #TODO: tweetKey = ... 
+                #TODO: Add ts bin 
+                #TODO: Add username bin
                 # Write tweet record
                 # Exercise K2
                 print("\nWrite tweet record");
-                self.client.put(tweetKey, record, policy)
+                #TODO: Write tweet record
+                
                 # Update tweet count and last tweeted timestamp in the user record 
                 # Exercise K2
                 # We are updating an existing record                
@@ -124,13 +124,13 @@ class TweetService(object):
         # Exercise K4  
         try:
             #  Python Scan
-            tweetScan = self.client.scan("test", "tweets")
-            tweetScan.select('tweet')
+            #TODO: Create Scan Object: tweetScan = ...
+            #TODO: Select bin to return in the scan (tweet) 
             # callback for each record read
             def tweetCallback((key, meta, record)):
               print(record)
             # invoke the operations, and for each record invoke the callback
-            tweetScan.foreach(tweetCallback)
+            #TODO: For each record returned by tweetScan, invoke callback
         except Exception as e :
             print("error: {0}".format(e), file=sys.stderr)
 
@@ -139,11 +139,11 @@ class TweetService(object):
         # Exercise K2  
         print("\nUpdate tweet count and last tweeted timestamp in the user record")
         userRecord = {}
-        userRecord['lasttweeted']=ts
-        userRecord['tweetcount']=tweetCount
+        #TODO: Update lasttweeted bin of userRecord
+        #TODO: Update tweetcount bin of userRecord
         
         #Comment line below for Exercise K6
-        client.put(userKey, userRecord, policy) 
+        #TODO: Write userRecord 
         
         # Exercise K6, uncomment line below 
         #self.updateUserUsingOperate(client, userKey, policy, ts, tweetCount)
@@ -153,22 +153,10 @@ class TweetService(object):
         # User Operate() to set and get tweetcount
         # Exercise K6 
 
-        ops= [{
-          "op" : aerospike.OPERATOR_WRITE,
-          "bin": "lasttweeted",
-          "val": ts
-        },
-        {
-          "op" : aerospike.OPERATOR_WRITE,
-          "bin": "tweetcount",
-          "val": tweetCount
-        },
-        {
-          "op" : aerospike.OPERATOR_READ,
-          "bin": "tweetcount"
-        }]
+        #TODO: Add array of operations: ops= [{...},{...},{...}]
+          
         meta = {}
-        (key, meta, bins) = self.client.operate(userKey, ops, meta, policy)
+        #TOOO: Update and read back using Operate: (key, meta, bins) = ...
 
         print("\nOperate(): The tweet count now is: " + str(bins['tweetcount']))
 
@@ -177,7 +165,7 @@ class TweetService(object):
         print("\n********** Query Tweets By Username **********\n")
         #  Get username
         username = str()
-        username = input("Enter username: ")
+        username = raw_input("Enter username: ")
         if len(username) > 0:
           try:
             # Create a Secondary Index on username
@@ -188,9 +176,9 @@ class TweetService(object):
 
             # Create Query and Set equality Filter on username
             # Exercise Q3
-            tweetQuery = self.client.query("test", "tweets") 
+            tweetQuery = self.client.query("test", "tweets")
             # Select bin(s) you would like to retrieve
-            tweetQuery.select('tweet')           
+            tweetQuery.select('tweet')            
             tweetQuery.where(p.equals('username',username))
 
             # Define the Call back to print Tweets for given Username
@@ -215,13 +203,13 @@ class TweetService(object):
 
             # Create Query and Set min--max range Filter on tweetcount
             # Exercise Q4
-            min = int(input("Enter Min Tweet Count: "))
-            max = int(input("Enter Max Tweet Count: "))
+            min = int(raw_input("Enter Min Tweet Count: "))
+            max = int(raw_input("Enter Max Tweet Count: "))
             print("\nList of users with " , min , "-" , max , " tweets:\n")
             
-            tweetQuery = self.client.query("test", "users") 
+            tweetQuery = self.client.query("test", "users")
             # Select bin(s) you would like to retrieve
-            tweetQuery.select('username', 'tweetcount')            
+            tweetQuery.select('username', 'tweetcount')             
             tweetQuery.where(p.between('tweetcount',min,max))
 
             # Define the Call back to print Tweets for given Username
@@ -250,7 +238,7 @@ class TweetService(object):
         ts = 0
         wr_policy = {'exists':aerospike.POLICY_EXISTS_IGNORE}                
         print("\nCreate up to " , maxTweets , " tweets each for " , totalUsers , " users. Press any key to continue...\n")
-        input("..")
+        raw_input("..")
         j = 0
         while j < totalUsers:
             username = "user" + str(random.randint(1,maxUsers))

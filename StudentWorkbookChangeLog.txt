@@ -1,5 +1,8 @@
 StudentWorkbook Change Log
 7/2/19
+Change Python3 to Python (default for AS101 exercises) and current Python
+to Python27 for posterity and backup.
+7/2/19
 Updated all exercise sub-dirs in Python3 for Python3 and Python27 compliance. 
 7/2/19
 Added AS101/Python3 sub-dir to upgrade code to Python3 and Python27 compliant.
