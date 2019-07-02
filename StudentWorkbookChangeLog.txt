@@ -1,5 +1,7 @@
 StudentWorkbook Change Log
 7/2/19
+AS301 - persistentCounter.py - made python3 compliant.
+7/2/19
 AS101 - Python exercises: Change Python3 to Python 
 (default for AS101 exercises) and current Python
 to Python27 for posterity and backup.

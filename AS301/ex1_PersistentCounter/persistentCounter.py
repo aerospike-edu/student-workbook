@@ -31,7 +31,7 @@ print("groupID3: cv1:31, cv2:32, cv3:33, cv4:35, cv5:35")
 print("Get first 3 indexes [Specify range:0-3] of groupID2")
 key = ("test", "persistentCounter", 'groupID2')
 ret_val = client.map_get_by_index_range(key, "counters", 0, 3, aerospike.MAP_RETURN_VALUE)
-print ret_val
+print(ret_val)
 
 print("Increment value of counter cv3 of groupID2 by 1")
 key = ("test", "persistentCounter", 'groupID2')
@@ -40,7 +40,7 @@ client.map_increment(key, map_policy=mp,  bin="counters", map_key='cv3', incr=1)
 print("Read cv3 of groupID2")
 key = ("test", "persistentCounter", 'groupID2')
 ret_val=client.map_get_by_key(key, bin="counters", map_key='cv3', return_type=aerospike.MAP_RETURN_VALUE)
-print ret_val
+print(ret_val)
 
 print("Increment and read back multiple counters using operate in groupID2")
 key = ("test", "persistentCounter", 'groupID2')
