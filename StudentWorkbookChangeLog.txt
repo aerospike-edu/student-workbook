@@ -1,4 +1,10 @@
 StudentWorkbook Change Log
+7/2/19
+Added AS101/Python3 sub-dir to upgrade code to Python3 and Python27 compliant.
+Interim checkin - only Python3/solution updated so far.
+If using Python27, it will need "builtins" 
+So must do: $ sudo python -m pip install future 
+where: python is python27.
 3/3/19
 Added sc sub-dir for Strong Consistency Mode module.
 2/27/19
