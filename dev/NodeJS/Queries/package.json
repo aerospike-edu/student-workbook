@@ -1,0 +1,12 @@
+{
+  "name": "aerospike-dev-training-app",
+  "version": "0.0.1",
+  "dependencies": {
+    "aerospike": "^2.0.0",
+    "inquirer": "^0.8.0"
+  },
+  "devDependencies": {
+    "aerospike": "^2.4.4",
+    "inquirer": "^0.8.5"
+  }
+}

@@ -1,0 +1,15 @@
+﻿<Properties StartupConfiguration="{5BD2DAAD-DF98-4A8B-A857-7A06422F7BD1}|Default">
+  <MonoDevelop.Ide.ItemProperties.AerospikeTrainingSolution PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="AerospikeTraining/TweetService.cs">
+    <Files>
+      <File FileName="AerospikeTraining/Program.cs" Line="165" Column="69" />
+      <File FileName="AerospikeTraining/UserService.cs" Line="182" Column="40" />
+      <File FileName="AerospikeTraining/TweetService.cs" Line="134" Column="65" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

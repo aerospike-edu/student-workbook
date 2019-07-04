@@ -1,4 +1,15 @@
 StudentWorkbook Change Log
+7/4/19
+Updating developer's and data modeling courses to
+new format, updated maven version for builds, updated
+Aerospike java client. Left current exercises as they are
+till we cross over. Added dev and dm sub-dirs where all
+updates will be done. All pom.xmls in dev and dm updated
+for successful compilation with maven. Current exercises
+still build and work on AWS instance. May not work on 
+other OSs - like Ubuntu18.04.
+Moved AS102 and AS103 (scmode) to deprecated for posterity, 
+renamed AS202 to sec (to be used for Security course).
 7/2/19
 AS301 - persistentCounter.py - made python3 compliant.
 7/2/19
