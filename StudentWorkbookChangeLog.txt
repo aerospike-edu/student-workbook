@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+7/23/19
+Data Modeling course exercises updated/added in /dm sub-folder.
 7/4/19
 Updating developer's and data modeling courses to
 new format, updated maven version for builds, updated
