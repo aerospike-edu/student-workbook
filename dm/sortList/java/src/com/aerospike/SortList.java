@@ -15,20 +15,17 @@ import com.aerospike.client.policy.WritePolicy;
 
 public class SortList {
 	public static void insert(AerospikeClient client, String value) {
-		Key key = new Key("test", "testList", "id1234");
+		Key key = new Key("test", "testList", 1);
 		client.operate(null, key, 
-                        ListOperation.insert("myList",0, Value.get(value)),
-			//ListOperation.trim("myList", 0, 20)
-			ListOperation.removeByIndexRange("myList", 0, 20, ListReturnType.INVERTED)
-                              );
-		
-
+				ListOperation.insert("myList",0, Value.get(value)),
+				//ListOperation.trim("myList", 0, 20)
+				ListOperation.removeByIndexRange("myList", 0, 20, ListReturnType.INVERTED)
+				);		
 	}
+	
 	public static void main(String[] args) {
 		AerospikeClient client = new AerospikeClient("127.0.0.1", 3000);
-		
-
-		Key key = new Key("test", "testList", "id1234");
+		Key key = new Key("test", "testList", 1);
 		List<String> values = new ArrayList<String>();
 		WritePolicy policy = new WritePolicy();
 		policy.recordExistsAction = RecordExistsAction.REPLACE;
@@ -37,8 +34,8 @@ public class SortList {
 
 		for (int i = 0; i < 25; i++) {
 			insert(client, "key" + (i+1));
-		}
-                client.operate(null, key, ListOperation.sort("myList",ListSortFlags.DEFAULT));
+			}
+		client.operate(null, key, ListOperation.sort("myList",ListSortFlags.DEFAULT));
 		client.close();
+		}
 	}
-}

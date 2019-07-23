@@ -13,14 +13,14 @@ import com.aerospike.client.Value;
 import com.aerospike.client.cdt.MapOperation;
 import com.aerospike.client.cdt.MapPolicy;
 import com.aerospike.client.cdt.MapOrder;
-import com.aerospike.client.cdt.MapWriteMode;
+import com.aerospike.client.cdt.MapWriteFlags;
 import com.aerospike.client.cdt.MapReturnType;
 import com.aerospike.client.policy.RecordExistsAction;
 import com.aerospike.client.policy.WritePolicy;
 
 public class MapAPIs {
 	public static void putItemsKOrdered(AerospikeClient client, Key key, Map<Value,Value> m) {
-                MapPolicy mPolicy = new MapPolicy(MapOrder.KEY_ORDERED, MapWriteMode.UPDATE); 
+                MapPolicy mPolicy = new MapPolicy(MapOrder.KEY_ORDERED, MapWriteFlags.DEFAULT); 
 		client.operate(null, key, 
                           MapOperation.putItems(mPolicy, "myMap", m)
                         );
@@ -83,7 +83,7 @@ public class MapAPIs {
 
                System.out.println("\nGet GroupID2, get first 3 indexes:"); 
                System.out.println("\nKey2,getByIndexRange(0,3) = "+ client.operate(null, key2,  
-                  MapOperation.getByIndexRange("myMap", 0,3, MapReturnType.VALUE)));
+                  MapOperation.getByIndexRange("myMap", 0, 3, MapReturnType.VALUE)));
 
                System.out.println("\nGet GroupID2, get Top 2 Rank:"); 
                System.out.println("\nKey2,getByRankRange(-2,2) = "+ client.operate(null, key2,  
@@ -96,12 +96,13 @@ public class MapAPIs {
 
                System.out.println("\nGet GroupID2, Value Range Query (includes LOW, <HIGH):"); 
                System.out.println("\nKey2,getByValueRange(21,23) = "+ client.operate(null, key2,  
-                  MapOperation.getByValueRange("myMap", Value.get(21), Value.get(23), MapReturnType.VALUE)));
+                  MapOperation.getByValueRange("myMap", Value.get(21), Value.get(23), MapReturnType.VALUE)));   //Try: Value.get(22), null          
 
                System.out.println("\nGet GroupID2, Get by map key:"); 
                System.out.println("\nKey2,getByKey('cv1') = "+ client.operate(null, key2,  
                   MapOperation.getByKey("myMap", Value.get("cv1"), MapReturnType.VALUE)));
-
+               
+          
                System.out.println("\nGet GroupID2, Read/Write/Increment/Decrement, Multiple Ops:"); 
                Record rec =  client.operate(null, key2,  
                   MapOperation.increment(MapPolicy.Default, "myMap", Value.get("cv1"), Value.get(5)),
