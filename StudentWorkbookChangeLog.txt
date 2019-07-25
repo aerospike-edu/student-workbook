@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+7/24/19
+Indentation fixed. (Cosmetic)
 7/23/19
 Data Modeling course exercises updated/added in /dm sub-folder.
 7/4/19
