@@ -8,6 +8,6 @@ sudo service aerospike stop
 sudo service amc stop
 sudo rm /opt/aerospike/data/Cache.dat
 sudo rm /var/log/aerospike/aerospike.log
-sudo cp ~/student-workbook/AS301/cacheExample/cache_aerospike.conf /etc/aerospike/aerospike.conf
+sudo cp ~/student-workbook/dm/cacheExample/cache_aerospike.conf /etc/aerospike/aerospike.conf
 sudo service aerospike start
 sudo service amc start
