@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+7/28/19
+XDR workbook changed to xdr sub-directory
 7/26/19
 Data Modeling updates.
 7/24/19
