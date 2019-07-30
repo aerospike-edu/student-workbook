@@ -23,5 +23,6 @@ sudo cp ~/student-workbook/dev/orig_aerospike.conf /etc/aerospike/aerospike.conf
 
 sudo pip install aerospike -U
 #For Stream UDFs in python client, students working on AWS
+sudo mkdir /usr/local/aerospike
 sudo mkdir /usr/local/aerospike/usr-lua
 sudo chown aerotraining /usr/local/aerospike/usr-lua
