@@ -14,5 +14,6 @@ sudo rpm -ivh aerospike-amc.rpm
 cd ~
 sudo pip install aerospike -U
 #For Stream UDFs in python client, students working on AWS
+sudo mkdir /usr/local/aerotraining/usr-lua
 sudo chown aerotraining /usr/local/aerospike/usr-lua
-sudo cp ~/student-workbook/AS102/start_aerospike.conf /etc/aerospike/aerospike.conf
+sudo cp ~/student-workbook/ops/start_aerospike.conf /etc/aerospike/aerospike.conf
