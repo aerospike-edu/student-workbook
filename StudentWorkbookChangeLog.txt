@@ -1,4 +1,7 @@
 StudentWorkbook Change Log
+8/9/19
+Data Modeling / Maps / Added get relative to key by index or 
+relative to value by rank.
 7/28/19
 XDR workbook changed to xdr sub-directory
 7/26/19
