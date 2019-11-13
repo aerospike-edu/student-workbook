@@ -303,7 +303,7 @@ class UserService(object):
 
             # Execute aggregate query passing in , .lua filename of the UDF and lua function name
             # Exercise A2
-            tweetQuery.apply("aggregationByRegion", "sum")
+            tweetQuery.apply("aggregationByRegion", "sum", [])
 
             # Define callback to Output result to the console in format \"Total Users in <region>: <#>\"
             # Exercise A2
