@@ -91,7 +91,7 @@ public class SmallRecords
 		for (int i =start; i < end; i++) {
 			
 		  byte[] hashedKey = getHash("id"+i);		  
-		  hashedKey[0] = (byte) (hashedKey[0] & 0x07);  //Use only 7 unique keys
+		  hashedKey[0] = (byte) (hashedKey[0] & 0x07);  //Use only 8 unique keys
 		  for(int j = 1; j<20;j++){hashedKey[j]=0;}
 		  
 		  Key key = new Key("test", "largeRecordsSet", hashedKey);
@@ -115,7 +115,7 @@ public class SmallRecords
 		for (int i =start; i < end; i++) {
 			
 		  byte[] hashedKey = getHash("id"+i);		  
-		  hashedKey[0] = (byte) (hashedKey[0] & 0x07);  //Use only 7 unique keys
+		  hashedKey[0] = (byte) (hashedKey[0] & 0x07);  //Use only 8 unique keys
 		  for(int j = 1; j<20;j++){hashedKey[j]=0;}
 		  
 		  Key key = new Key("test", "largeRecordsSet", hashedKey);
