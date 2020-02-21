@@ -26,7 +26,8 @@ import com.aerospike.client.policy.WritePolicy;
 public class NestedCDTs {
 
 	public static void main(String[] args) {
-		AerospikeClient client = new AerospikeClient("172.28.128.3", 3000); //Update IP Address 
+		#AerospikeClient client = new AerospikeClient("172.28.128.3", 3000); //Update IP Address 
+		AerospikeClient client = new AerospikeClient("127.0.0.1", 3000); //Update IP Address 
 
 	        //Insert a record with a map data type
 
