@@ -26,9 +26,10 @@ import com.aerospike.client.policy.WritePolicy;
 public class NestedCDTs {
 
 	public static void main(String[] args) {
-		AerospikeClient client = new AerospikeClient("172.28.128.3", 3000); //Update IP Address 
+		//AerospikeClient client = new AerospikeClient("172.28.128.3", 3000); //Update IP Address 
+		AerospikeClient client = new AerospikeClient("127.0.0.1", 3000); //Update IP Address 
 
-	        //Insert a record with a map data type
+	        //Set up record key and delete prior copy of the record, if any.
 
 		Key key1 = new Key("test", "s1", 1);
 		WritePolicy wPolicy = new WritePolicy();
@@ -36,7 +37,7 @@ public class NestedCDTs {
 		
 		client.delete(wPolicy, key1);
 
-                //Step 1
+                //Step 1: Insert a record with a map data type
                 Map<Value, Value> m1 = new HashMap<Value, Value>();
                 m1.put(Value.get("l1k1"), Value.get(11));
                 m1.put(Value.get("l1k2"), Value.get(12));
@@ -101,10 +102,10 @@ public class NestedCDTs {
                                )
                               );
  
-               //Step 7: Edit 2nd level nested value l3k3:99 to list type
+               //Step 7: Edit 2nd level nested value l3k3:99 to an empty list type
+               //Note: This list type is inserted with defautl list policies (UNORDERED)
 
                 List<Value> l1 = new ArrayList<Value>();        
-		l1.add(Value.get(0));        
 
 		client.operate(wPolicy, key1, 
                                MapOperation.put(
@@ -114,17 +115,22 @@ public class NestedCDTs {
                                )
                               );
 
-
-
                //Step 8: Append items directly to nested list at l3k3
              
+		l1.add(Value.get(0));        
 		l1.add(Value.get(4));        
 		l1.add(Value.get(1));        
 		l1.add(Value.get(4));        
 
                 ListPolicy lPolicy = new ListPolicy(ListOrder.ORDERED, 
                                      ListWriteFlags.ADD_UNIQUE|ListWriteFlags.NO_FAIL|ListWriteFlags.PARTIAL);
-		client.operate(wPolicy, key1, 
+		client.operate(wPolicy, key1,
+                               //We need to explicitly change the order from UNORDERED to ORDERED 
+                               ListOperation.setOrder("myMap", ListOrder.ORDERED,
+                               CTX.mapKey(Value.get("l1k1")), 
+                               CTX.mapKey(Value.get("l2k1")), 
+                               CTX.mapKey(Value.get("l3k3")) 
+                               ),
                                ListOperation.appendItems(
                                lPolicy, "myMap", l1,
                                CTX.mapKey(Value.get("l1k1")), 
@@ -132,11 +138,9 @@ public class NestedCDTs {
                                CTX.mapKey(Value.get("l3k3")) 
                                )
                               );
- 
 
 /*
 */
-
                client.close();
 	}
 }
