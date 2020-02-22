@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+2/21/20
+Added NestedCDTs code example in Maps and Lists
 8/9/19
 Data Modeling / Maps / Added get relative to key by index or 
 relative to value by rank.
