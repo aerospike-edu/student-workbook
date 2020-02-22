@@ -20,6 +20,7 @@ import com.aerospike.client.cdt.ListOrder;
 import com.aerospike.client.cdt.MapWriteFlags;
 import com.aerospike.client.cdt.ListWriteFlags;
 import com.aerospike.client.cdt.MapReturnType;
+import com.aerospike.client.cdt.ListReturnType;
 import com.aerospike.client.policy.RecordExistsAction;
 import com.aerospike.client.policy.WritePolicy;
 
@@ -139,6 +140,16 @@ public class NestedCDTs {
                                )
                               );
 
+               //Step 9: Finally, lets do a read of highest value in the list
+		Record r = client.operate(wPolicy, key1,
+                               ListOperation.getByRank(
+                               "myMap", -1, ListReturnType.VALUE,
+                               CTX.mapKey(Value.get("l1k1")), 
+                               CTX.mapKey(Value.get("l2k1")), 
+                               CTX.mapKey(Value.get("l3k3")) 
+                               )
+                              );
+                 System.out.println("Max list item value = "+ r.getInt("myMap"));
 /*
 */
                client.close();
