@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+3/2/20
+Added GoLang Hands-on to dev course for VISA.
 2/21/20
 Added NestedCDTs code example in Maps and Lists
 8/9/19

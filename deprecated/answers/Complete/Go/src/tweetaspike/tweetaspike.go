@@ -50,9 +50,10 @@ func main() {
 	
 	fmt.Println("INFO: Connecting to Aerospike cluster...")
 	// Establish connection to Aerospike server
-	client, err := NewClient("127.0.0.1", 3000)
+        // Exercise K1 - add your IP address
+	client, err := NewClient("127.0.0.1", 3000) //K1 - add IP address
 	panicOnError(err)
-	defer client.Close()
+	defer client.Close()  //K1 - close client
 
 	if !client.IsConnected() {
 		fmt.Println("ERROR: Connection to Aerospike cluster failed! Please check the server settings and try again!")
@@ -64,13 +65,18 @@ func main() {
 		var feature int
 		// Present options
 		fmt.Println("What would you like to do:")
-		fmt.Println("1> Create A User And A Tweet")
-		fmt.Println("2> Read A User Record")
-		fmt.Println("3> Batch Read Tweets For A User")
-		fmt.Println("4> Scan All Tweets For All Users")
-		fmt.Println("5> Record UDF -- Update User Password")
-		fmt.Println("6> Query Tweets By Username And Users By Tweet Count Range")
-		fmt.Println("7> Stream UDF -- Aggregation Based on Tweet Count By Region")
+		fmt.Println("1> Create A User")
+		fmt.Println("2> Create A Tweet by a User")
+		fmt.Println("3> Read A User Record")
+		fmt.Println("4> Batch Read Tweets For A User")
+		fmt.Println("5> Scan All Tweets For All Users")
+		fmt.Println("6> Record UDF -- Update User Password")
+		fmt.Println("7> Update User Password using CAS")
+		fmt.Println("8> Query Tweets By Username")
+		fmt.Println("9> Query Tweets By Tweet Count Range")
+		fmt.Println("10> Stream UDF -- Aggregation Based on Tweet Count By Region")
+		fmt.Println("11> Create a Test Set of Users")
+		fmt.Println("12> Create a Test Set of Tweets")
 		fmt.Println("0> Exit")
 		fmt.Println("\nSelect 0-7 and hit enter:")
 		fmt.Scanf("%d", &feature)
@@ -78,32 +84,39 @@ func main() {
 		if feature != 0 {
 			switch feature {
 			case 1:
-				fmt.Println("\n********** Your Selection: Create User And A Tweet **********\n")
+				fmt.Println("\n********** Your Selection: Create A User**********\n")
 				CreateUser(client)
-				CreateTweet(client)
 			case 2:
+				fmt.Println("\n********** Your Selection: Create a User's Tweet **********\n")
+				CreateTweet(client)
+			case 3:
 				fmt.Println("\n********** Your Selection: Read A User Record **********\n")
 				GetUser(client)
-			case 3:
+			case 4:
 				fmt.Println("\n********** Your Selection: Batch Read Tweets For A User **********\n")
 				BatchGetUserTweets(client)
-			case 4:
+			case 5:
 				fmt.Println("\n********** Your Selection: Scan All Tweets For All Users **********\n")
 				ScanAllTweetsForAllUsers(client)
-			case 5:
+			case 6:
 				fmt.Println("\n********** Your Selection: Record UDF -- Update User Password **********\n")
 				UpdatePasswordUsingUDF(client)
-				//UpdatePasswordUsingCAS(client);
-			case 6:
-				fmt.Println("\n********** Your Selection: Query Tweets By Username And Users By Tweet Count Range **********\n")
-				QueryTweets(client)
 			case 7:
+				fmt.Println("\n********** Your Selection: Update User Password using CAS **********\n")
+				UpdatePasswordUsingCAS(client);
+			case 8:
+				fmt.Println("\n********** Your Selection: Query Tweets By Username **********\n")
+	                        queryTweetsByUsername(client)
+			case 9:
+				fmt.Println("\n********** Your Selection: Query Tweets By Tweet Count Range **********\n")
+	                        queryUsersByTweetCount(client)
+			case 10:
 				fmt.Println("\n********** Your Selection: Stream UDF -- Aggregation Based on Tweet Count By Region **********\n")
 				AggregateUsersByTweetCountByRegion(client)
-			case 12:
+			case 11:
 				fmt.Println("\n********** Create Users **********\n")
 				CreateUsers(client)
-			case 23:
+			case 12:
 				fmt.Println("\n********** Create Tweets **********\n")
 				CreateTweets(client)
 			default:
@@ -122,14 +135,14 @@ func CreateUsers(client *Client) {
 	randomInterests := []string{"Music", "Football", "Soccer", "Baseball", "Basketball", "Hockey", "Weekend Warrior", "Hiking", "Camping", "Travel", "Photography"}
 	var userInterests []string
 	totalInterests := 0
-	start := 1
-	end := 100000
+	start := 0
+	end := 9999
 	totalUsers := end - start
 
 	wPolicy := NewWritePolicy(0, 0) // generation = 0, expiration = 0
 	wPolicy.RecordExistsAction = UPDATE
 
-	fmt.Printf("Create %d users. Press any key to continue...\n", totalUsers)
+	fmt.Printf("Create %d users. (user0 thru user%d) Press any key to continue...\n", totalUsers+1, totalUsers)
 	fmt.Scanf("%s", &c)
 
 	for j := start; j <= end; j++ {
@@ -317,12 +330,12 @@ func UpdatePasswordUsingCAS(client *Client) {
 		if err == nil {
 			// Get new password
 			var password string
-			fmt.Print("Enter new password for %s:", username)
+			fmt.Printf("Enter new password for %s:", username)
 			fmt.Scanf("%s", &password)
 
 			writePolicy := NewWritePolicy(0, 0) // generation = 0, expiration = 0
 			// record generation
-			writePolicy.Generation = int32(userRecord.Generation)
+			writePolicy.Generation = uint32(userRecord.Generation)
 			writePolicy.GenerationPolicy = EXPECT_GEN_EQUAL
 			// password Bin
 			passwordBin := NewBin("password", password)
@@ -353,27 +366,33 @@ func BatchGetUserTweets(client *Client) {
 		if userRecord != nil {
 			// Get how many tweets the user has
 			tweetCount := userRecord.Bins["tweetcount"].(int)
+                        fmt.Printf("User %s has %d tweets\n",username,tweetCount)
 
 			// Create an array of keys so we can initiate batch read
 			// operation
 			keys := make([]*Key, tweetCount)
 
 			for i := 0; i < len(keys); i++ {
-				keyString, _ := fmt.Scanf("%s:%d", username, i+1)
+				keyString := fmt.Sprintf("%s:%d", username, i+1)
 				key, _ := NewKey("test", "tweets", keyString)
 				keys[i] = key
+                                fmt.Printf("Looping... %s\n", keyString)
 			}
 
 			fmt.Printf("\nHere's %s's tweet(s):\n", username)
 
 			// Initiate batch read operation
+
 			if len(keys) > 0 {
-				records, err := client.BatchGet(NewPolicy(), keys)
+				records, err := client.BatchGet(NewBatchPolicy(), keys)
 				panicOnError(err)
-				for _, element := range records {
-					fmt.Println(element.Bins["tweet"])
-				}
+				//for _, element := range records {
+				for _, r := range records {
+			          //fmt.Println(element.Bins["tweet"])
+			          fmt.Println(r.Bins["tweet"])
+			        }
 			}
+
 		}
 	} else {
 		fmt.Println("ERROR: User record not found!")
@@ -381,20 +400,31 @@ func BatchGetUserTweets(client *Client) {
 }
 
 func AggregateUsersByTweetCountByRegion(client *Client) {
-	var min int64
+	var min int64  //No int64 ... LUA has only 56 bits for int
 	var max int64
 	fmt.Printf("\nEnter Min Tweet Count:")
 	fmt.Scanf("%d", &min)
 	fmt.Printf("Enter Max Tweet Count:")
-	fmt.Scanf("%d", max)
+	fmt.Scanf("%d", &max)
 
 	fmt.Printf("\nAggregating users with %d - %d tweets by region. Hang on...\n", min, max)
 
-	// NOTE: UDF registration has been included here for convenience and to demonstrate the syntax. The recommended way of registering UDFs in production env is via AQL
-	regTask, err := client.RegisterUDFFromFile(nil, "udf/aggregationByRegion.lua", "aggregationByRegion.lua", LUA)
+	// NOTE: UDF registration has been included here for convenience and 
+        // to demonstrate the syntax. The recommended way of registering UDFs 
+        // in production env is via AQL
+
+        //Set LuaPath
+        luaPath, _ := os.Getwd()
+        luaPath += "/udf/"
+        fmt.Println(luaPath)
+        SetLuaPath(luaPath)
+
+
+	// Load UDF and wait until UDF is created
+
+	regTask, err := client.RegisterUDFFromFile(nil, luaPath+"aggregationByRegion.lua", "aggregationByRegion.lua", LUA)
 	panicOnError(err)
 
-	// wait until UDF is created
 	for {
 		if err := <-regTask.OnComplete(); err == nil {
 			break
@@ -402,36 +432,22 @@ func AggregateUsersByTweetCountByRegion(client *Client) {
 	}
 
 	stmt := NewStatement("test", "users", "tweetcount", "region")
-	stmt.Addfilter(NewRangeFilter("tweetcount", min, max))
-	
-	
-	//******************************************************
-	//
-	//		Aggregations are not yet implemented in Go
-	//
-	//******************************************************
-	
+	stmt.SetFilter(NewRangeFilter("tweetcount", min, max))  //SI on tweetcount required
 
-	//			rs, err := us.Client.Query(nil, stmt, "aggregationByRegion", "sum");
-	//		panicOnError(err)
-	//	L:
-	//		for {
-	//			select {
-	//			case rec, chanOpen := <-rs.Records:
-	//				if !chanOpen {
-	//					break L
-	//				}
-	//				fmt.Printf("\nTotal Users in North: %d\n", result["n"]);
-	//				fmt.Printf("Total Users in South: %d", result["s"]);
-	//				fmt.Printf("Total Users in East: %d", result["e"]);
-	//				fmt.Printf("Total Users in West: %d", result["w"]);
-	//			case err := <-recordset.Errors:
-	//				panicOnError(err)
-	//			}
-	//		}
-	//		rs.Close()
-	//
+	rs, err := client.QueryAggregate(nil, stmt, "aggregationByRegion", "sum");
+	panicOnError(err)
 
+        for rec := range rs.Results() {
+          if(rec != nil){
+              res := rec.Record.Bins["SUCCESS"].(map[interface{}]interface{})
+              fmt.Printf("\nTotal Users in North: %.0f\n", res["n"]);
+              fmt.Printf("Total Users in South: %.0f\n", res["s"]);
+              fmt.Printf("Total Users in East: %.0f\n", res["e"]);
+              fmt.Printf("Total Users in West: %.0f\n", res["w"]);
+          }
+         }
+
+         rs.Close()
 }
 
 //============================================================
@@ -461,7 +477,8 @@ func CreateTweets(client *Client) {
 		"Which is the best cafe in Portland? Discuss...",
 		"I dont always tweet, but when I do it is on Tweetaspike"}
 
-	totalUsers := 10000
+	totalUsers := 1000
+	maxUsers := 10000
 	maxTweets := 20
 	timestamp := 0
 
@@ -469,18 +486,23 @@ func CreateTweets(client *Client) {
 	wPolicy.RecordExistsAction = UPDATE
 
 	fmt.Printf("Create up to %d tweets each for %d users. Press any key to continue...\n", maxTweets, totalUsers)
-	fmt.Scanln("%s", &c)
+	fmt.Scanf("%s", &c)
 
 	for j := 0; j < totalUsers; j++ {
 		// Check if user record exists
-		username := fmt.Sprintf("user%d", rand.Intn(totalUsers))
+		username := fmt.Sprintf("user%d", rand.Intn(maxUsers))
 		userKey, _ := NewKey("test", "users", username)
 		userRecord, err := client.Get(nil, userKey)
+
+                fmt.Printf("username=%s, ", username)
 
 		panicOnError(err)
 		if userRecord != nil {
 			// create up to maxTweets random tweets for this user
 			totalTweets := rand.Intn(maxTweets)
+                        if(totalTweets==0) {
+                          totalTweets = 1  //Every user selected should get one tweet at least
+                        }
 			for k := 1; k <= totalTweets; k++ {
 				// Create timestamp to store along with the tweet so we can
 				// query, index and report on it
@@ -495,7 +517,7 @@ func CreateTweets(client *Client) {
 				err := client.PutBins(wPolicy, tweetKey, bin1, bin2, bin3)
 				panicOnError(err)
 			}
-			fmt.Printf("Wrote %d tweets for %s!\n", totalTweets, username)
+			fmt.Printf("Wrote %d tweets for %s\n", totalTweets, username)
 			if totalTweets > 0 {
 				// Update tweet count and last tweet'd timestamp in the user
 				// record
@@ -557,7 +579,7 @@ func CreateTweet(client *Client) {
 
 			// Create timestamp to store along with the tweet so we can
 			// query, index and report on it
-			timestamp := getTimeStamp()
+			timestamp := getTimeStamp()  //Note: LUA will only store 56 bits
 
 			keyString := fmt.Sprintf("%s:%d", username, tweetCount)
 			tweetKey, _ := NewKey("test", "tweets", keyString)
@@ -633,7 +655,7 @@ func queryTweetsByUsername(client *Client) {
 
 	if len(username) > 0 {
 		stmt := NewStatement("test", "tweets", "tweet")
-		stmt.Addfilter(NewEqualFilter("username", username))
+		stmt.SetFilter(NewEqualFilter("username", username))
 
 		fmt.Printf("\nHere's " + username + "'s tweet(s):\n")
 
@@ -674,7 +696,7 @@ func queryUsersByTweetCount(client *Client) {
 	fmt.Printf("\nList of users with %d - %d tweets:\n", min, max)
 
 	stmt := NewStatement("test", "users", "username", "tweetcount", "gender")
-	stmt.Addfilter(NewRangeFilter("tweetcount", min, max))
+	stmt.SetFilter(NewRangeFilter("tweetcount", min, max))
 
 	recordset, err := client.Query(nil, stmt)
 	panicOnError(err)

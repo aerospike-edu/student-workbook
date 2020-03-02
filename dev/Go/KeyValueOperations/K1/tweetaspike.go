@@ -1,5 +1,5 @@
 /* 
- * Copyright 2012-2015 Aerospike, Inc.
+ * Copyright 2012-2020 Aerospike, Inc.
  *
  * Portions may be licensed to Aerospike, Inc. under one or more contributor
  * license agreements.
@@ -72,15 +72,15 @@ func main() {
 		fmt.Println("3> Read A User Record")
 		fmt.Println("4> Batch Read Tweets For A User")
 		fmt.Println("5> Scan All Tweets For All Users")
-		fmt.Println("6> Record UDF -- Update User Password")
-		fmt.Println("7> Update User Password using CAS")
+		fmt.Println("6> Update User Password using CAS")
+		fmt.Println("7> Record UDF -- Update User Password")
 		fmt.Println("8> Query Tweets By Username")
 		fmt.Println("9> Query Tweets By Tweet Count Range")
 		fmt.Println("10> Stream UDF -- Aggregation Based on Tweet Count By Region")
 		fmt.Println("11> Create a Test Set of Users")
 		fmt.Println("12> Create a Test Set of Tweets")
 		fmt.Println("0> Exit")
-		fmt.Println("\nSelect 0-7 and hit enter:")
+		fmt.Println("\nSelect 0-12 and hit enter:")
 		fmt.Scanf("%d", &feature)
 
 		if feature != 0 {
@@ -101,11 +101,11 @@ func main() {
 				fmt.Println("\n********** Your Selection: Scan All Tweets For All Users **********\n")
 				ScanAllTweetsForAllUsers(client)
 			case 6:
-				fmt.Println("\n********** Your Selection: Record UDF -- Update User Password **********\n")
-				UpdatePasswordUsingUDF(client)
-			case 7:
 				fmt.Println("\n********** Your Selection: Update User Password using CAS **********\n")
 				UpdatePasswordUsingCAS(client);
+			case 7:
+				fmt.Println("\n********** Your Selection: Record UDF -- Update User Password **********\n")
+				UpdatePasswordUsingUDF(client)
 			case 8:
 				fmt.Println("\n********** Your Selection: Query Tweets By Username **********\n")
 	                        queryTweetsByUsername(client)
@@ -378,7 +378,6 @@ func BatchGetUserTweets(client *Client) {
 				keyString := fmt.Sprintf("%s:%d", username, i+1)
 				key, _ := NewKey("test", "tweets", keyString)
 				keys[i] = key
-                                fmt.Printf("Looping... %s\n", keyString)
 			}
 
 			fmt.Printf("\nHere's %s's tweet(s):\n", username)
@@ -388,10 +387,8 @@ func BatchGetUserTweets(client *Client) {
 			if len(keys) > 0 {
 				records, err := client.BatchGet(NewBatchPolicy(), keys)
 				panicOnError(err)
-				//for _, element := range records {
-				for _, r := range records {
-			          //fmt.Println(element.Bins["tweet"])
-			          fmt.Println(r.Bins["tweet"])
+				for _, element := range records {
+			          fmt.Println(element.Bins["tweet"])
 			        }
 			}
 
@@ -467,7 +464,7 @@ func CreateTweets(client *Client) {
 		"We have a mean no-no-bring-bag up here on aisle two.",
 		"SEEK: See, Every, EVERY, Kind... of spot",
 		"We can order that for you. It will take a year to get there.",
-		"If you are pregnant, have a soda.",
+		"If you are thirsty, don't have soda.",
 		"Hear that snap? Hear that clap?",
 		"Follow me and I may follow you",
 		"Which is the best cafe in Portland? Discuss...",
@@ -609,7 +606,7 @@ func updateUser(client *Client, userKey *Key,
 	panicOnError(err)
 	fmt.Printf("\nINFO: The tweet count now is: %v\n", bin1)
 
-	// updateUserUsingOperate(userKey, policy, ts);
+	// updateUserUsingOperate(client, userKey, policy, timestamp);
 }
 
 func updateUserUsingOperate(client *Client, userKey *Key,
