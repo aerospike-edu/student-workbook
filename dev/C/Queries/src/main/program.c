@@ -72,7 +72,7 @@ main(int argc, char* argv[])
 	//Exercise R2, Exercise A2
 	strcpy(config.lua.user_path, "/usr/local/aerospike/usr-lua");
 	//manually copy client side stream udf to this location
-	strcpy(config.lua.system_path, "/usr/local/aerospike/lua");
+	//strcpy(config.lua.system_path, "/usr/local/aerospike/lua"); //deprecated field
 
 	aerospike as;
 	aerospike_init(&as, &config);

@@ -74,7 +74,7 @@ main(int argc, char* argv[])
 	strcpy(config.lua.user_path, "...");
 	//manually copy client side stream udf to this location
 
-	strcpy(config.lua.system_path, "...");
+	//strcpy(config.lua.system_path, "...");  //deprecated field
 	*/
 
 	aerospike as;

@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+3/27/20
+dev/C - system_path for Aggregations deprecated. Commented out from code in program.c.
 3/2/20
 Added GoLang Hands-on to dev course for VISA.
 2/21/20
