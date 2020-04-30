@@ -96,7 +96,7 @@ public class MapAPIs {
 
                System.out.println("\nGet GroupID2, Value Range Query (includes LOW, <HIGH):"); 
                System.out.println("\nKey2,getByValueRange(21,23) = "+ client.operate(null, key2,  
-                  MapOperation.getByValueRange("myMap", Value.get(21), Value.get(23), MapReturnType.VALUE)));   //Try: Value.get(22), null          
+                  MapOperation.getByValueRange("myMap", Value.get(21), Value.get(23), MapReturnType.VALUE)));   //Try: Value.get(22), Value.INFINITY
 
                System.out.println("\nGet GroupID2, Get by map key:"); 
                System.out.println("\nKey2,getByKey('cv1') = "+ client.operate(null, key2,  

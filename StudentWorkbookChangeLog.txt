@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+4/30/20
+dm/mapAPIs - Value.get(22),null change to: Value.get(22), Value.INFINITY
 3/27/20
 dev/C - system_path for Aggregations deprecated. Commented out from code in program.c.
 3/2/20
