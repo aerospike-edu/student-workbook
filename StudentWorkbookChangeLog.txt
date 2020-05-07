@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+5/6/20
+dev/correctScans example added
 5/1/20
 Go version of Nested CDT example code 
 added in student-workbook/dm/nestedCDTs/go
