@@ -60,7 +60,7 @@ public class CorrectScans {
                 System.out.println("Total by 1 partition, with pagination: ***** "+num_total+" *****");
                 System.out.println("Total actual tweets: ***** "+num_total_tweets+" *****");
 
-                // Scan 4 partitions at a time, with pagination.
+                // Scan 4 partitions at a time, all records in the 4 partitions. (No pagination)
                 
                 num_total = 0;
                 int pRange = 4;
