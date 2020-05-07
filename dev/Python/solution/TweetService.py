@@ -271,7 +271,7 @@ class TweetService(object):
                     record = {}
                     ts = self.getTimeStamp()
                     tweetKey = ("test", "tweets", username + ":" + str(k))
-                    record["tweet"] = random.choice(randomTweets) + " : "+ str(tc)
+                    record["tweet"] = random.choice(randomTweets) + "[Tweet#:"+ str(tc)+"]"
                     record["ts"] =  ts
                     record["username"]= username
                     self.client.put(tweetKey,record, meta, wr_policy)
