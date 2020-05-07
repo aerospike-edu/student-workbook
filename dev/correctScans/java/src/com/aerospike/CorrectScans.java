@@ -16,7 +16,6 @@ public class CorrectScans {
 
         PartitionFilter pf = PartitionFilter.id(0);   //Initialize to start at partition 0.
         //We can update it in the asynchronous call back with the last digest value.
-        //Not thread safe for a multi-threaded application?
        
         //Tracking counters, can be updated in the call back. 
         int num_this_scan = 0;
