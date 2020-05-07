@@ -1,5 +1,7 @@
 StudentWorkbook Change Log
 5/7/20
+revert dev conf for 4.5 training
+5/7/20
 dev/correctScans example updated
 5/6/20
 dev/correctScans example added
