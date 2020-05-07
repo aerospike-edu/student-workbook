@@ -14,14 +14,14 @@ import com.aerospike.client.Language;
 
 public class CorrectScans {
 
-        static PartitionFilter pf;  
+        PartitionFilter pf = PartitionFilter.id(0);   //Initialize to start at partition 0.
         //We can update it in the asynchronous call back with the last digest value.
         //Not thread safe for a multi-threaded application?
        
         //Tracking counters, can be updated in the call back. 
-        static int num_this_scan;
-	static int num_total;
-	static int num_total_tweets;
+        int num_this_scan = 0;
+	int num_total = 0;
+	int num_total_tweets = 0;
 
 	public static void main(String[] args) {
 
@@ -33,22 +33,22 @@ public class CorrectScans {
 		//AerospikeClient client = new AerospikeClient("172.28.128.3", 3000); //Update IP Address 
 		AerospikeClient client = new AerospikeClient("127.0.0.1", 3000); //Update IP Address 
 
-                CorrectScans.num_total_tweets=0;
+                num_total_tweets=0;
 	        //Scan all tweets  (no PartitionFilter - regular scan for count validation.)
                 scanAllTweetsForAllUsers(client);
 
-                System.out.println("Total: ***** "+CorrectScans.num_total_tweets+" *****");
+                System.out.println("Total: ***** "+num_total_tweets+" *****");
 
                 // Scan partition by partition, with pagination.
                 Key startKey=null;
                 int count = 3;
-                CorrectScans.num_total = 0;
+                num_total = 0;
 
                 for(int pid=0; pid<4096; pid++){
-                 CorrectScans.pf = PartitionFilter.id(pid);  
-                 CorrectScans.num_this_scan = count;
+                 pf = PartitionFilter.id(pid);  
+                 num_this_scan = count;
                  if(client!=null){
-                   while(CorrectScans.num_this_scan >= count ){
+                   while(num_this_scan >= count ){
                         scanByPartitionWithPagination(client, count);
                         System.out.println("["+pid+"]: -- partial, up to "+count+" --");
                    }
@@ -58,16 +58,16 @@ public class CorrectScans {
                    System.out.println("NULL client?");
                  }
                 }
-                System.out.println("Total by 1 partition, with pagination: ***** "+CorrectScans.num_total+" *****");
-                System.out.println("Total actual tweets: ***** "+CorrectScans.num_total_tweets+" *****");
+                System.out.println("Total by 1 partition, with pagination: ***** "+num_total+" *****");
+                System.out.println("Total actual tweets: ***** "+num_total_tweets+" *****");
 
                 // Scan 4 partitions at a time, with pagination.
                 
-                CorrectScans.num_total = 0;
+                num_total = 0;
                 int pRange = 4;
 
                 for(int pid=0; pid<4096; pid+=pRange){  //Process 4 partitions at a time.
-                 CorrectScans.pf = PartitionFilter.range(pid,pRange);  
+                 pf = PartitionFilter.range(pid,pRange);  
                  if(client!=null){
                    scanByPartitionsRange(client);
                    System.out.println("["+pid+"]: ********************");
@@ -76,8 +76,8 @@ public class CorrectScans {
                    System.out.println("NULL client?");
                  }
                 }
-                System.out.println("Total by "+pRange+" partitions at a time, with pagination: ***** "+CorrectScans.num_total+" *****");
-                System.out.println("Total actual tweets: ***** "+CorrectScans.num_total_tweets+" *****");
+                System.out.println("Total by "+pRange+" partitions at a time, with pagination: ***** "+num_total+" *****");
+                System.out.println("Total actual tweets: ***** "+num_total_tweets+" *****");
 
                 client.close();
 	}
@@ -95,7 +95,7 @@ public class CorrectScans {
                                                 throws AerospikeException {
                                         //System.out.println(record.getValue("tweet") + "\n");
                                         //Not printing the tweet, just taking the count to crosscheck.
-                                        CorrectScans.num_total_tweets += 1;
+                                        num_total_tweets += 1;
                                 }
                         }, "tweet");
                 } catch (AerospikeException e) {
@@ -111,16 +111,16 @@ public class CorrectScans {
                 policy.concurrentNodes = false;
                 policy.includeBinData = true;
                 policy.maxRecords = count; 
-                CorrectScans.num_this_scan = 0;
+                num_this_scan = 0;
                 
                 try {
-                  client.scanPartitions(policy, CorrectScans.pf,  "test", "tweets", new ScanCallback() {
+                  client.scanPartitions(policy, pf,  "test", "tweets", new ScanCallback() {
                                 public void scanCallback(Key key, Record record)
                                                 throws AerospikeException {
                                         System.out.println(record.getValue("tweet") + "\n");
-                                        CorrectScans.pf = PartitionFilter.after(key);
-                                        CorrectScans.num_this_scan += 1;
-                                        CorrectScans.num_total += 1;
+                                        pf = PartitionFilter.after(key);
+                                        num_this_scan += 1;
+                                        num_total += 1;
                                 }
                         }, "tweet");
                   
@@ -134,16 +134,15 @@ public class CorrectScans {
                 policy.concurrentNodes = false;
                 policy.includeBinData = true;
                 policy.maxRecords = 0; //count; 
-                CorrectScans.num_this_scan = 0;
+                num_this_scan = 0;
                 
                 try {
-                  client.scanPartitions(policy, CorrectScans.pf,  "test", "tweets", new ScanCallback() {
+                  client.scanPartitions(policy, pf,  "test", "tweets", new ScanCallback() {
                                 public void scanCallback(Key key, Record record)
                                                 throws AerospikeException {
                                         System.out.println(record.getValue("tweet") + "\n");
-                                        //CorrectScans.pf = PartitionFilter.after(key);
-                                        CorrectScans.num_this_scan += 1;
-                                        CorrectScans.num_total += 1;
+                                        num_this_scan += 1;
+                                        num_total += 1;
                                 }
                         }, "tweet");
                   
