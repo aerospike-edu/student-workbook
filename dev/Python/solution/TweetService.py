@@ -251,6 +251,7 @@ class TweetService(object):
         maxTweets = 20
         username = str()
         ts = 0
+        tc = 0
         wr_policy = {'exists':aerospike.POLICY_EXISTS_IGNORE}
         print("\nCreate up to " , maxTweets , " tweets each for " , totalUsers , " users. Press any key to continue...\n")
         input("..")
@@ -270,11 +271,12 @@ class TweetService(object):
                     record = {}
                     ts = self.getTimeStamp()
                     tweetKey = ("test", "tweets", username + ":" + str(k))
-                    record["tweet"] = random.choice(randomTweets)
+                    record["tweet"] = random.choice(randomTweets) + " : "+ str(tc)
                     record["ts"] =  ts
                     record["username"]= username
                     self.client.put(tweetKey,record, meta, wr_policy)
                     k += 1
+                    tc += 1
                 #  Create timestamp to store along with the tweet so we can
                 #  query, index and report on it
                 print("\nWrote " , totalTweets , " tweets for " , username)
