@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+5/8/20
+CorrectScans.java updated
 5/7/20
 revert dev conf for 4.5 training
 5/7/20
