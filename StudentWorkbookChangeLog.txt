@@ -1,4 +1,7 @@
 StudentWorkbook Change Log
+7/13/20
+Updated for all current courses - the aerospike server configuration
+templates - compatible with older and newer Aerospike server versions.
 5/8/20
 CorrectScans.java updated
 5/7/20
