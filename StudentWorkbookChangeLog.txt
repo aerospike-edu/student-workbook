@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+8/27/20
+Update intro course for 5.1
 7/13/20
 Updated for all current courses - the aerospike server configuration
 templates - compatible with older and newer Aerospike server versions.
