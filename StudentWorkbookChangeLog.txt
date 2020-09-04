@@ -1,4 +1,7 @@
 StudentWorkbook Change Log
+9/4/20
+Cleaned up start_aerospike.conf for intro course.
+Added commented placeholder entries, tabs to spaces.
 8/27/20
 Update intro course for 5.1
 7/13/20
