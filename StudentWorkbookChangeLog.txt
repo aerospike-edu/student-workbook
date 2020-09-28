@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+9/28/20
+Add HLL hands-on, update dev course for 5.x
 9/4/20
 Cleaned up start_aerospike.conf for intro course.
 Added commented placeholder entries, tabs to spaces.
