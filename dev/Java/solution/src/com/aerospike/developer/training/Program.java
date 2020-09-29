@@ -97,6 +97,8 @@ public class Program {
 				console.printf("10> Stream UDF -- Aggregation Based on Tweet Count By Region\n");
 				console.printf("11> Create a Test Set of Users\n");
 				console.printf("12> Create a Test Set of Tweets\n");
+				console.printf("13> Estimate Tweet Cardinality\n");
+				console.printf("14> Estimate User Region and Tweeting Cardinality\n");
 				console.printf("0> Exit\n");
 				console.printf("\nSelect 0-12 and hit enter:\n");
 				int feature = Integer.parseInt(console.readLine());
@@ -150,6 +152,14 @@ public class Program {
 					case 12:
 						console.printf("\n********** Create Test Set of Tweets **********\n");
 						ts.createTweets();
+						break;
+					case 13:
+						console.printf("\n********** Your Selection: Estimate Unique Number of Tweets, Users Who Tweeted **********\n");
+						 ts.scanAllTweetsForAllUsersAndEstimateCardinality();
+						break;
+					case 14:
+						console.printf("\n********** Your Selection: Estimate Users with >= 5 Tweets and Region = n **********\n");
+						 us.scanAllUsersAndEstimateCardinality();
 						break;
 					default:
 						break;

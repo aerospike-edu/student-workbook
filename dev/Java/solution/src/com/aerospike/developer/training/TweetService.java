@@ -19,6 +19,8 @@ package com.aerospike.developer.training;
 
 import java.io.File;
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 import com.aerospike.client.AerospikeClient;
 import com.aerospike.client.AerospikeException;
@@ -26,6 +28,8 @@ import com.aerospike.client.Bin;
 import com.aerospike.client.Key;
 import com.aerospike.client.Language;
 import com.aerospike.client.Operation;
+import com.aerospike.client.operation.HLLOperation;
+import com.aerospike.client.operation.HLLPolicy;
 import com.aerospike.client.Record;
 import com.aerospike.client.ScanCallback;
 import com.aerospike.client.Value;
@@ -44,6 +48,7 @@ import com.aerospike.client.task.RegisterTask;
 public class TweetService {
 	private AerospikeClient client;
 	private EclipseConsole console = new EclipseConsole();
+        private int totalTweets;
 
 	public TweetService(AerospikeClient client) {
 		this.client = client;
@@ -154,6 +159,85 @@ public class TweetService {
 					+ UtilityService.printStackTrace(e));
 		}
 	} //scanAllTweetsForAllUsers
+
+
+        //HLL Datatype
+	public void scanAllTweetsForAllUsersAndEstimateCardinality() {
+		try {
+                        // In a record with PK=hllTweets, add bins: hllTweetsBin and hllUsersBin
+
+                        final Key k_hll = new Key("test", null, "hllTweets");
+                        client.delete(null, k_hll); //Start clean
+                        final String hllTweetsBin = "hllTweetsBin";
+                        final String hllUsersBin = "hllUsersBin";
+                        int indexBits_Tweets = 14;
+                        int minHashBits_Tweets = 14;
+                        int indexBits_Users = 14;
+                        int minHashBits_Users = 14;
+                        totalTweets = 0;
+
+                        console.printf("Enter Tweets indexBits (4-16): ");
+                        indexBits_Tweets = Integer.parseInt(console.readLine());
+
+                        console.printf("Enter Tweets minHashBits (4-51 or 0): ");
+                        minHashBits_Tweets = Integer.parseInt(console.readLine());
+
+                        console.printf("Enter Users indexBits (4-16): ");
+                        indexBits_Users = Integer.parseInt(console.readLine());
+
+                        console.printf("Enter Users minHashBits (4-51 or 0): ");
+                        minHashBits_Users = Integer.parseInt(console.readLine());
+
+                        //All HLL operations are through operate()
+                        Operation[] ops = new Operation[] {
+                           HLLOperation.init(HLLPolicy.Default, hllTweetsBin, indexBits_Tweets, minHashBits_Tweets),
+                           HLLOperation.init(HLLPolicy.Default, hllUsersBin, indexBits_Users, minHashBits_Users)
+                           //Initialize the HLL bins, we will add tweet and user elements as we scan.
+                        };
+                        Record rec = client.operate(null, k_hll, ops);
+
+			// Scan for all tweets
+			ScanPolicy policy = new ScanPolicy();
+			policy.concurrentNodes = true;
+			policy.priority = Priority.LOW;
+			policy.includeBinData = true;
+
+			// Initiate scan operation that invokes callback for outputting tweets on the console
+			client.scanAll(policy, "test", "tweets", new ScanCallback() {
+
+				public void scanCallback(Key key, Record record)
+						throws AerospikeException {
+					//console.printf(record.getValue("tweet") + "\n");
+                                        List<Value> lTweets = new ArrayList<Value>();
+                                        List<Value> lUsers = new ArrayList<Value>();
+                                        lTweets.add(Value.get(record.getValue("tweet")));
+                                        lUsers.add(Value.get(record.getValue("username")));
+                                        Operation[] ops = new Operation[] { 
+                                            HLLOperation.add(HLLPolicy.Default, hllTweetsBin, lTweets), 
+                                            HLLOperation.add(HLLPolicy.Default, hllUsersBin, lUsers)
+                                        };
+                                        totalTweets++;
+                                        Record rec = client.operate(null, k_hll, ops);
+				}
+			}, "tweet", "username");
+
+                        Operation[] ops2 = new Operation[] { 
+                            HLLOperation.getCount(hllTweetsBin),
+                            HLLOperation.getCount(hllUsersBin)
+                        };
+                        rec = client.operate(null, k_hll, ops2);
+                        long c_Tweets = rec.getLong(hllTweetsBin);
+		        console.printf("Total Tweets: "+totalTweets+ ", Cardinality of tweets = "+ c_Tweets+ "\n");
+                        long c_Users = rec.getLong(hllUsersBin);
+		        console.printf("Number of Users who tweeted: "+ c_Users+ "\n");
+		} catch (AerospikeException e) {
+			System.out.println("EXCEPTION - Message: " + e.getMessage());
+			System.out.println("EXCEPTION - StackTrace: "
+					+ UtilityService.printStackTrace(e));
+		}
+                                        
+
+	} //scanAllTweetsForAllUsersAndEstimateCardinality
 
 	private void updateUser(AerospikeClient client, Key userKey,
 			WritePolicy policy, long ts, int tweetCount) throws AerospikeException, InterruptedException {
@@ -392,6 +476,10 @@ public class TweetService {
 			if (userRecord != null) {
 				// create up to maxTweets random tweets for this user
 				int totalTweets = rnd1.nextInt(maxTweets);
+                                if(totalTweets == 0){
+                                    //console.printf("ZERO TWEETS *****************");
+                                   totalTweets = 10; //For HLL testing, want all 1000 users to have a tweet.
+                                }
 				for (int k = 1; k <= totalTweets; k++) {
 					// Create timestamp to store along with the tweet so we can
 					// query, index and report on it

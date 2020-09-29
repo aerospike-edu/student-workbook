@@ -18,6 +18,7 @@
 package com.aerospike.developer.training;
 
 import java.io.File;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -41,10 +42,17 @@ import com.aerospike.client.query.ResultSet;
 import com.aerospike.client.query.Statement;
 import com.aerospike.client.task.IndexTask;
 import com.aerospike.client.task.RegisterTask;
+import com.aerospike.client.Operation;
+import com.aerospike.client.operation.HLLOperation;
+import com.aerospike.client.operation.HLLPolicy;
+import com.aerospike.client.ScanCallback;
+import com.aerospike.client.policy.ScanPolicy;
+import com.aerospike.client.policy.Priority;
 
 public class UserService {
 	private AerospikeClient client;
 	private EclipseConsole console = new EclipseConsole();
+        private int totalScanned;
 
 	public UserService(AerospikeClient client) {
 		this.client = client;
@@ -420,6 +428,109 @@ public class UserService {
 			}
 		}
 	} //aggregateUsersByTweetCountByRegion
+
+
+        //HLL Datatype
+        public void scanAllUsersAndEstimateCardinality() {
+                try {
+                        // In a record with PK=hllUsers, add bins: hllTweets and hllRegion
+
+                        final Key k_hll = new Key("test", null, "hllUsers");
+                        client.delete(null, k_hll); //Start clean
+                        final String hllTweetsBin = "hllTweetsBin";  //for users with 5 or more tweetcount
+                        final String hllRegionBin = "hllRegionBin";  //for users in region = "n"
+                        int indexBits_Tweets = 14;
+                        int minHashBits_Tweets = 14;
+                        int indexBits_Region = 14;
+                        int minHashBits_Region = 14;
+                        totalScanned = 0;
+
+/*
+                        console.printf("Enter Tweets indexBits (4-16): ");
+                        indexBits_Tweets = Integer.parseInt(console.readLine());
+
+                        console.printf("Enter Tweets minHashBits (4-51 or 0): ");
+                        minHashBits_Tweets = Integer.parseInt(console.readLine());
+
+                        console.printf("Enter Region indexBits (4-16): ");
+                        indexBits_Region = Integer.parseInt(console.readLine());
+
+                        console.printf("Enter Region minHashBits (4-51 or 0): ");
+                        minHashBits_Region = Integer.parseInt(console.readLine());
+*/
+
+                        //All HLL operations are through operate()
+                        Operation[] ops = new Operation[] {
+                           HLLOperation.init(HLLPolicy.Default, hllTweetsBin, indexBits_Tweets, minHashBits_Tweets),
+                           HLLOperation.init(HLLPolicy.Default, hllRegionBin, indexBits_Region, minHashBits_Region)
+                           //Initialize the HLL bins, we will add users with > 5 tweets and users from region = "n".
+                        };
+                        Record rec = client.operate(null, k_hll, ops);
+
+                        // Scan for all users
+                        ScanPolicy policy = new ScanPolicy();
+                        policy.concurrentNodes = true;
+                        policy.priority = Priority.LOW;
+                        policy.includeBinData = true;
+
+                        // Initiate scan operation that invokes callback for outputting tweets on the console
+                        client.scanAll(policy, "test", "users", new ScanCallback() {
+
+                                public void scanCallback(Key key, Record record)
+                                                throws AerospikeException {
+                                        //console.printf(record.getValue("tweet") + "\n");
+                                        if((record.getInt("tweetcount")) >= 5){
+                                          List<Value> lTweets = new ArrayList<Value>();
+                                          lTweets.add(Value.get(record.getValue("username")));
+                                          Operation[] ops = new Operation[] {
+                                            HLLOperation.add(HLLPolicy.Default, hllTweetsBin, lTweets)
+                                          };
+                                          Record rec = client.operate(null, k_hll, ops);
+                                        }
+                                        
+                                        if(record.getString("region").equals("n") ){
+                                          List<Value> lRegion = new ArrayList<Value>();
+                                          lRegion.add(Value.get(record.getValue("username")));
+                                          Operation[] ops = new Operation[] {
+                                            HLLOperation.add(HLLPolicy.Default, hllRegionBin, lRegion)
+                                          };
+                                          Record rec = client.operate(null, k_hll, ops);
+                                        }
+                                        totalScanned++;
+                                }
+                        }, "username", "tweetcount","region");
+
+                        Operation[] ops2 = new Operation[] {
+                            HLLOperation.getCount(hllTweetsBin),
+                            HLLOperation.getCount(hllRegionBin)
+                        };
+                        rec = client.operate(null, k_hll, ops2);
+                        long c_Tweets = rec.getLong(hllTweetsBin);
+                        console.printf("Total Users: "+totalScanned+ ", Cardinality of users >= 5 tweets = "+ c_Tweets+ "\n");
+                        long c_Users = rec.getLong(hllRegionBin);
+                        console.printf("Number of Users in North: "+ c_Users+ "\n");
+
+                        //Get users in north that tweeted >= 5 tweets
+
+                        //Get HLL data on users in north as HLL list
+                        rec = client.get(null, k_hll, hllRegionBin);
+                        final Value.HLLValue hll_users = rec.getHLLValue(hllRegionBin);
+                        List<Value.HLLValue> hll_list = new ArrayList<Value.HLLValue>(){{ add(hll_users); }};
+
+                        //Get intersection count with hllTweetsBin data
+                        Operation[] ops3 = new Operation[] { HLLOperation.getIntersectCount(hllTweetsBin, hll_list)};
+                        rec = client.operate(null, k_hll, ops3);
+                        long c_NUsersWithmin5Tweets = rec.getLong(hllTweetsBin);
+                        console.printf("Total Users from North with >= 5 tweets = "+ c_NUsersWithmin5Tweets+ "\n");
+ 
+                } catch (AerospikeException e) {
+                        System.out.println("EXCEPTION - Message: " + e.getMessage());
+                        System.out.println("EXCEPTION - StackTrace: "
+                                        + UtilityService.printStackTrace(e));
+                }
+
+
+        } //scanAllUsersAndEstimateCardinality
 
 	public void createUsers() throws AerospikeException {
 		String[] genders = { "m", "f" };
