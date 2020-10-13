@@ -1,4 +1,7 @@
 StudentWorkbook Change Log
+10/12/20
+Update storage_aerospike.conf for high water marks.
+ps/
 9/28/20
 Add HLL hands-on, update dev course for 5.x
 9/4/20
