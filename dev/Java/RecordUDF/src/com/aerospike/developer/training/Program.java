@@ -43,7 +43,7 @@ public class Program {
 		// TODO: Establish a connection to Aerospike cluster
 		// Exercise K1				
 		//Replace "127.0.0.1" with your AWS instance IP address
-		this.client = new AerospikeClient("54.237.175.53", 3000);		
+		this.client = new AerospikeClient("127.0.0.1", 3000);		
 		// Note: Scroll down and also see the functions 
 		// multipleSeedNodes() and connectWithClientPolicy()
 		// for other implementations for establishing a connection.
