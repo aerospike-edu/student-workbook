@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+6/2/21
+k8: Kubernetes/Aerospike Operator - initial release.
 12/18/20
 Java labs, updated K1 default connection to 127.0.0.1
 10/12/20
