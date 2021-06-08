@@ -2,18 +2,18 @@ import aerospike
 from flask import Flask, request
 import os
 
-NUM_RECORDS = 1
+NUM_RECORDS = 10
 # Configure the client
 config = {
-  # 'hosts': [ (os.environ.get('AEROSPIKE_HOST', '0.0.0.0'), 3000) ]
-  'hosts': [ 'aerocluster-0-1.aerocluster.aerospike.svc.cluster.local', 3000) ]
+  'hosts': [ ('aerocluster-0-0.aerocluster.aerospike.svc.cluster.local', 3000) ]
+  # 'hosts': [ ('54.144.78.251', 3000) ]
 }
 
 app = Flask(__name__)
 
 # Create a client and connect it to the cluster
 try:
-  client = aerospike.client(config).connect()
+  client = aerospike.client(config).connect('training','aerospike')
 except:
   import sys
   print("failed to connect to the cluster with", config['hosts'])
@@ -25,10 +25,10 @@ def hello():
         # Records are addressable via a tuple of (namespace, set, key)
         try:
             for i in range(NUM_RECORDS):
-                key = ('test', 'demo', i)
+                key = ('test', 'testset', 'key'+str(i))
                 val = {
                     'name': 'John Doe' + str(i),
-                    'age': 3200
+                    'age': 32
                 }
                 client.put(key, val)
             return 'Success'
@@ -42,8 +42,9 @@ def hello():
         records = []
         try:
             for i in range(NUM_RECORDS):
-                key = ('test', 'demo', i)
+                key = ('test', 'testset', 'key'+str(i))
                 (key, metadata, record) = client.get(key)
+                records.append('key'+str(i)+': ')
                 records.append(record)
             return {'result': records}
         except Exception as e:
@@ -52,6 +53,4 @@ def hello():
         client.close()
 
 if __name__ == "__main__":
-    # app.run(host='0.0.0.0')
-    # app.run(host='aerocluster-0-1.aerocluster.aerospike.svc.cluster.local')
-    app.run()
+    app.run(host='0.0.0.0')

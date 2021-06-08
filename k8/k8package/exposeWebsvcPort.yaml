@@ -1,12 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: my-service
+  name: websvc-nodeport
 spec:
   selector:
     app: websvc
   ports:
   - protocol: TCP
-    port: 80
+    port: 5000
     nodePort: 30080
   type: NodePort
