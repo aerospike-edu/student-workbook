@@ -5,7 +5,8 @@ import os
 NUM_RECORDS = 10
 # Configure the client
 config = {
-  'hosts': [ ('aerocluster-0-0.aerocluster.aerospike.svc.cluster.local', 3000) ]
+  'hosts': [ ('aerocluster', 3000) ]
+  # 'hosts': [ ('aerocluster-0-0.aerocluster.aerospike.svc.cluster.local', 3000) ]
   # 'hosts': [ ('54.144.78.251', 3000) ]
 }
 
