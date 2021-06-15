@@ -1,0 +1,90 @@
+apiVersion: aerospike.com/v1alpha1
+kind: AerospikeCluster
+metadata:
+  name: aerocluster
+  namespace: aerospike
+
+spec:
+  size: 3
+  image: aerospike/aerospike-server-enterprise:5.5.0.9
+
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 200m
+
+  storage:
+    filesystemVolumePolicy:
+      initMethod: deleteFiles
+      cascadeDelete: true
+    blockVolumePolicy:
+      cascadeDelete: true
+    volumes:
+      - storageClass: ssd
+        path: /opt/aerospike
+        volumeMode: filesystem
+        sizeInGB: 1
+      - path: /test/dev/xvdf
+        storageClass: ssd
+        volumeMode: block
+        sizeInGB: 5
+
+  multiPodPerHost: false
+
+  aerospikeAccessControl:
+    roles:
+      - name: rwd_global
+        privileges:
+          - data-admin
+          - read-write
+    users:
+      - name: training
+        secretName: training-user-secret
+        roles:
+          - rwd_global
+      - name: admin
+        secretName: auth-secret
+        roles:
+          - sys-admin
+          - user-admin
+
+  aerospikeConfigSecret:
+    secretName: aerospike-secret
+    mountPath:  /etc/aerospike/secret
+
+  aerospikeConfig:
+    service:
+      feature-key-file: /etc/aerospike/secret/features.conf
+    security:
+      enable-security: true
+    namespaces:
+      - name: test
+        memory-size: 3000000000
+        replication-factor: 2
+        storage-engine:
+          type: device
+          devices:
+            - /test/dev/xvdf
+  podSpec:
+    sidecars:
+      - name: aerospike-prometheus-exporter
+        image: "aerospike/aerospike-prometheus-exporter:1.2.0"
+        ports:
+          - containerPort: 9145
+            name: exporter
+        env:
+        - name: AGENT_LOG_FILE
+          value: /etc/aerospike-prometheus-exporter/exporter.log
+        - name: AGENT_LOG_LEVEL
+          value: debug
+        - name: AS_HOST
+          value: localhost
+        - name: AS_AUTH_USER
+          value: training
+        - name: AS_AUTH_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: training-user-secret
+              key: password
+        - name: AS_AUTH_MODE
+          value: internal

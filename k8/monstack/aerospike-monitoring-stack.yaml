@@ -1,0 +1,356 @@
+---
+# Source: aerospike-monitoring-stack/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: aerospike-monitoring-stack
+    chart: aerospike-monitoring-stack
+    release: aerospike-monitoring-stack
+  name: aerospike-monitoring-stack-aerospike-monitoring-stack
+  namespace: default
+---
+# Source: aerospike-monitoring-stack/templates/grafana-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aerospike-monitoring-stack-grafana-config
+  namespace: default
+  labels:
+    app: aerospike-monitoring-stack-grafana
+    chart: aerospike-monitoring-stack
+    release: aerospike-monitoring-stack
+    app.kubernetes.io/component: grafana
+data:
+  grafana.ini: |
+    [analytics]
+    check_for_updates = true
+    [grafana_net]
+    url = https://grafana.net
+    [log]
+    mode = console
+    [paths]
+    data = /var/lib/grafana/data
+    logs = /var/log/grafana
+    plugins = /var/lib/grafana/plugins
+    [server]
+    http_port = 3000
+---
+# Source: aerospike-monitoring-stack/templates/grafana-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aerospike-monitoring-stack-grafana-provisioning-datasources
+  namespace: default
+  labels:
+    app: aerospike-monitoring-stack-grafana
+    chart: aerospike-monitoring-stack
+    release: aerospike-monitoring-stack
+    app.kubernetes.io/component: grafana
+data:
+  all.yaml: |-
+    apiVersion: 1
+    datasources:
+      - name: "Aerospike Prometheus"
+        type: prometheus
+        access: proxy
+        # orgId: 1
+        url: http://aerospike-monitoring-stack-prometheus:9090
+        editable: true
+        isDefault: false
+---
+# Source: aerospike-monitoring-stack/templates/prometheus-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aerospike-monitoring-stack-prometheus-config
+  namespace: default
+  labels:
+    app: aerospike-monitoring-stack-prometheus
+    chart: aerospike-monitoring-stack
+    release: aerospike-monitoring-stack
+    app.kubernetes.io/component: prometheus
+data:
+  prometheus.yaml: |-
+    global:
+      scrape_interval:     "15s"
+      evaluation_interval: "15s"
+
+    scrape_configs:
+      - job_name: 'aerospike'
+        kubernetes_sd_configs:
+        - role: endpoints
+          # namespaces:
+            # names:
+              # - aerospike
+        relabel_configs:
+          # - action: keep
+          #   regex: aerospike
+          #   replacement: $1
+          #   separator: ;
+          #   source_labels:
+          #   - __meta_kubernetes_namespace
+          - action: keep
+            regex: aerospike-cluster
+            replacement: $1
+            separator: ;
+            source_labels:
+            - __meta_kubernetes_pod_label_app
+          - action: keep
+            regex: exporter
+            replacement: $1
+            separator: ;
+            source_labels:
+            - __meta_kubernetes_pod_container_port_name
+---
+# Source: aerospike-monitoring-stack/templates/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app: aerospike-monitoring-stack
+    chart: aerospike-monitoring-stack
+    release: aerospike-monitoring-stack
+  name: aerospike-monitoring-stack-aerospike-monitoring-stack
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+      - pods
+      - statefulsets
+      - configmaps
+      - secrets
+      - services
+      - nodes
+      - nodes/metrics
+      - endpoints
+    verbs:
+      - list
+      - watch
+      - get
+  - nonResourceURLs: ["/metrics"]
+    verbs: ["get"]
+---
+# Source: aerospike-monitoring-stack/templates/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app: aerospike-monitoring-stack
+    chart: aerospike-monitoring-stack
+    release: aerospike-monitoring-stack
+  name: aerospike-monitoring-stack-aerospike-monitoring-stack
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: aerospike-monitoring-stack-aerospike-monitoring-stack
+subjects:
+  - kind: ServiceAccount
+    name: aerospike-monitoring-stack-aerospike-monitoring-stack
+    namespace: default
+---
+# Source: aerospike-monitoring-stack/templates/grafana-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: aerospike-monitoring-stack-grafana
+  namespace: default
+  labels:
+    app: aerospike-monitoring-stack-grafana
+    chart: aerospike-monitoring-stack
+    release: aerospike-monitoring-stack
+    app.kubernetes.io/component: grafana
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: aerospike-monitoring-stack-grafana
+---
+# Source: aerospike-monitoring-stack/templates/prometheus-service.yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: aerospike-monitoring-stack-prometheus
+  namespace: default
+  labels:
+    app: aerospike-monitoring-stack-prometheus
+    chart: aerospike-monitoring-stack
+    release: aerospike-monitoring-stack
+    app.kubernetes.io/component: prometheus
+spec:
+  ports:
+    - name: http
+      port: 9090
+      protocol: TCP
+      targetPort: 9090
+  sessionAffinity: ClientIP
+  selector:
+    app: aerospike-monitoring-stack-prometheus
+---
+# Source: aerospike-monitoring-stack/templates/grafana-statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: aerospike-monitoring-stack-grafana
+  namespace: default
+  labels: &Labels
+    app: aerospike-monitoring-stack-grafana
+    chart: aerospike-monitoring-stack
+    release: aerospike-monitoring-stack
+    app.kubernetes.io/component: grafana
+    unique-app: aerospike-monitoring-stack-grafana
+spec:
+  serviceName: aerospike-monitoring-stack-grafana
+  replicas: 1
+  selector:
+    matchLabels: *Labels
+  template:
+    metadata:
+      labels: *Labels
+      annotations:
+    spec:
+      serviceAccountName: aerospike-monitoring-stack-aerospike-monitoring-stack
+      terminationGracePeriodSeconds: 120
+      initContainers:
+      - name: "init-chmod-data"
+        image: debian:9
+        imagePullPolicy: "IfNotPresent"
+        command: ["chmod", "777", "/var/lib/grafana"]
+        volumeMounts:
+        - name: "grafana-data"
+          mountPath: "/var/lib/grafana"
+      containers:
+      - name: grafana
+        image: "grafana/grafana:latest"
+        imagePullPolicy: "IfNotPresent"
+        volumeMounts:
+        - name: grafana-config
+          mountPath: "/etc/grafana/"
+        - name: grafana-provisioning-datasources
+          mountPath: "/etc/grafana/provisioning/datasources"
+        - name: "grafana-data"
+          mountPath: "/var/lib/grafana"
+        ports:
+          - name: service
+            containerPort: 80
+            protocol: TCP
+          - name: grafana
+            containerPort: 3000
+            protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 10
+        resources:
+          {}
+        env:
+          - name: GF_SECURITY_ADMIN_USER
+            value: "admin"
+          - name: GF_SECURITY_ADMIN_PASSWORD
+            value: "admin"
+      volumes:
+        - name: grafana-config
+          configMap:
+            name: aerospike-monitoring-stack-grafana-config
+        - name: grafana-provisioning-datasources
+          configMap:
+            name: aerospike-monitoring-stack-grafana-provisioning-datasources
+        - name: "grafana-data"
+          emptyDir: {}
+  volumeClaimTemplates:
+---
+# Source: aerospike-monitoring-stack/templates/prometheus-statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: aerospike-monitoring-stack-prometheus
+  namespace: default
+  labels: &Labels
+    app: aerospike-monitoring-stack-prometheus
+    chart: aerospike-monitoring-stack
+    release: aerospike-monitoring-stack
+    app.kubernetes.io/component: prometheus
+    unique-app: aerospike-monitoring-stack-prometheus
+spec:
+  serviceName: aerospike-monitoring-stack-prometheus
+  replicas: 1
+  podManagementPolicy: Parallel
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels: *Labels
+  template:
+    metadata:
+      labels: *Labels
+      annotations:
+    spec:
+      serviceAccountName: aerospike-monitoring-stack-aerospike-monitoring-stack
+      initContainers:
+      - name: "init-chown-data"
+        image: debian:9
+        imagePullPolicy: "IfNotPresent"
+        command: ["chown", "-R", "65534:65534", "/data"]
+        volumeMounts:
+        - name: "prometheus-data"
+          mountPath: "/data"
+      containers:
+      - name: prometheus-server
+        image: "prom/prometheus:latest"
+        imagePullPolicy: "IfNotPresent"
+        args:
+          - --config.file=/etc/prometheus/prometheus.yaml
+          - --storage.tsdb.path="/data"
+          - --web.listen-address=:9090
+        ports:
+          - containerPort: 9090
+        readinessProbe:
+          httpGet:
+            path: /-/ready
+            port: 9090
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /-/healthy
+            port: 9090
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 3
+        resources:
+          {}
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/prometheus
+        - name: "prometheus-data"
+          mountPath: "/data"
+      terminationGracePeriodSeconds: 120
+      volumes:
+      - name: config-volume
+        configMap:
+          name: aerospike-monitoring-stack-prometheus-config
+      - name: "prometheus-data"
+        emptyDir: {}
+  volumeClaimTemplates:
