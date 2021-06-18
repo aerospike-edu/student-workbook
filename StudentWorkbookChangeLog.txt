@@ -1,4 +1,6 @@
 StudentWorkbook Change Log
+6/18/21
+k8: Updated / Aerospike monitory stack added.
 6/2/21
 k8: Kubernetes/Aerospike Operator - initial release.
 12/18/20

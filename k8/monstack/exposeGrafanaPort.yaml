@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: grafana-nodeport
+spec:
+  selector:
+    app: aerospike-monitoring-stack-grafana
+  ports:
+  - protocol: TCP
+    port: 8000
+    nodePort: 30100
+  type: NodePort

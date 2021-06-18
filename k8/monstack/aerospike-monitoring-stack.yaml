@@ -8,14 +8,14 @@ metadata:
     chart: aerospike-monitoring-stack
     release: aerospike-monitoring-stack
   name: aerospike-monitoring-stack-aerospike-monitoring-stack
-  namespace: default
+  namespace: aerospike
 ---
 # Source: aerospike-monitoring-stack/templates/grafana-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: aerospike-monitoring-stack-grafana-config
-  namespace: default
+  namespace: aerospike
   labels:
     app: aerospike-monitoring-stack-grafana
     chart: aerospike-monitoring-stack
@@ -34,14 +34,14 @@ data:
     logs = /var/log/grafana
     plugins = /var/lib/grafana/plugins
     [server]
-    http_port = 3000
+    http_port = 8000
 ---
 # Source: aerospike-monitoring-stack/templates/grafana-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: aerospike-monitoring-stack-grafana-provisioning-datasources
-  namespace: default
+  namespace: aerospike
   labels:
     app: aerospike-monitoring-stack-grafana
     chart: aerospike-monitoring-stack
@@ -64,7 +64,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: aerospike-monitoring-stack-prometheus-config
-  namespace: default
+  namespace: aerospike
   labels:
     app: aerospike-monitoring-stack-prometheus
     chart: aerospike-monitoring-stack
@@ -148,34 +148,35 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: aerospike-monitoring-stack-aerospike-monitoring-stack
-    namespace: default
+    namespace: aerospike
 ---
 # Source: aerospike-monitoring-stack/templates/grafana-service.yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: aerospike-monitoring-stack-grafana
-  namespace: default
-  labels:
-    app: aerospike-monitoring-stack-grafana
-    chart: aerospike-monitoring-stack
-    release: aerospike-monitoring-stack
-    app.kubernetes.io/component: grafana
-spec:
-  ports:
-    - name: http
-      port: 80
-      protocol: TCP
-      targetPort: 3000
-  selector:
-    app: aerospike-monitoring-stack-grafana
----
+# We will expose to externalIP instead
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: aerospike-monitoring-stack-grafana
+#  namespace: aerospike
+#  labels:
+#    app: aerospike-monitoring-stack-grafana
+#    chart: aerospike-monitoring-stack
+#    release: aerospike-monitoring-stack
+#    app.kubernetes.io/component: grafana
+#spec:
+#  ports:
+#    - name: http
+#      port: 80
+#      protocol: TCP
+#      targetPort: 8000
+#  selector:
+#    app: aerospike-monitoring-stack-grafana
+#---
 # Source: aerospike-monitoring-stack/templates/prometheus-service.yaml
 kind: Service
 apiVersion: v1
 metadata:
   name: aerospike-monitoring-stack-prometheus
-  namespace: default
+  namespace: aerospike
   labels:
     app: aerospike-monitoring-stack-prometheus
     chart: aerospike-monitoring-stack
@@ -196,7 +197,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: aerospike-monitoring-stack-grafana
-  namespace: default
+  namespace: aerospike
   labels: &Labels
     app: aerospike-monitoring-stack-grafana
     chart: aerospike-monitoring-stack
@@ -235,16 +236,16 @@ spec:
         - name: "grafana-data"
           mountPath: "/var/lib/grafana"
         ports:
-          - name: service
-            containerPort: 80
-            protocol: TCP
+          #- name: service
+          #  containerPort: 80
+          #  protocol: TCP
           - name: grafana
-            containerPort: 3000
+            containerPort: 8000
             protocol: TCP
         livenessProbe:
           httpGet:
             path: /api/health
-            port: 3000
+            port: 8000
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 10
@@ -253,7 +254,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /api/health
-            port: 3000
+            port: 8000
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 10
@@ -282,7 +283,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: aerospike-monitoring-stack-prometheus
-  namespace: default
+  namespace: aerospike
   labels: &Labels
     app: aerospike-monitoring-stack-prometheus
     chart: aerospike-monitoring-stack
