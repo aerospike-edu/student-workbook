@@ -14,10 +14,10 @@ public class ShipFilter {
     Expression filter = Exp.build(Exp.or(Exp.isTombstone(), Exp.ge(Exp.intBin("age"), Exp.val(21))));
 
     try {
-          client.setXDRFilter(null, "DC1", "ns1", filter); //Info Policy, datacenter, namespace, filter object
-        } catch (AerospikeException e) {
-          System.out.println("Failed to set filter " + e.getMessage());
-        }
+         client.setXDRFilter(null, "DC1", "ns1", filter); //Info Policy, datacenter, namespace, filter object
+      } catch (AerospikeException e) {
+       System.out.println("Failed to set filter " + e.getMessage());
+   }
 
     client.close();
   }

@@ -1,4 +1,8 @@
 StudentWorkbook Change Log
+11/19/21
+xdr5: renamed default config file to xdr5_aerospike.conf
+and edited/cleaned up format of entries.
+Added SizeFilter example
 6/18/21
 k8: Updated / Aerospike monitory stack added.
 6/2/21
