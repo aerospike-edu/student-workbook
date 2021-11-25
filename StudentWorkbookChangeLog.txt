@@ -1,4 +1,7 @@
 StudentWorkbook Change Log
+11/25/21
+Remove paxos-single-replica-limit
+from all .conf files. Will be deprecated in 5.8. 
 11/23/21
 Added C Benchmark tool scripts in intro
 11/19/21
