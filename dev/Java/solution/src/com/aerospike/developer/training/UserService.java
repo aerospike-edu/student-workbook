@@ -47,7 +47,6 @@ import com.aerospike.client.operation.HLLOperation;
 import com.aerospike.client.operation.HLLPolicy;
 import com.aerospike.client.ScanCallback;
 import com.aerospike.client.policy.ScanPolicy;
-import com.aerospike.client.policy.Priority;
 
 public class UserService {
 	private AerospikeClient client;
@@ -470,7 +469,6 @@ public class UserService {
                         // Scan for all users
                         ScanPolicy policy = new ScanPolicy();
                         policy.concurrentNodes = true;
-                        policy.priority = Priority.LOW;
                         policy.includeBinData = true;
 
                         // Initiate scan operation that invokes callback for outputting tweets on the console

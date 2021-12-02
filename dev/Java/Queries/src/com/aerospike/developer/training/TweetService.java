@@ -30,7 +30,6 @@ import com.aerospike.client.Record;
 import com.aerospike.client.ScanCallback;
 import com.aerospike.client.Value;
 import com.aerospike.client.lua.LuaConfig;
-import com.aerospike.client.policy.Priority;
 import com.aerospike.client.policy.RecordExistsAction;
 import com.aerospike.client.policy.ScanPolicy;
 import com.aerospike.client.policy.WritePolicy;
@@ -135,7 +134,6 @@ public class TweetService {
 			// Exercise K4
 			ScanPolicy policy = new ScanPolicy();
 			policy.concurrentNodes = true;
-			policy.priority = Priority.LOW;
 			policy.includeBinData = true;
 
 			// TODO: Initiate scan operation that invokes callback for outputting tweets on the console

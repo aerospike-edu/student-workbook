@@ -30,7 +30,6 @@ import com.aerospike.client.Record;
 import com.aerospike.client.ScanCallback;
 import com.aerospike.client.Value;
 import com.aerospike.client.lua.LuaConfig;
-import com.aerospike.client.policy.Priority;
 import com.aerospike.client.policy.RecordExistsAction;
 import com.aerospike.client.policy.ScanPolicy;
 import com.aerospike.client.policy.WritePolicy;
