@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>com.aerospike</groupId>
 			<artifactId>aerospike-client</artifactId>
-			<version>[4.1.11,)</version>
+			<version>LATEST</version>
 		</dependency>
 		<!-- Apache command line parser. -->
 		<dependency>
