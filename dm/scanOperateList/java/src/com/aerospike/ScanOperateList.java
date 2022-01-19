@@ -11,7 +11,6 @@ import com.aerospike.client.cdt.ListOrder;
 import com.aerospike.client.policy.RecordExistsAction;
 import com.aerospike.client.policy.WritePolicy;
 import com.aerospike.client.policy.ScanPolicy;
-import com.aerospike.client.policy.Priority;
 import com.aerospike.client.ScanCallback;
 
 public class ScanOperateList {
@@ -48,7 +47,6 @@ public class ScanOperateList {
 		//Launch scan job to modify each returned record		
 		ScanPolicy scanPolicy = new ScanPolicy();
 		scanPolicy.concurrentNodes = false;
-		scanPolicy.priority = Priority.LOW;
 		scanPolicy.includeBinData = false;
 		
 		client.scanAll(scanPolicy, "test", "s1", new ScanCallback(){
