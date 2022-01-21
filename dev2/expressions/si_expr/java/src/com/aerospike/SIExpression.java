@@ -218,11 +218,14 @@ public class SIExpression {
               System.out.println("ExpOperation.write() - Set age+100 in adv_age bin via execute():");
               System.out.println("=== Age >= 30 (SI) AND Names starting with S or s (Exp) ===");
               ExecuteTask et = client.execute(wPolicy, stmt);
-              et.waitTillComplete(5,0); 
+
+              et.waitTillComplete(100,0); 
+              //client: poll server (0:forever) every 100 ms to see if done. 
+              
+              //Check if bin was added. Run SI query.
               System.out.println("Read records with adv_age bin via query():");
               rs = client.query(qPolicy,stmt);
 
-              //Consume the results
               Record r;
               while(rs.next()) {
                 r = rs.getRecord();
