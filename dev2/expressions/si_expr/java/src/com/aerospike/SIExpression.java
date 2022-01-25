@@ -157,7 +157,6 @@ public class SIExpression {
               Operation[] readops = new Operation[1];
               readops[0]= ExpOperation.read("retval", exp, ExpReadFlags.DEFAULT);
               stmt.setOperations(readops);
-              stmt.setReturnData(true);
 
               //Execute the SI query. qPolicy passes the additional Expression filter.
               System.out.println("\n");
@@ -209,7 +208,6 @@ public class SIExpression {
               Operation[] operations = new Operation[1];
               operations[0]= ExpOperation.write("adv_age", exp, ExpWriteFlags.DEFAULT);
               stmt.setOperations(operations);
-              stmt.setReturnData(true);
 
               //Execute the SI query. qPolicy passes the additional Expression filter.
               System.out.println("\n");
