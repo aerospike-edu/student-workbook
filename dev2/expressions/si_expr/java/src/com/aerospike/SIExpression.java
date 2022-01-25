@@ -150,7 +150,6 @@ public class SIExpression {
               stmt.setFilter(Filter.range("age", 30L, 150L)); //age >= 30 (and less than 150)
 
               String[] bins = {"name", "age", "retval"}; //Names of bins to retrieve
-              //String[] bins = {"age"}; //Names of bins to retrieve
               stmt.setBinNames(bins);
 
               Expression exp = Exp.build(Exp.add(Exp.intBin("age"), Exp.val(200)));
