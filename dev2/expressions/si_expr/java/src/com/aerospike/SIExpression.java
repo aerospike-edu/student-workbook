@@ -139,7 +139,6 @@ public class SIExpression {
                             Exp.regexCompare("^S.*", RegexFlag.ICASE| RegexFlag.NEWLINE,
                                               Exp.stringBin("name") )
                             ); // names starting with S or s
-        // Run queryAggregate with write operation expression
 
         RecordSet rset = null;
         try {
