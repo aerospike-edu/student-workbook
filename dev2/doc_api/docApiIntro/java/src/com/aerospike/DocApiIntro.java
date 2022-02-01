@@ -97,9 +97,17 @@ public class DocApiIntro {
         //What should not be done ... 
         jsonString = "{\"x1\":[1,2,3,4,5]}";
         jsonNode = JsonConverters.convertStringToJsonNode(jsonString);
+        Map jsonMap = JsonConverters.convertJsonNodeToMap(jsonNode);
         docClient.put(doc1, "docBin", "$.k7", jsonNode); //<-- DON'T DO THIS - WILL CORRUPT THE RECORD
         //May look "good" here but cross check with aql 
         System.out.println( "\nInsert new map key k7:{x1:[1,2,3,4,5]}:\n"+docClient.get(doc1,"docBin","$") ); 
-        
+        //Instead insert the jsonMap
+        docClient.put(doc1, "docBin", "$.k8", jsonMap); //<-- Use jsonMap
+        //Must be "good", cross check with aql 
+        System.out.println( "\nInsert new map key k8:{x1:[1,2,3,4,5]}:\n"+docClient.get(doc1,"docBin","$") ); 
+
+        //JSONPath queries
+        //jsonPath = "$.k3[*]";
+        //System.out.println(docClient.get(doc1, "docBin", jsonPath));
     }
 }
