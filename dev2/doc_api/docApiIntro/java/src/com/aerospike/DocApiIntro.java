@@ -49,10 +49,10 @@ public class DocApiIntro {
         System.out.println("k3[1] = "+obj.toString());
 
 
-        //Insert (put) json object "v33" as a String at index 2 in list in  k3
+        //Update (put) "v34" to json object "v33" as a String at index 2 in list in  k3
         jsonPath = "$.k3[2]" ; 
         docClient.put(doc1, "docBin", jsonPath, "v33"); //Use put()
-        System.out.println( "\nInsert at k3[2] - v33 :\n"+docClient.get(doc1,"docBin","$") ); 
+        System.out.println( "\nUpdate v34 at k3[2] to v33 :\n"+docClient.get(doc1,"docBin","$") ); 
 
         //Append json object v35 as a String in list in  k3
         jsonPath = "$.k3" ; 
