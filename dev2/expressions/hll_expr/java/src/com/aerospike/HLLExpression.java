@@ -83,8 +83,6 @@ public class HLLExpression {
 
         Expression rexpr = Exp.build(HLLExp.getCount(Exp.hllBin("urlshll")));
 
-        Expression rexpd = Exp.build(Exp.nil());
-
         r = client.operate(null, key,
                 ListOperation.size("urls"),
                 HLLOperation.init(hllPolicy, "urlshll", 4, 0),
