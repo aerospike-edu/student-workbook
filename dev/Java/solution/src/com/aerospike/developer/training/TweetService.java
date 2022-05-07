@@ -462,7 +462,7 @@ public class TweetService {
 		wPolicy.recordExistsAction = RecordExistsAction.UPDATE;
 
 		console.printf("\nCreate up to " + maxTweets + " tweets each for "
-				+ totalUsers + " users. Press any key to continue...\n");
+				+ totalUsers + " users. Press ENTER to continue...\n");
 		console.readLine();
 
 		for (int j = 0; j < totalUsers; j++) {

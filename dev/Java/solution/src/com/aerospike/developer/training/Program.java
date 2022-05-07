@@ -182,7 +182,7 @@ public class Program {
 				// Close Aerospike server connection
 				client.close();
 			}
-			console.printf("\n\nINFO: Press any key to exit...\n");
+			console.printf("\n\nINFO: Press ENTER to exit...\n");
 			console.readLine();
 		}
 	}

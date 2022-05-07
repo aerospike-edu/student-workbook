@@ -548,7 +548,7 @@ public class UserService {
 		wPolicy.recordExistsAction = RecordExistsAction.UPDATE;
 
 		console.printf("\nCreate " + totalUsers
-				+ " users. Press any key to continue...\n");
+				+ " users. Press ENTER to continue...\n");
 		console.readLine();
 
 		for (int j = start; j <= end; j++) {
