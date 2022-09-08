@@ -211,7 +211,9 @@ public class TweetService {
                                         lUsers.add(Value.get(record.getValue("username")));
                                         Operation[] ops = new Operation[] { 
                                             HLLOperation.add(HLLPolicy.Default, hllTweetsBin, lTweets), 
-                                            HLLOperation.add(HLLPolicy.Default, hllUsersBin, lUsers)
+                                            HLLOperation.refreshCount(hllTweetsBin), 
+                                            HLLOperation.add(HLLPolicy.Default, hllUsersBin, lUsers),
+                                            HLLOperation.refreshCount(hllUsersBin)
                                         };
                                         totalTweets++;
                                         Record rec = client.operate(null, k_hll, ops);
