@@ -39,6 +39,8 @@ public class GetSetNumRecords {
             String ns = "test";
             String set = "testset";
             
+            String clusterKey = GetClusterKey(nodes[0]);
+            System.out.println("Cluster Key = "+clusterKey);
             // For each node in the cluster
             for (Node node : nodes) {
                 System.out.println("node: " + node);
@@ -47,9 +49,28 @@ public class GetSetNumRecords {
                 setObjectCount += GetSetObjectCount( node, ns, set); 
                 
             }
-            System.out.println("master objects: " + masterObjectCount);
-            System.out.println("set objects: " + setObjectCount);
+            String clusterKeyAfter = GetClusterKey(nodes[0]);
+            if(clusterKey.equals(clusterKeyAfter)) {
+              System.out.println("Namespace: '"+ ns +"' has total master objects: " + masterObjectCount);
+              System.out.println("Set: '"+ set + "' in namespace: '"+
+                  ns+"' has (master+replica) set objects= " + setObjectCount);
+              System.out.println("Cluster Key After: "+clusterKeyAfter);
+            }
+            else{
+              System.out.println("Cluster changed. \nBefore: "
+                  +clusterKey+"\nAfter: "+clusterKeyAfter+"\nRerun command.");
+            }
         }
+	private static String GetClusterKey(Node node) {
+	
+                String filter = "cluster-stable:";
+		return Info.request(null, node, filter);
+		//String tokens = Info.request(null, node, filter);
+                //System.out.println(tokens);
+                //return the cluster-key value
+                //return(GetTokenMasterObjects(tokens));        
+                //return tokens;
+	}
         private static void GetNamespaceConfig(Node node, String namespace) {
 		
 		//String filter = "namespace/" + namespace;
