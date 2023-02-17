@@ -61,16 +61,13 @@ public class GetSetNumRecords {
                   +clusterKey+"\nAfter: "+clusterKeyAfter+"\nRerun command.");
             }
         }
+
 	private static String GetClusterKey(Node node) {
 	
                 String filter = "cluster-stable:";
 		return Info.request(null, node, filter);
-		//String tokens = Info.request(null, node, filter);
-                //System.out.println(tokens);
-                //return the cluster-key value
-                //return(GetTokenMasterObjects(tokens));        
-                //return tokens;
 	}
+
         private static void GetNamespaceConfig(Node node, String namespace) {
 		
 		//String filter = "namespace/" + namespace;
