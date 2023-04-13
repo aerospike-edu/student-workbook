@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public class MetadataMessageTransformer implements
+public class FlatJSONMessageTransformer implements
         InboundMessageTransformer<InboundMessage<Object, Object>> {
 
-    private static final Logger logger = LoggerFactory.getLogger(MetadataMessageTransformer.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(FlatJSONMessageTransformer.class.getName());
 
     @Override
     public AerospikeRecordOperation transform(InboundMessage<Object, Object> input) {

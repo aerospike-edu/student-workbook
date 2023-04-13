@@ -24,7 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.aerospike</groupId>
-    <artifactId>sinkMetadataMsgTxfrmr</artifactId>
+    <artifactId>sinkMsgTxfrmr</artifactId>
     <version>1.0</version>
 
     <properties>
