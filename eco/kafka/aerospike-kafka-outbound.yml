@@ -1,0 +1,55 @@
+# Change the configuration for your use case.
+#
+# Refer to https://www.aerospike.com/docs/connectors/enterprise/kafka/outbound/configuration/index.html
+# for details.
+
+# The connector's listening ports, TLS and network interface.
+service:
+  port: 8080
+
+# Format of the Kafka destination message.
+format:
+  #mode: flat-json
+  #metadata-key: metadata
+  mode: json
+  #mode: message-pack
+
+# Aerospike record routing to a Kafka destination.
+routing:
+  mode: skip
+  # mode: static
+  # destination: aerospike
+  # aerospike is now set as the default topic
+
+namespaces:
+  test:
+    routing:
+      mode: namespace
+      #default: aerospike
+      #mode: skip
+      transforms:
+        - trim
+        - regex:
+            pattern: '^test$'
+            replacement: 'testTopic'
+    format:
+      #mode: flat-json
+      #metadata-key: metadata
+      mode: json
+    sets:
+      testset:
+        routing:
+          mode: static
+          destination: aerospike
+    bin-transforms:
+      map:
+        name: First_Name
+
+## Kafka producer initialization properties.
+producer-props:
+  bootstrap.servers:
+    - 34.205.8.172:9092
+
+# The logging properties.
+logging:
+  file: /var/log/aerospike-kafka-outbound/aerospike-kafka-outbound.log

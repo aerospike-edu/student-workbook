@@ -1,0 +1,74 @@
+# Change the configuration for your use case.
+#
+# Refer to https://www.aerospike.com/docs/connect/streaming-to-asdb/from-kafka-to-asdb-overview.html
+# for details.
+
+# Map of Kafka topic name to its configuration.
+
+topics:
+  # Kafka topic name.
+  aerospike:
+    invalid-record: ignore 
+    #invalid-record: kill-task # Kill task on invalid record.
+
+    message-transformer:
+      class: JSONMessageTransformer
+      #class: FlatJSONMessageTransformer
+    # Config to convert Kafka record to Aerospike record.
+    mapping:
+
+      # Aerospike record namespace config.
+      namespace:
+        mode: static
+        value: test
+
+      # Aerospike record set config.
+#      set:
+#        mode: dynamic
+#        Use bin value as set name, flat-json
+        #source: value-field
+        #field-name: First_Name 
+#       flat-json
+#        source: key-field
+#        field-name: set
+#       json
+        #source: key-field
+        #field-name: set
+
+      # Aerospike record key config.
+#      key-field:
+#       flat-json
+#        source: key-field
+#        field-name: userKey
+#       json
+        #source: key
+        
+      # Aerospike record bins config.
+      bins:
+        type: multi-bins
+        all-value-fields: true # Convert all values in Kafka record to Aerospike record bins.
+#        map:
+#          name:
+#            source: value-field
+#            field-name: First_Name
+#          age:
+#            source: value-field
+#            field-name: age
+#          # Nested field-name is not supported. 
+#          # This will not create a bin called LUT. 
+#          LUT:
+#            source: value-field
+#            field-name: metadata["lut"]
+
+#    aerospike-operation:
+#      type: write
+#      send-key: true
+
+# The Aerospike cluster connection properties.
+aerospike:
+  seeds:
+    - 3.235.121.162:
+        port: 3000
+
+#process-as-aerospike-records: true
+
