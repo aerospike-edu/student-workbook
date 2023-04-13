@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public class MetadataMessageTransformer implements
+public class JSONMessageTransformer implements
         InboundMessageTransformer<InboundMessage<Object, Object>> {
 
-    private static final Logger logger = LoggerFactory.getLogger(MetadataMessageTransformer.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(JSONMessageTransformer.class.getName());
 
     @Override
     public AerospikeRecordOperation transform(InboundMessage<Object, Object> input) {
@@ -32,21 +32,29 @@ public class MetadataMessageTransformer implements
            System.out.println("fields is empty.");
            return new AerospikeSkipRecordOperation();
         }
+        /*
+        fields imported: 
+        {msg=write, gen=85, 
+         bins=[{name=First_Name, type=str, value=Piyush}, {name=age, type=int, value=84}], 
+         lut=1681341978142, exp=1681773978, 
+         key=[test, testset, eY2wj4aI00AbI/982RCeFBQ+2jk=, key10]}
+        */
         // Get the Aerospike key.
-        Map<String, Object> metaField = (Map<String, Object>) fields.get("metadata");
-        if(metaField == null) {   
-           System.out.println("metaField is null.");
+        List<String> keyList = new ArrayList<>();
+        keyList.addAll( (List<String>) fields.get("key"));
+        if(keyList == null) {   
+           System.out.println("keyList is null.");
            return new AerospikeSkipRecordOperation();
         }
-        if(metaField.isEmpty()) {
-           System.out.println("metaField is empty.");
+        if(keyList.isEmpty()) {
+           System.out.println("keyList is empty.");
            return new AerospikeSkipRecordOperation();
         }
-        System.out.println("metaField: "+ metaField);
+        System.out.println("keyList: "+ keyList);
 
-        String ns = (String) metaField.get("namespace");
-        String set = (String) metaField.get("set");
-        String key = (String) metaField.get("userKey");
+        String ns = keyList.get(0);
+        String set = keyList.get(1);
+        String key = keyList.get(3);  //2 is digest
 
         if (key == null) {
             logger.warn("Invalid missing key");
@@ -59,9 +67,16 @@ public class MetadataMessageTransformer implements
         // Bins
         // Get the bins
         @SuppressWarnings("unchecked")
-        String vName = (String) fields.get("First_Name");
-        long vAge = (long) fields.get("age");
-        long vLut = (long) metaField.get("lut");
+        List<Object> binObjects = new ArrayList<>();
+        binObjects.addAll((List<Object>) fields.get("bins"));
+
+        Map<String, Object> binItem;
+        binItem = (Map<String, Object>) binObjects.get(0);
+        String vName = (String) binItem.get("value");
+        
+        binItem = (Map<String, Object>) binObjects.get(1);
+        long vAge = (long) binItem.get("value");
+        long vLut = (long) fields.get("lut");
 
         Bin nameBin = new Bin("name", vName);
         Bin ageBin = new Bin("age", vAge);
