@@ -1,0 +1,4 @@
+INSERT INTO bar.testset (PK, name, age, gender) VALUES ('key1', 'Jack', 26, 'm')
+INSERT INTO bar.testset (PK, name, age, gender) VALUES ('key2', 'Jill', 20, 'f')
+INSERT INTO bar.testset (PK, name, age, gender) VALUES ('key3', 'James', 38, 'm')
+INSERT INTO bar.testset (PK, name, age, gender) VALUES ('key4', 'Jim', 46, 'm')
